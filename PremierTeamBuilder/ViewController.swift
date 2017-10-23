@@ -8,18 +8,46 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, UITextFieldDelegate {
+    
+    // MARK: - Properties
+    
+    @IBOutlet weak var speedSlider: UISlider!
+    @IBOutlet weak var speedTotal: UILabel!
+    @IBOutlet weak var EVTextField: UITextField!
+    @IBOutlet weak var IVTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        setUpSlider()
+        guard let dictionaryBug = typeDictionaries[Keys.typeBugKey],
+            let dictionarySteel = typeDictionaries[Keys.typeSteelKey],
+            let comboDictionary = add(dictionary1: dictionaryBug, toDictionary: dictionarySteel) else {
+            print("Error with the add dictionary Function")
+            return }
+        print(comboDictionary)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func updateSpeedSlider(_ sender: UISlider) {
+        speedTotal.text = "\(Int(speedSlider.value))"
+        EVTextField.text = "\(Int(speedSlider.value))"
     }
-
-
+    
+    func setUpSlider(){
+        speedSlider.maximumValue = 252
+        speedSlider.minimumValue = 0
+        speedSlider.isContinuous = true
+        EVTextField.delegate = self
+        textFieldShouldReturn(EVTextField)
+        
+    }
+    
+    private func textFieldShouldReturn(_ textField: UITextField) {
+        guard let text = textField.text, !text.isEmpty else {return}
+        guard let textFloat = Float(text) else {return}
+        speedSlider.value = textFloat
+        speedTotal.text = "\(Int(speedSlider.value))"
+        return
+    }
 }
 
