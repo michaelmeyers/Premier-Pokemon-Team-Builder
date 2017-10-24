@@ -40,7 +40,7 @@ enum Role{
     case bulkySpecialAttack
 }
 
-enum Nature{
+enum Nature: String{
     case attack
     case bashful
     case bold

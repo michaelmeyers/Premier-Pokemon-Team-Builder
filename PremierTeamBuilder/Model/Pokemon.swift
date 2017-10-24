@@ -26,7 +26,7 @@ class Pokemon {
     var move4: String?
     var baseStatsDictionary: [String: Int]
     var role: String
-    var weaknessDictioanry: typeDictionary? {
+    var weaknessDictionary: typeDictionary? {
         if let type2 = type2 {
             let type1Dictionary = fetchTypeDictionary(fromType: type1)
             let type2Dictionary = fetchTypeDictionary(fromType: type2)
@@ -56,22 +56,20 @@ class Pokemon {
         guard let url = URL(string: Keys.baseURLString)?.appendingPathExtension(imageEndpoint) else {return nil}
         return url
     }
-    //TODO: Change this to ImageData so i can initialize when it is needed
-    var image: UIImage? {
-        var theImage: UIImage?
+    var imageData: Data? {
+        var theData: Data?
         let group = DispatchGroup()
         guard let url = self.imageURL else {return nil}
         group.enter()
-        PokemonController.shared.createPokemonImage(withURL: url) { (image) in
-            guard let image = image else {return}
-            theImage = image
-            group.leave()
+        PokemonController.shared.getPokemonImageData(withURL: url) { (data) in
+            guard let data = data else {return}
+            theData = data
         }
         group.wait()
-        return theImage
+        return theData
     }
     
-    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [Move], type1: Type, type2: Type?, abilities: [String], role: String = "None", baseStatsDictionary: [String: Int], evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialAttack: Int = 0, evSpecialDefense: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpecialDefense: Int = 0, ivSpeed: Int = 0, imageEndpoint: String) {
+    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [Move], type1: Type, type2: Type?, abilities: [String], role: String = "None", baseStatsDictionary: [String: Int], evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, imageEndpoint: String) {
         self.name = name
         self.item = item
         self.nature = nature
@@ -120,7 +118,6 @@ class Pokemon {
         } else {
             type2 = nil
         }
-        
         var moves: [Move] = []
         for moveDictionary in movesArray {
             guard let moveString = moveDictionary[Keys.pokemonMoveNameKey] as? String else {return nil}
@@ -164,53 +161,58 @@ class Pokemon {
         self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, baseStatsDictionary: baseStatsDictionary, imageEndpoint: imageEndpoint)
     }
     
-    
     var ckRecord: CKRecord? {
-       let pokemonRecord = CKRecord(recordType: Keys.ckPokemonRecordType)
-//        
-//        pokemonRecord[Keys.ckPokemonTeamNameKey] = name as CKRecordValue
-//        var ckSixPokemon: [CKRecord]
-//        guard let sixPokemon = sixPokemon else {return nil}
-//        for pokemon in sixPokemon {
-//        guard let pokemonRecord = pokemon.ckRecord else {return nil}
-//        ckSixPokemon.append(contentsOf: pokemonRecord)
-//        }
-//        teamRecord[Keys.ckSixPokemonKey] = ckSixPokemon as CKRecordValue
-//        return teamRecord
+        let pokemonRecord = CKRecord(recordType: Keys.ckTeamRecordType)
+        pokemonRecord[Keys.ckPokemonNameKey] = name as CKRecordValue
+        pokemonRecord[Keys.ckPokemonItemKey] = item as CKRecordValue
+        pokemonRecord[Keys.ckPokemonNatureKey] = nature.rawValue as CKRecordValue
+        pokemonRecord[Keys.ckPokemonType1Key] = type1.rawValue as CKRecordValue
+        pokemonRecord[Keys.ckPokemonRoleKey] = role as CKRecordValue
+        pokemonRecord[Keys.ckEVHP] = evHP as CKRecordValue
+        pokemonRecord[Keys.ckEVAttack] = evAttack as CKRecordValue
+        pokemonRecord[Keys.ckEVDefense] = evDefense as CKRecordValue
+        pokemonRecord[Keys.ckEVSpAttack] = evSpecialAttack as CKRecordValue
+        pokemonRecord[Keys.ckEVSpDefense] = evSpecialDefense as CKRecordValue
+        pokemonRecord[Keys.ckEVSpeed] = evSpeed as CKRecordValue
+        pokemonRecord[Keys.ckIVHP] = ivHP as CKRecordValue
+        pokemonRecord[Keys.ckIVAttack] = ivAttack as CKRecordValue
+        pokemonRecord[Keys.ckIVDefense] = ivDefense as CKRecordValue
+        pokemonRecord[Keys.ckIVSpAttack] = ivSpecialAttack as CKRecordValue
+        pokemonRecord[Keys.ckIVSpDefense] = ivSpecialDefense as CKRecordValue
+        pokemonRecord[Keys.ckIVSpeed] = ivSpeed as CKRecordValue
+        if let type2  = type2 {
+            pokemonRecord[Keys.ckPokemonType2Key] = type2.rawValue as CKRecordValue
+        }
+        if let chosenAbility = chosenAbility {
+            pokemonRecord[Keys.ckPokemonAbilityKey] = chosenAbility as CKRecordValue
+        }
+        if let move1 = move1 {
+            pokemonRecord[Keys.ckPokemonMove1Key] = move1 as CKRecordValue
+        }
+        if let move2 = move2 {
+            pokemonRecord[Keys.ckPokemonMove2Key] = move2 as CKRecordValue
+        }
+        if let move3 = move3 {
+            pokemonRecord[Keys.ckPokemonMove3Key] = move3 as CKRecordValue
+        }
+        if let move4 = move4 {
+            pokemonRecord[Keys.ckPokemonMove4Key] = move4 as CKRecordValue
+        }
+        if let imageData = imageData {
+            pokemonRecord[Keys.ckPokemonImageData] = imageData as CKRecordValue
+        }
         return pokemonRecord
     }
 }
 
-//let name: String
-//var item: String
-//var nature: Nature
-//var moves: [Move]
-//let type1: Type
-//let type2: Type?
-//var chosenAbility: String?
-//let abilities: [String]
-//var move1: String?
-//var move2: String?
-//var move3: String?
-//var move4: String?
-//var baseStatsDictionary: [String: Int]
-//var role: String
-//var weaknessDictioanry: typeDictionary?
-//var evHP: Int
-//var evAttack: Int
-//var evDefense: Int
-//var evSpecialAttack: Int
-//var evSpecialDefense: Int
-//var evSpeed: Int
-//var ivHP: Int
-//var ivAttack: Int
-//var ivDefense: Int
-//var ivSpecialAttack: Int
-//var ivSpecialDefense: Int
-//var ivSpeed: Int
-//let imageEndpoint: String
-//var imageURL: URL? {
-//var image: UIImage? {
+
+
+
+
+
+
+
+
 
 
 

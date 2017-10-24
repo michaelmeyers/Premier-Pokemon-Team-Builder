@@ -86,5 +86,48 @@ struct Keys {
     static let ckPokemonRecordType = "Pokemon"
     static let ckPokemonTeamNameKey = "name"
     static let ckSixPokemonKey = "sixPokemon"
+    static let ckPokemonNameKey = "name"
+    static let ckPokemonItemKey = "item"
+    static let ckPokemonNatureKey = "nature"
+    static let ckPokemonType1Key = "type1"
+    static let ckPokemonType2Key = "type2"
+    static let ckPokemonAbilityKey = "chosenAbility"
+    static let ckPokemonMove1Key = "move1"
+    static let ckPokemonMove2Key = "move2"
+    static let ckPokemonMove3Key = "move3"
+    static let ckPokemonMove4Key = "move4"
+    static let ckPokemonRoleKey = "role"
+    static let ckWeaknessDictionaryKey = "weaknessDictionary"
+    static let ckPokemonImageData = "imageData"
+    static let ckEVHP = "evHP"
+    static let ckEVAttack = "evAttack"
+    static let ckEVDefense = "evDefense"
+    static let ckEVSpAttack = "evSpecialAttack"
+    static let ckEVSpDefense = "evSpecialDefense"
+    static let ckEVSpeed = "evSpeed"
+    static let ckIVHP = "ivHP"
+    static let ckIVAttack = "ivAttack"
+    static let ckIVDefense = "ivDefense"
+    static let ckIVSpAttack = "ivSpecialAttack"
+    static let ckIVSpDefense = "ivSpecialDefense"
+    static let ckIVSpeed = "ivSpeed"
+
     
+    //var evHP: Int
+    //var evAttack: Int
+    //var evDefense: Int
+    //var evSpecialAttack: Int
+    //var evSpecialDefense: Int
+    //var evSpeed: Int
+    //var ivHP: Int
+    //var ivAttack: Int
+    //var ivDefense: Int
+    //var ivSpecialAttack: Int
+    //var ivSpecialDefense: Int
+    //var ivSpeed: Int
+    
+    //var moves: [Move]
+    //var chosenAbility: String?
+    //let abilities: [String]
+    //var baseStatsDictionary: [String: Int]
 }

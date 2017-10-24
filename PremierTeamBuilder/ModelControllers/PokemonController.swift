@@ -27,14 +27,13 @@ class PokemonController {
         }
     }
     
-    func createPokemonImage(withURL url: URL, completion: @escaping (UIImage?) -> Void){
+    func getPokemonImageData(withURL url: URL, completion: @escaping (Data?) -> Void){
         networkController.fetchImageData(withURL: url) { (data) in
             guard let data = data else {
                 completion(nil)
-                return}
-            let image = UIImage(data: data)
-            completion(image)
+                return
+            }
+            completion(data)
         }
     }
-
 }
