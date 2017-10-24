@@ -12,10 +12,8 @@ class MoveController {
     
     static let shared = MoveController()
     
-    let networkController = NetworkController()
-    
     func createMove(fromSearchTerm searchTerm:String, completion: @escaping(Move?) -> Void) {
-        networkController.fetchMoveData(fromSearchTerm: searchTerm) { (data) in
+        fetchMoveData(fromSearchTerm: searchTerm) { (data) in
             guard let data = data,
             let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
                 completion(nil)
@@ -27,6 +25,19 @@ class MoveController {
             let move = Move(dicitionary: dictionary)
             completion(move)
         }
+    }
+    
+    func fetchMoveData(fromSearchTerm searchTerm: String, completion: @escaping (Data?) -> Void) {
+        guard let moveURL = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.moveKey).appendingPathComponent(searchTerm) else {return}
+        let dataTask = URLSession.shared.dataTask(with: moveURL) { (data,_, error) in
+            if let error = error {
+                print("There was an error with the move fetch: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            completion(data)
+        }
+        dataTask.resume()
     }
     
 }

@@ -22,8 +22,6 @@
 		92F98FBE1F9ABEC5003CA08C /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBD1F9ABEC5003CA08C /* Move.swift */; };
 		92F98FC01F9C5904003CA08C /* PokemonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBF1F9C5904003CA08C /* PokemonController.swift */; };
 		92F98FC21F9E5416003CA08C /* MoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FC11F9E5416003CA08C /* MoveController.swift */; };
-		92F98FC41F9E5443003CA08C /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FC31F9E5443003CA08C /* NetworkController.swift */; };
-		92F98FC61F9E5462003CA08C /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FC51F9E5462003CA08C /* CloudKitManager.swift */; };
 		92F98FCF1F9E54AB003CA08C /* Helper Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FCE1F9E54AB003CA08C /* Helper Functions.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,8 +44,6 @@
 		92F98FBD1F9ABEC5003CA08C /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		92F98FBF1F9C5904003CA08C /* PokemonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonController.swift; sourceTree = "<group>"; };
 		92F98FC11F9E5416003CA08C /* MoveController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveController.swift; sourceTree = "<group>"; };
-		92F98FC31F9E5443003CA08C /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
-		92F98FC51F9E5462003CA08C /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		92F98FCE1F9E54AB003CA08C /* Helper Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helper Functions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,11 +101,9 @@
 		92F98FC71F9E546F003CA08C /* ModelControllers */ = {
 			isa = PBXGroup;
 			children = (
-				92F98FBF1F9C5904003CA08C /* PokemonController.swift */,
 				92F98FC11F9E5416003CA08C /* MoveController.swift */,
+				92F98FBF1F9C5904003CA08C /* PokemonController.swift */,
 				926571C81F9EA998006DDF4C /* PokemonTeamController.swift */,
-				92F98FC31F9E5443003CA08C /* NetworkController.swift */,
-				92F98FC51F9E5462003CA08C /* CloudKitManager.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -257,13 +251,11 @@
 				92F98FC21F9E5416003CA08C /* MoveController.swift in Sources */,
 				926571C71F9EA82B006DDF4C /* PokemonTeam.swift in Sources */,
 				923B11E61F9807F1005E8A44 /* Keys.swift in Sources */,
-				92F98FC61F9E5462003CA08C /* CloudKitManager.swift in Sources */,
 				923B11E81F980A62005E8A44 /* TypeInfo.swift in Sources */,
 				923B11D41F980788005E8A44 /* ViewController.swift in Sources */,
 				926571C91F9EA998006DDF4C /* PokemonTeamController.swift in Sources */,
 				92F98FBE1F9ABEC5003CA08C /* Move.swift in Sources */,
 				923B11D21F980788005E8A44 /* AppDelegate.swift in Sources */,
-				92F98FC41F9E5443003CA08C /* NetworkController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
