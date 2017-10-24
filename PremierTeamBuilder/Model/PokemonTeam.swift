@@ -11,7 +11,7 @@ import CloudKit
 
 class PokemonTeam{
     var sixPokemon: [Pokemon]?
-    let name: String
+    var name: String
     var recordID: CKRecordID?
     
     init(name: String, sixPokemon: [Pokemon] = []) {
