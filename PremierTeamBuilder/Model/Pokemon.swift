@@ -56,6 +56,7 @@ class Pokemon {
         guard let url = URL(string: Keys.baseURLString)?.appendingPathExtension(imageEndpoint) else {return nil}
         return url
     }
+    //TODO: Change this to ImageData so i can initialize when it is needed
     var image: UIImage? {
         var theImage: UIImage?
         let group = DispatchGroup()
@@ -162,8 +163,54 @@ class Pokemon {
         
         self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, baseStatsDictionary: baseStatsDictionary, imageEndpoint: imageEndpoint)
     }
+    
+    
+    var ckRecord: CKRecord? {
+       let pokemonRecord = CKRecord(recordType: Keys.ckPokemonRecordType)
+//        
+//        pokemonRecord[Keys.ckPokemonTeamNameKey] = name as CKRecordValue
+//        var ckSixPokemon: [CKRecord]
+//        guard let sixPokemon = sixPokemon else {return nil}
+//        for pokemon in sixPokemon {
+//        guard let pokemonRecord = pokemon.ckRecord else {return nil}
+//        ckSixPokemon.append(contentsOf: pokemonRecord)
+//        }
+//        teamRecord[Keys.ckSixPokemonKey] = ckSixPokemon as CKRecordValue
+//        return teamRecord
+        return pokemonRecord
+    }
 }
 
+//let name: String
+//var item: String
+//var nature: Nature
+//var moves: [Move]
+//let type1: Type
+//let type2: Type?
+//var chosenAbility: String?
+//let abilities: [String]
+//var move1: String?
+//var move2: String?
+//var move3: String?
+//var move4: String?
+//var baseStatsDictionary: [String: Int]
+//var role: String
+//var weaknessDictioanry: typeDictionary?
+//var evHP: Int
+//var evAttack: Int
+//var evDefense: Int
+//var evSpecialAttack: Int
+//var evSpecialDefense: Int
+//var evSpeed: Int
+//var ivHP: Int
+//var ivAttack: Int
+//var ivDefense: Int
+//var ivSpecialAttack: Int
+//var ivSpecialDefense: Int
+//var ivSpeed: Int
+//let imageEndpoint: String
+//var imageURL: URL? {
+//var image: UIImage? {
 
 
 

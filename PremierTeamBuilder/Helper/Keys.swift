@@ -80,4 +80,11 @@ struct Keys {
     static let hpKey = "hitPoints"
     static let spriteDictionaryKey = "sprites"
     static let spriteKey = "front_default"
+    
+    //CloudKit Keys
+    static let ckTeamRecordType = "PokemonTeam"
+    static let ckPokemonRecordType = "Pokemon"
+    static let ckPokemonTeamNameKey = "name"
+    static let ckSixPokemonKey = "sixPokemon"
+    
 }
