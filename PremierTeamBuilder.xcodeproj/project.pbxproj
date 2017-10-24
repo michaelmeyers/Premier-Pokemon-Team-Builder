@@ -37,6 +37,7 @@
 		923B11E71F980A62005E8A44 /* TypeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeInfo.swift; sourceTree = "<group>"; };
 		926571C61F9EA82B006DDF4C /* PokemonTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeam.swift; sourceTree = "<group>"; };
 		926571C81F9EA998006DDF4C /* PokemonTeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamController.swift; sourceTree = "<group>"; };
+		926571CA1F9EB99E006DDF4C /* PremierTeamBuilder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PremierTeamBuilder.entitlements; sourceTree = "<group>"; };
 		92F98FBB1F9A99CA003CA08C /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		92F98FBD1F9ABEC5003CA08C /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		92F98FBF1F9C5904003CA08C /* PokemonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonController.swift; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 			children = (
 				923B11D01F980788005E8A44 /* PremierTeamBuilder */,
 				923B11CF1F980788005E8A44 /* Products */,
+				926571CB1F9EB9AE006DDF4C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +78,7 @@
 		923B11D01F980788005E8A44 /* PremierTeamBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				926571CA1F9EB99E006DDF4C /* PremierTeamBuilder.entitlements */,
 				92F98FCD1F9E5490003CA08C /* Helper */,
 				92F98FCC1F9E548E003CA08C /* Model */,
 				92F98FC71F9E546F003CA08C /* ModelControllers */,
@@ -86,6 +89,13 @@
 				923B11DD1F980788005E8A44 /* Info.plist */,
 			);
 			path = PremierTeamBuilder;
+			sourceTree = "<group>";
+		};
+		926571CB1F9EB9AE006DDF4C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		92F98FC71F9E546F003CA08C /* ModelControllers */ = {
@@ -186,6 +196,14 @@
 					923B11CD1F980788005E8A44 = {
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -374,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PremierTeamBuilder/PremierTeamBuilder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8DW5AUV6DX;
 				INFOPLIST_FILE = PremierTeamBuilder/Info.plist;
@@ -389,6 +408,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PremierTeamBuilder/PremierTeamBuilder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8DW5AUV6DX;
 				INFOPLIST_FILE = PremierTeamBuilder/Info.plist;

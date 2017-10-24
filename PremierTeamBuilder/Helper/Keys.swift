@@ -10,8 +10,11 @@ import Foundation
 
 struct Keys {
     
+    // Search Keys
     static let baseURLString = "https://pokeapi.co/api/v2"
     static let itemBaseURLString = "https://pokeapi.co/api/v2/item-attribute/holdable-active"
+    static let searchTypeKey = "type"
+    static let searchPokemonKey = "pokemon"
     
     // Type Keys
     static let typeNormalKey = "normal"

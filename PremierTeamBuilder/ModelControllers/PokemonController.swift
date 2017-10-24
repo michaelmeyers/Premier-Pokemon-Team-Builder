@@ -10,15 +10,21 @@ import Foundation
 import UIKit
 
 class PokemonController {
-    init(){
-    }
-    
+
     static let shared = PokemonController()
+    
+    
     
     let networkController = NetworkController()
     
-    func createPokemon(){
-        
+    func createPokemon(onTeam pokemonTeam: PokemonTeam, fromSearchTerm searchTerm: String){
+        networkController.fetchPokemonData(fromSearchTerm: searchTerm) { (data) in
+            guard let data = data,
+            let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any],
+                let dictionary = jsonDictionary,
+            let pokemon = Pokemon(dictionary: dictionary) else {return}
+            pokemonTeam.sixPokemon?.append(pokemon)
+        }
     }
     
     func createPokemonImage(withURL url: URL, completion: @escaping (UIImage?) -> Void){

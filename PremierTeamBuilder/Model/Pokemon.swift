@@ -70,25 +70,6 @@ class Pokemon {
         return theImage
     }
     
-//    func myFunction() -> Int? {
-//        var a: Int?
-//
-//        let group = DispatchGroup()
-//        group.enter()
-//
-//        // avoid deadlocks by not using .main queue here
-//        DispatchQueue.global(attributes: .qosDefault).async {
-//            a = 1
-//            group.leave()
-//        }
-//
-//        // wait ...
-//        group.wait()
-//
-//        // ... and return as soon as "a" has a value
-//        return a
-//    }
-    
     init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [Move], type1: Type, type2: Type?, abilities: [String], role: String = "None", baseStatsDictionary: [String: Int], evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialAttack: Int = 0, evSpecialDefense: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpecialDefense: Int = 0, ivSpeed: Int = 0, imageEndpoint: String) {
         self.name = name
         self.item = item

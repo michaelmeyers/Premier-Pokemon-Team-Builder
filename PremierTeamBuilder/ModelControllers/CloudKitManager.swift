@@ -7,7 +7,10 @@
 //
 
 import Foundation
+import CloudKit
 
 class CloudKitManager{
     
+    let privateDatabase = CKContainer.default().privateCloudDatabase
+
 }

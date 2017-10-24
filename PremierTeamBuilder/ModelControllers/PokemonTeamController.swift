@@ -17,4 +17,11 @@ class PokemonTeamController {
             
         }
     }
+    
+    func createTeam(withName name: String){
+        let pokemonTeam = PokemonTeam(name: name)
+        PokemonTeamController.shared.PokemonTeams?.append(pokemonTeam)
+    }
+    
+    
 }
