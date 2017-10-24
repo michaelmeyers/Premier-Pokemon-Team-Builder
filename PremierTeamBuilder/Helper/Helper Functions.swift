@@ -50,6 +50,38 @@ func changeStringToType(string: String) ->Type? {
     case Type.steel.rawValue: return Type.steel
     case Type.fairy.rawValue: return Type.fairy
     default: print("Error return string for type is not one of the type enum values")
+        return nil
+    }
+}
+
+func changeStringToNature(string: String) -> Nature? {
+    switch string {
+    case Nature.attack.rawValue: return Nature.attack
+    case Nature.bashful.rawValue: return Nature.bashful
+    case Nature.bold.rawValue: return Nature.bold
+    case Nature.brave.rawValue: return Nature.brave
+    case Nature.calm.rawValue: return Nature.calm
+    case Nature.careful.rawValue: return Nature.careful
+    case Nature.docile.rawValue: return Nature.docile
+    case Nature.gentle.rawValue: return Nature.gentle
+    case Nature.hardy.rawValue: return Nature.hardy
+    case Nature.hasty.rawValue: return Nature.hasty
+    case Nature.impish.rawValue: return Nature.impish
+    case Nature.jolly.rawValue: return Nature.jolly
+    case Nature.lax.rawValue: return Nature.lax
+    case Nature.lonely.rawValue: return Nature.lonely
+    case Nature.mild.rawValue: return Nature.mild
+    case Nature.modest.rawValue: return Nature.modest
+    case Nature.naive.rawValue: return Nature.naive
+    case Nature.naughty.rawValue: return Nature.naughty
+    case Nature.quiet.rawValue: return Nature.quiet
+    case Nature.quirky.rawValue: return Nature.quirky
+    case Nature.rash.rawValue: return Nature.rash
+    case Nature.relaxed.rawValue: return Nature.relaxed
+    case Nature.sassy.rawValue: return Nature.sassy
+    case Nature.serious.rawValue: return Nature.serious
+    case Nature.timid.rawValue: return Nature.timid
+    default: print("Error returning Nature: String is not one of the Nature enum values")
     return nil
     }
 }

@@ -91,14 +91,16 @@ struct Keys {
     static let ckPokemonNatureKey = "nature"
     static let ckPokemonType1Key = "type1"
     static let ckPokemonType2Key = "type2"
+    static let ckPokemonAbilitiesKey = "abilites"
     static let ckPokemonAbilityKey = "chosenAbility"
+    static let ckPokemonMovesKey = "moves"
     static let ckPokemonMove1Key = "move1"
     static let ckPokemonMove2Key = "move2"
     static let ckPokemonMove3Key = "move3"
     static let ckPokemonMove4Key = "move4"
     static let ckPokemonRoleKey = "role"
     static let ckWeaknessDictionaryKey = "weaknessDictionary"
-    static let ckPokemonImageData = "imageData"
+    static let ckPokemonImageEndpoint = "imageEnpoint"
     static let ckEVHP = "evHP"
     static let ckEVAttack = "evAttack"
     static let ckEVDefense = "evDefense"
@@ -111,23 +113,6 @@ struct Keys {
     static let ckIVSpAttack = "ivSpecialAttack"
     static let ckIVSpDefense = "ivSpecialDefense"
     static let ckIVSpeed = "ivSpeed"
-
-    
-    //var evHP: Int
-    //var evAttack: Int
-    //var evDefense: Int
-    //var evSpecialAttack: Int
-    //var evSpecialDefense: Int
-    //var evSpeed: Int
-    //var ivHP: Int
-    //var ivAttack: Int
-    //var ivDefense: Int
-    //var ivSpecialAttack: Int
-    //var ivSpecialDefense: Int
-    //var ivSpeed: Int
-    
-    //var moves: [Move]
-    //var chosenAbility: String?
-    //let abilities: [String]
-    //var baseStatsDictionary: [String: Int]
+    static let ckReferenceKey = "reference"
+    static let ckPokemonPokemonTeamKey = "pokemonTeam"
 }

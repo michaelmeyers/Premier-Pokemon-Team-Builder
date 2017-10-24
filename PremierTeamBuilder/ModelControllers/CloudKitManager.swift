@@ -13,8 +13,13 @@ class CloudKitManager{
     
     let privateDatabase = CKContainer.default().privateCloudDatabase
     
-    func fetchCKRecord() {
+    func fetchCKRecord(withType type: String) -> [CKRecord] {
+        let records: [CKRecord] = []
 
+        return records
+    }
+    
+    func saveCKRecord() {
         
     }
 }

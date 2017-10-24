@@ -12,10 +12,11 @@ import CloudKit
 
 class Pokemon {
     
+    var pokemonTeamRef: CKReference?
     let name: String
     var item: String
     var nature: Nature
-    var moves: [Move]
+    var moves: [String]
     let type1: Type
     let type2: Type?
     var chosenAbility: String?
@@ -56,20 +57,10 @@ class Pokemon {
         guard let url = URL(string: Keys.baseURLString)?.appendingPathExtension(imageEndpoint) else {return nil}
         return url
     }
-    var imageData: Data? {
-        var theData: Data?
-        let group = DispatchGroup()
-        guard let url = self.imageURL else {return nil}
-        group.enter()
-        PokemonController.shared.getPokemonImageData(withURL: url) { (data) in
-            guard let data = data else {return}
-            theData = data
-        }
-        group.wait()
-        return theData
-    }
+    var imageData: Data? 
+    var recordID: CKRecordID?
     
-    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [Move], type1: Type, type2: Type?, abilities: [String], role: String = "None", baseStatsDictionary: [String: Int], evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, imageEndpoint: String) {
+    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", baseStatsDictionary: [String: Int] = [:], evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, imageEndpoint: String, pokemonTeamRef: CKReference) {
         self.name = name
         self.item = item
         self.nature = nature
@@ -92,9 +83,10 @@ class Pokemon {
         self.ivSpecialDefense = ivSpecialDefense
         self.ivSpeed = ivSpeed
         self.imageEndpoint = imageEndpoint
+        self.pokemonTeamRef = pokemonTeamRef
     }
     
-    convenience init?(dictionary: [String: Any]) {
+    convenience init?(dictionary: [String: Any], pokemonTeamRef: CKReference) {
         guard let name = dictionary[Keys.pokemonNameKey] as? String,
             let movesArray = dictionary[Keys.movesArrayKey] as? [[String: Any]],
             let typesArray = dictionary[Keys.typesArrayKey] as? [[String: Any]],
@@ -118,13 +110,10 @@ class Pokemon {
         } else {
             type2 = nil
         }
-        var moves: [Move] = []
+        var moves: [String] = []
         for moveDictionary in movesArray {
             guard let moveString = moveDictionary[Keys.pokemonMoveNameKey] as? String else {return nil}
-            MoveController.shared.createMove(fromSearchTerm: moveString, completion: { (move) in
-                guard let move = move else { return }
-                moves.append(move)
-            })
+                moves.append(moveString)
         }
         var abilities: [String] = []
         for everyDictionary in abilitiesArray {
@@ -158,50 +147,7 @@ class Pokemon {
         guard let hpStat = hpStatDictionary[Keys.baseStatKey] as? Int else {return nil}
         baseStatsDictionary[Keys.hpKey] = hpStat
         
-        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, baseStatsDictionary: baseStatsDictionary, imageEndpoint: imageEndpoint)
-    }
-    
-    var ckRecord: CKRecord? {
-        let pokemonRecord = CKRecord(recordType: Keys.ckTeamRecordType)
-        pokemonRecord[Keys.ckPokemonNameKey] = name as CKRecordValue
-        pokemonRecord[Keys.ckPokemonItemKey] = item as CKRecordValue
-        pokemonRecord[Keys.ckPokemonNatureKey] = nature.rawValue as CKRecordValue
-        pokemonRecord[Keys.ckPokemonType1Key] = type1.rawValue as CKRecordValue
-        pokemonRecord[Keys.ckPokemonRoleKey] = role as CKRecordValue
-        pokemonRecord[Keys.ckEVHP] = evHP as CKRecordValue
-        pokemonRecord[Keys.ckEVAttack] = evAttack as CKRecordValue
-        pokemonRecord[Keys.ckEVDefense] = evDefense as CKRecordValue
-        pokemonRecord[Keys.ckEVSpAttack] = evSpecialAttack as CKRecordValue
-        pokemonRecord[Keys.ckEVSpDefense] = evSpecialDefense as CKRecordValue
-        pokemonRecord[Keys.ckEVSpeed] = evSpeed as CKRecordValue
-        pokemonRecord[Keys.ckIVHP] = ivHP as CKRecordValue
-        pokemonRecord[Keys.ckIVAttack] = ivAttack as CKRecordValue
-        pokemonRecord[Keys.ckIVDefense] = ivDefense as CKRecordValue
-        pokemonRecord[Keys.ckIVSpAttack] = ivSpecialAttack as CKRecordValue
-        pokemonRecord[Keys.ckIVSpDefense] = ivSpecialDefense as CKRecordValue
-        pokemonRecord[Keys.ckIVSpeed] = ivSpeed as CKRecordValue
-        if let type2  = type2 {
-            pokemonRecord[Keys.ckPokemonType2Key] = type2.rawValue as CKRecordValue
-        }
-        if let chosenAbility = chosenAbility {
-            pokemonRecord[Keys.ckPokemonAbilityKey] = chosenAbility as CKRecordValue
-        }
-        if let move1 = move1 {
-            pokemonRecord[Keys.ckPokemonMove1Key] = move1 as CKRecordValue
-        }
-        if let move2 = move2 {
-            pokemonRecord[Keys.ckPokemonMove2Key] = move2 as CKRecordValue
-        }
-        if let move3 = move3 {
-            pokemonRecord[Keys.ckPokemonMove3Key] = move3 as CKRecordValue
-        }
-        if let move4 = move4 {
-            pokemonRecord[Keys.ckPokemonMove4Key] = move4 as CKRecordValue
-        }
-        if let imageData = imageData {
-            pokemonRecord[Keys.ckPokemonImageData] = imageData as CKRecordValue
-        }
-        return pokemonRecord
+        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, baseStatsDictionary: baseStatsDictionary, imageEndpoint: imageEndpoint, pokemonTeamRef: pokemonTeamRef)
     }
 }
 

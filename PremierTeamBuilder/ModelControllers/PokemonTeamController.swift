@@ -12,7 +12,7 @@ class PokemonTeamController {
     
     static let shared = PokemonTeamController()
     
-    var PokemonTeams: [PokemonTeam]? {
+    var pokemonTeams: [PokemonTeam]? {
         didSet{
             
         }
@@ -20,7 +20,7 @@ class PokemonTeamController {
     
     func createTeam(withName name: String){
         let pokemonTeam = PokemonTeam(name: name)
-        PokemonTeamController.shared.PokemonTeams?.append(pokemonTeam)
+        PokemonTeamController.shared.pokemonTeams?.append(pokemonTeam)
     }
     
     
