@@ -31,6 +31,16 @@ class PokemonController {
         }
     }
     
+    func updatePokemon(pokemon: Pokemon) {
+        updatePokemonRecord(newPokemon: pokemon) { (success) in
+            if success == true {
+                print("Updating your Pokemon was a big Success!")
+            } else {
+                print("Updating Pokemon Failed")
+            }
+        }
+    }
+    
     func getPokemonImageData(withURL url: URL, completion: @escaping (Data?) -> Void){
         fetchImageData(withURL: url) { (data) in
             guard let data = data else {
@@ -39,7 +49,16 @@ class PokemonController {
             }
             completion(data)
         }
-        
+    }
+    
+    func deletePokemon(pokemon: Pokemon) {
+        guard let recordID = pokemon.recordID else {return}
+        deletePokemonRecord(withID: recordID) { (_, error) in
+            if let error = error {
+                print("Error deleting Pokemon: \(error.localizedDescription)")
+                return
+            }
+        }
     }
     
     // MARK: - API CALLS
@@ -81,21 +100,52 @@ class PokemonController {
     
     func fetchItemData() {
         
+        
+        
     }
     
     // MARK: - Cloud Kit Functions
         
     let privateDatabase = CKContainer.default().privateCloudDatabase
         
-    func fetchCKRecord(withType type: String) -> [CKRecord] {
-            let records: [CKRecord] = []
-            
-            return records
-    }
+    func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, completion: @escaping ([CKRecord]?, Error?) -> Void) {
         
-    func saveCKRecord() {
-            
+        let reference = CKReference(recordID: pokemonTeam.recordID!, action: .deleteSelf)
+        let predicate = NSPredicate(format: "%K == %@", Keys.ckReferenceKey,  reference)
+        let query = CKQuery(recordType: Keys.ckPokemonRecordType, predicate: predicate)
+        privateDatabase.perform(query, inZoneWith: nil, completionHandler: completion)
     }
+    
+    func savePokemonRecord(record: CKRecord, completion: @escaping (Bool) -> Void) {
+        privateDatabase.save(record) { (_, error) in
+            var success: Bool = true
+            if let error = error {
+                print("There was an error saving Pokemon Team: \(error.localizedDescription)")
+                success = false
+                completion(success)
+                return
+            }
+            print("No Error")
+            completion(success)
+        }
+    }
+    
+    func updatePokemonRecord(newPokemon: Pokemon, completion: @escaping (Bool) -> Void) {
+        var success: Bool = true
+        guard let record = newPokemon.ckRecord else {
+            success = false
+            completion(success)
+            return
+        }
+        savePokemonRecord(record: record) { (success) in
+            completion(success)
+        }
+    }
+    
+    func deletePokemonRecord(withID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
+        privateDatabase.delete(withRecordID: recordID, completionHandler: completion)
+    }
+    
 }
 
 

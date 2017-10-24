@@ -13,11 +13,8 @@ class PokemonTeamController {
     
     static let shared = PokemonTeamController()
     
-    var pokemonTeams: [PokemonTeam]? {
-        didSet {
-            
-        }
-    }
+    var pokemonTeams: [PokemonTeam]?
+    
     // MARK: - Crud
     func createTeam(withName name: String){
         let pokemonTeam = PokemonTeam(name: name)
@@ -29,7 +26,55 @@ class PokemonTeamController {
                 print ("Team was not Saved")
             }
         }
-        updatingPokemonTeamsArray()
+        pokemonTeams?.append(pokemonTeam)
+    }
+    
+    func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){
+        
+        fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
+            
+           
+            if let error = error {
+                print(" : \(error.localizedDescription)")
+                return
+            }
+            guard let records = records else {return}
+            for record in records{
+                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {return}
+                self.pokemonTeams?.append(pokemonTeam)
+            }
+            
+            guard let pokemonTeams = self.pokemonTeams else {return}
+            
+            let group = DispatchGroup()
+            for pokemonTeam in pokemonTeams {
+                group.enter()
+                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, error) in
+                    if let error = error {
+                        print("There was an error fetching the pokemonRecords: \(error.localizedDescription)")
+                        group.leave()
+                        return
+                    }
+                    guard let records = records,
+                        let recordID = pokemonTeam.recordID else {
+                            group.leave()
+                            return}
+                    let reference = CKReference(recordID: recordID, action: .deleteSelf)
+                    for record in records {
+                        guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
+                            group.leave()
+                            return}
+                        pokemonTeam.sixPokemon?.append(pokemon)
+                    }
+                    group.leave()
+                })
+            }
+            
+            group.notify(queue: DispatchQueue.main, execute: {
+                completion()
+            })
+        }
+        
     }
     
     func updateTeam(pokemonTeam: PokemonTeam, newName: String) {
@@ -39,21 +84,6 @@ class PokemonTeamController {
                 print ("successfully updated Team")
             } else {
                 print ("Team was not Updated")
-            }
-        }
-        updatingPokemonTeamsArray()
-    }
-    
-    func updatingPokemonTeamsArray(){
-        fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
-            if let error = error {
-                print("There was an error Fetching PokemonTeams Records: \(error.localizedDescription)")
-                return
-            }
-            guard let records = records else {return}
-            for record in records {
-                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {return}
-                self.pokemonTeams?.append(pokemonTeam)
             }
         }
     }
@@ -66,7 +96,6 @@ class PokemonTeamController {
                 return
             }
         }
-        updatingPokemonTeamsArray()
     }
     
     // MARK: - CloudKit Func
