@@ -823,6 +823,20 @@
                     <navigationItem key="navigationItem" title="Title" id="VfL-Ur-LD7">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="g1i-rl-fF5"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="abilityLabel" destination="PDi-xX-iAX" id="oE2-0s-8az"/>
+                        <outlet property="attackLabel" destination="Teg-BZ-hkZ" id="fPB-86-9BM"/>
+                        <outlet property="defenseLabel" destination="t0O-Cr-f0G" id="oTl-iV-g4W"/>
+                        <outlet property="hpLabel" destination="sCb-CL-zqs" id="viW-cZ-bIo"/>
+                        <outlet property="itemLabel" destination="CvF-qV-7cd" id="65P-CK-d7O"/>
+                        <outlet property="natureLabel" destination="j8P-vk-Bok" id="xfO-RE-YW5"/>
+                        <outlet property="pokemonImageView" destination="8XA-h1-Wvh" id="w8n-hm-8AI"/>
+                        <outlet property="spAtkLabel" destination="0nJ-ju-yT1" id="vNN-9G-zWY"/>
+                        <outlet property="spDefLabel" destination="oqB-UQ-PRl" id="kHk-eC-cSn"/>
+                        <outlet property="speedLabel" destination="9kg-bw-kDg" id="ne6-ZQ-wtb"/>
+                        <outlet property="type1Label" destination="BGH-sb-UKD" id="dTl-GD-hwc"/>
+                        <outlet property="type2Label" destination="iJy-bX-dek" id="eeQ-Zf-Wdc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFU-J1-q2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
