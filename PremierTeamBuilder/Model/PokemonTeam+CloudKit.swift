@@ -19,11 +19,8 @@ extension PokemonTeam {
     
     var ckRecord: CKRecord? {
         let recordID = self.recordID ?? CKRecordID(recordName: UUID().uuidString)
-        
         let teamRecord = CKRecord(recordType: Keys.ckTeamRecordType, recordID: recordID)
-        
         teamRecord[Keys.ckPokemonTeamNameKey] = name as CKRecordValue
-
         return teamRecord
     }
 }

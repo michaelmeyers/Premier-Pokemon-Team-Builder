@@ -55,12 +55,11 @@ class Move {
 }
 
 
-//var moves: [Move] = []
-//for moveDictionary in movesArray {
-//    guard let moveString = moveDictionary[Keys.pokemonMoveNameKey] as? String else {return nil}
-//    MoveController.shared.createMove(fromSearchTerm: moveString, completion: { (move) in
-//        guard let move = move else { return }
-//        moves.append(move)
-//    })
-//}
+
+
+
+
+
+
+
 
