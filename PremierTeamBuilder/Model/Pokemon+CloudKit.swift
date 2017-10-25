@@ -11,9 +11,9 @@ import CloudKit
 
 extension Pokemon {
     convenience init?(ckRecord: CKRecord, pokemonTeamRef: CKReference) {
-        guard let name = ckRecord[Keys.pokemonNameKey] as? String,
+        guard let name = ckRecord[Keys.ckPokemonNameKey] as? String,
             let item = ckRecord[Keys.ckPokemonItemKey] as? String,
-            let natureString = ckRecord[Keys.ckPokemonItemKey] as? String,
+            let natureString = ckRecord[Keys.ckPokemonNatureKey] as? String,
             let nature = changeStringToNature(string: natureString),
             let type1String = ckRecord[Keys.ckPokemonType1Key] as? String,
             let type1 = changeStringToType(string: type1String),

@@ -12,9 +12,8 @@ import CloudKit
 extension PokemonTeam {
     
     convenience init?(ckRecord: CKRecord) {
-        guard let name = ckRecord[Keys.ckPokemonTeamNameKey] as? String,
-            let sixPokemon = ckRecord[Keys.ckSixPokemonKey] as? [Pokemon] else {return nil}
-        self.init(name: name, sixPokemon: sixPokemon)
+        guard let name = ckRecord[Keys.ckPokemonTeamNameKey] as? String else {return nil}
+        self.init(name: name)
         self.recordID = ckRecord.recordID
     }
     

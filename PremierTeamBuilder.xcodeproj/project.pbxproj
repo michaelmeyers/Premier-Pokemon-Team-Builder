@@ -18,6 +18,7 @@
 		926571C91F9EA998006DDF4C /* PokemonTeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926571C81F9EA998006DDF4C /* PokemonTeamController.swift */; };
 		926A08451F9FA0BB0075C1E5 /* Pokemon+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926A08441F9FA0BB0075C1E5 /* Pokemon+CloudKit.swift */; };
 		926A08471F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926A08461F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift */; };
+		92B2D07B1F9FFD22005C0044 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B2D07A1F9FFD22005C0044 /* CloudKit.framework */; };
 		92F98FBC1F9A99CA003CA08C /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBB1F9A99CA003CA08C /* Pokemon.swift */; };
 		92F98FBE1F9ABEC5003CA08C /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBD1F9ABEC5003CA08C /* Move.swift */; };
 		92F98FC01F9C5904003CA08C /* PokemonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBF1F9C5904003CA08C /* PokemonController.swift */; };
@@ -40,6 +41,7 @@
 		926571CA1F9EB99E006DDF4C /* PremierTeamBuilder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PremierTeamBuilder.entitlements; sourceTree = "<group>"; };
 		926A08441F9FA0BB0075C1E5 /* Pokemon+CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pokemon+CloudKit.swift"; sourceTree = "<group>"; };
 		926A08461F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PokemonTeam+CloudKit.swift"; sourceTree = "<group>"; };
+		92B2D07A1F9FFD22005C0044 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		92F98FBB1F9A99CA003CA08C /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		92F98FBD1F9ABEC5003CA08C /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		92F98FBF1F9C5904003CA08C /* PokemonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonController.swift; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92B2D07B1F9FFD22005C0044 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +97,7 @@
 		926571CB1F9EB9AE006DDF4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92B2D07A1F9FFD22005C0044 /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

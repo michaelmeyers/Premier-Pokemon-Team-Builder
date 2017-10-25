@@ -36,15 +36,20 @@ class PokemonTeamController {
            
             if let error = error {
                 print(" : \(error.localizedDescription)")
+                completion()
                 return
             }
-            guard let records = records else {return}
+            guard let records = records else {
+                completion()
+                return}
+            var pokemonTeams: [PokemonTeam] = []
             for record in records{
-                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {return}
-                self.pokemonTeams?.append(pokemonTeam)
+                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
+                    completion()
+                    return}
+                pokemonTeams.append(pokemonTeam)
+
             }
-            
-            guard let pokemonTeams = self.pokemonTeams else {return}
             
             let group = DispatchGroup()
             for pokemonTeam in pokemonTeams {
@@ -69,8 +74,8 @@ class PokemonTeamController {
                     group.leave()
                 })
             }
-            
             group.notify(queue: DispatchQueue.main, execute: {
+                self.pokemonTeams = pokemonTeams
                 completion()
             })
         }
