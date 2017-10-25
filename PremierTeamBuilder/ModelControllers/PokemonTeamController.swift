@@ -69,7 +69,7 @@ class PokemonTeamController {
                         guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
                             group.leave()
                             return}
-                        pokemonTeam.sixPokemon?.append(pokemon)
+                        pokemonTeam.sixPokemon.append(pokemon)
                     }
                     group.leave()
                 })

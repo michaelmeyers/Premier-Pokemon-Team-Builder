@@ -57,7 +57,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         PokemonTeamController.shared.fetchPokemonTeamsAndPokemonRecords {
             guard let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[0],
-            let pokemon = pokemonTeam.sixPokemon?[0] else {return}
+                let pokemon = pokemonTeam.sixPokemon[0] else {return}
             self.pokemonTeamNameTextField.text = pokemonTeam.name
             self.pokemonNameTextField.text = pokemon.name
             self.view.reloadInputViews()

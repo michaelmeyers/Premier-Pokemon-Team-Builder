@@ -13,6 +13,7 @@
 		920943121FA0EA490090ACB2 /* PokemonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */; };
 		920943141FA0EA6C0090ACB2 /* PokemonStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */; };
 		920943161FA0EA830090ACB2 /* MovesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */; };
+		920943181FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */; };
 		923B11D21F980788005E8A44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923B11D11F980788005E8A44 /* AppDelegate.swift */; };
 		923B11D41F980788005E8A44 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923B11D31F980788005E8A44 /* ViewController.swift */; };
 		923B11D71F980788005E8A44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 923B11D51F980788005E8A44 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 		920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewController.swift; sourceTree = "<group>"; };
 		920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonStatsViewController.swift; sourceTree = "<group>"; };
 		920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListTableViewController.swift; sourceTree = "<group>"; };
+		920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamTableViewCell.swift; sourceTree = "<group>"; };
 		923B11CE1F980788005E8A44 /* PremierTeamBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PremierTeamBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		923B11D11F980788005E8A44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		923B11D31F980788005E8A44 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		92F98FCA1F9E5489003CA08C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				92F98FCF1F9E54AB003CA08C /* Helper Functions.swift in Sources */,
 				9209430E1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift in Sources */,
 				92F98FBC1F9A99CA003CA08C /* Pokemon.swift in Sources */,
+				920943181FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift in Sources */,
 				92F98FC01F9C5904003CA08C /* PokemonController.swift in Sources */,
 				92F98FC21F9E5416003CA08C /* MoveController.swift in Sources */,
 				926571C71F9EA82B006DDF4C /* PokemonTeam.swift in Sources */,

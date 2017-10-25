@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 
 class PokemonTeam{
-    var sixPokemon: [Pokemon]?
+    var sixPokemon: [Pokemon?] = []
     var name: String
     var recordID: CKRecordID?
     

@@ -115,4 +115,8 @@ struct Keys {
     static let ckIVSpeed = "ivSpeed"
     static let ckReferenceKey = "reference"
     static let ckPokemonPokemonTeamKey = "pokemonTeam"
+    
+    // View and View Controller Keys
+    static let pokemonTeamCellKey = "pokemonTeamCell"
+    
 }

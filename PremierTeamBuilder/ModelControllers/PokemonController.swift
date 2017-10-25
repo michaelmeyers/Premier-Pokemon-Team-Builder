@@ -27,7 +27,7 @@ class PokemonController {
             self.getPokemonImageData(withURL: url, completion: { (data) in
                 pokemon.imageData = data
             })
-            pokemonTeam.sixPokemon?.append(pokemon)
+            pokemonTeam.sixPokemon.append(pokemon)
         }
     }
     

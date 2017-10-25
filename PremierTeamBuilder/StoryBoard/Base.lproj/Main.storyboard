@@ -108,7 +108,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="95" id="lw0-SN-Crh">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonTeamCell" rowHeight="95" id="lw0-SN-Crh" customClass="PokemonTeamTableViewCell" customModule="PremierTeamBuilder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="95"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lw0-SN-Crh" id="b1S-In-aMQ">
@@ -118,7 +118,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfz-fq-1XR">
                                             <rect key="frame" x="8" y="8" width="213" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -149,6 +149,13 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="pokemon1ImageView" destination="B7l-Bn-wRa" id="DNC-Hb-sux"/>
+                                    <outlet property="pokemon2ImageView" destination="teU-01-GZu" id="5Xo-wl-viW"/>
+                                    <outlet property="pokemon3ImageView" destination="xCK-Ta-Dyw" id="lNk-nG-hAh"/>
+                                    <outlet property="pokemon4ImageView" destination="yAk-9c-rFn" id="LD7-Se-Jg4"/>
+                                    <outlet property="pokemon5ImageView" destination="0IY-cN-qOT" id="Z2q-Ez-1E9"/>
+                                    <outlet property="pokemon6ImageView" destination="dmO-d3-PPR" id="Brv-yH-tVf"/>
+                                    <outlet property="teamNameLabel" destination="Rfz-fq-1XR" id="fBk-jt-slg"/>
                                     <segue destination="cfR-Lf-jUe" kind="show" id="aiW-ob-MOm"/>
                                 </connections>
                             </tableViewCell>
@@ -218,7 +225,7 @@
             </objects>
             <point key="canvasLocation" x="1590" y="1555"/>
         </scene>
-        <!--TEAM PREVIEW-->
+        <!--Title-->
         <scene sceneID="eVU-2u-xt5">
             <objects>
                 <viewController id="llt-Wu-Phm" customClass="PokemonTeamDetailTableViewController" customModule="PremierTeamBuilder" customModuleProvider="target" sceneMemberID="viewController">
@@ -230,9 +237,16 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <textField key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Team Name" textAlignment="natural" minimumFontSize="17" id="TOn-CW-t2z">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <nil key="textColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="103" id="gkg-Pl-ip7">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="103"/>
+                                        <rect key="frame" x="0.0" y="58" width="375" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gkg-Pl-ip7" id="CX4-Bk-rHQ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="102.5"/>
@@ -270,6 +284,9 @@
                         <viewLayoutGuide key="safeArea" id="rf2-3d-cEz"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="TEAM PREVIEW" id="7bf-S0-POx"/>
+                    <navigationItem key="navigationItem" title="Title" id="wu2-HC-cba">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="ifs-jj-iQw"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1s-tJ-5zc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -619,7 +636,7 @@
             </objects>
             <point key="canvasLocation" x="4214" y="1555"/>
         </scene>
-        <!--POKEMON-->
+        <!--Title-->
         <scene sceneID="rRg-ja-Ao7">
             <objects>
                 <viewController id="jz2-4F-yJy" customClass="PokemonDetailViewController" customModule="PremierTeamBuilder" customModuleProvider="target" sceneMemberID="viewController">
@@ -664,6 +681,9 @@
                         <viewLayoutGuide key="safeArea" id="V8F-jW-agR"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="POKEMON" id="umw-9T-WkM"/>
+                    <navigationItem key="navigationItem" title="Title" id="VfL-Ur-LD7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="g1i-rl-fF5"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFU-J1-q2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
