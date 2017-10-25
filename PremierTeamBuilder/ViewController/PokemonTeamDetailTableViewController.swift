@@ -8,19 +8,28 @@
 
 import UIKit
 
-class PokemonTeamDetailTableViewController: UITableViewController {
+class PokemonTeamDetailTableViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - Propreties
     var pokemonTeam: PokemonTeam?
 
+    @IBOutlet weak var teamNameTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if let pokemonTeam = pokemonTeam {
+            teamNameTextField.text = pokemonTeam.name
+        }
+        teamNameTextField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField){
+        guard let text = teamNameTextField.text, !text.isEmpty else {return}
+        if let pokemonTeam = pokemonTeam {
+            pokemonTeam.name = text
+        } else {
+            PokemonTeamController.shared.createTeam(withName: text)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,9 +56,10 @@ class PokemonTeamDetailTableViewController: UITableViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonCellIdentifier, for: indexPath) as? PokemonTableViewCell else {return UITableViewCell()}
+        
+        cell.pokemon = pokemon
+        cell.updatePokemonCell()
 
         return cell
     }

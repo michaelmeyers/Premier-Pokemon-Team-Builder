@@ -335,6 +335,9 @@
                     <navigationItem key="navigationItem" title="Title" id="wu2-HC-cba">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="ifs-jj-iQw"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="teamNameTextField" destination="TOn-CW-t2z" id="1q6-7B-uSI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1s-tJ-5zc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
