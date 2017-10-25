@@ -10,9 +10,20 @@ import UIKit
 
 class DefaultPokemonTableViewCell: UITableViewCell {
 
+    // MARK: - Properties
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var defaultImageView: UIImageView!
+    @IBOutlet weak var defaultNameLabel: UILabel!
+    @IBOutlet weak var defaultTypeLabel: UILabel!
+    
+    // MARK: - Cell Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        defaultImageView.image = #imageLiteral(resourceName: "substitute")
+        defaultNameLabel.text = "Click to add Pokemon"
+        defaultTypeLabel.text = "???"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

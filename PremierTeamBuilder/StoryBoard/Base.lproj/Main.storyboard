@@ -277,6 +277,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="defaultImageView" destination="89I-JY-FEC" id="sPM-od-cXC"/>
+                                            <outlet property="defaultNameLabel" destination="1Jc-u3-NQI" id="IQc-Ah-fQ9"/>
+                                            <outlet property="defaultTypeLabel" destination="cVM-V5-dPs" id="Liq-pN-ZWT"/>
                                             <segue destination="fMC-uC-AqG" kind="show" id="CRY-n6-brW"/>
                                         </connections>
                                     </tableViewCell>
