@@ -8,10 +8,18 @@
 
 import UIKit
 
-class PokemonSearchTableViewController: UITableViewController {
+class PokemonSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    // MARK: - Properties
+    var pokemonTeam: PokemonTeam?
+    
+    // MARK: - Outlets
+    @IBOutlet weak var pokemonSearchBar: UISearchBar!
+    
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        pokemonSearchBar.delegate = self
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

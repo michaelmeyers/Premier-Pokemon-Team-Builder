@@ -105,12 +105,18 @@ class PokemonTeamDetailTableViewController: UITableViewController, UITextFieldDe
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == Keys.pokemonTeamDetailSegueIdentifier,
-            let pokemonDetailVC = segue.destination as? PokemonDetailViewController,
-            let pokemonTeam = pokemonTeam,
-            let indexPath = tableView.indexPathForSelectedRow,
-            let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {return}
-        pokemonDetailVC.pokemon = pokemon
+        if segue.identifier == Keys.pokemonTeamDetailSegueIdentifier {
+            guard let pokemonDetailVC = segue.destination as? PokemonDetailViewController,
+                let pokemonTeam = pokemonTeam,
+                let indexPath = tableView.indexPathForSelectedRow,
+                let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {return}
+            pokemonDetailVC.pokemon = pokemon
+        }
+        if segue.identifier == Keys.segueIdentifierToPokemonSearchVC {
+            guard let pokemonSearchTVC = segue.destination as? PokemonSearchTableViewController,
+                let pokemonTeam = pokemonTeam else {return}
+            pokemonSearchTVC.pokemonTeam = pokemonTeam
+        }
     }
 
 

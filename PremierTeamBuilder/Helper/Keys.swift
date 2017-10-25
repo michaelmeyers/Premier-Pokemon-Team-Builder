@@ -53,6 +53,9 @@ struct Keys {
     static let descriptionKey = "short_effect"
     
     //Pokemon Parsing JSON Keys
+    static let pokemonURLKey = "url"
+    static let pokemonDictionaryKey = "pokemon"
+    static let pokemonArrayKey = "pokemon"
     static let pokemonNameKey = "names"
     static let movesArrayKey = "moves"
     static let pokemonMoveNameKey = "name"
@@ -128,4 +131,5 @@ struct Keys {
     static let defaultPokemonCellIdentifier = "defaultCell"
     static let pokemonTeamListTableViewSegueIdentifier = "toPokemonTeamTVC"
     static let pokemonTeamDetailSegueIdentifier = "toPokemonDetailVC"
+    static let segueIdentifierToPokemonSearchVC = "toPokemonSearchVC"
 }

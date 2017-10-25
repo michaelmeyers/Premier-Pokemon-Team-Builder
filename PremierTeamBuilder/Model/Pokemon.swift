@@ -25,12 +25,12 @@ class Pokemon {
     var move2: String?
     var move3: String?
     var move4: String?
-    var hpStat: Int?
-    var attackStat: Int?
-    var defenseStat: Int?
-    var spAttackStat: Int?
-    var spDefenseStat: Int?
-    var speedStat: Int?
+    var hpStat: Int
+    var attackStat: Int
+    var defenseStat: Int
+    var spAttackStat: Int
+    var spDefenseStat: Int
+    var speedStat: Int
     var role: String
     var weaknessDictionary: typeDictionary? {
         if let type2 = type2 {
@@ -65,7 +65,7 @@ class Pokemon {
     var imageData: Data? 
     var recordID: CKRecordID?
     
-    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", baseStatsDictionary: [String: Int] = [:], evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, imageEndpoint: String, pokemonTeamRef: CKReference) {
+    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, imageEndpoint: String, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int ) {
         self.name = name
         self.item = item
         self.nature = nature
@@ -87,10 +87,15 @@ class Pokemon {
         self.ivSpecialDefense = ivSpecialDefense
         self.ivSpeed = ivSpeed
         self.imageEndpoint = imageEndpoint
-        self.pokemonTeamRef = pokemonTeamRef
+        self.hpStat = hpStat
+        self.attackStat = attackStat
+        self.defenseStat = defenseStat
+        self.spAttackStat = spAttackStat
+        self.spDefenseStat = spDefenseStat
+        self.speedStat = speedStat
     }
     
-    convenience init?(dictionary: [String: Any], pokemonTeamRef: CKReference) {
+    convenience init?(dictionary: [String: Any]) {
         guard let name = dictionary[Keys.pokemonNameKey] as? String,
             let movesArray = dictionary[Keys.movesArrayKey] as? [[String: Any]],
             let typesArray = dictionary[Keys.typesArrayKey] as? [[String: Any]],
@@ -145,13 +150,7 @@ class Pokemon {
         guard let hpStat = hpStatDictionary[Keys.baseStatKey] as? Int else {return nil}
 
         
-        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, imageEndpoint: imageEndpoint, pokemonTeamRef: pokemonTeamRef)
-        self.hpStat = hpStat
-        self.attackStat = attStat
-        self.defenseStat = defStat
-        self.spAttackStat = spAttStat
-        self.spDefenseStat = spDefStat
-        self.speedStat = speedStat
+        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, imageEndpoint: imageEndpoint, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat)
     }
 }
 

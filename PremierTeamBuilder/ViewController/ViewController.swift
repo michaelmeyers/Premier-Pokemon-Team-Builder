@@ -39,18 +39,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func createPokemonButtonTapped(_ sender: UIButton) {
-        guard let pokemonTeam = pokemonTeam,
-        let recordID = pokemonTeam.recordID else {return}
-        let reference = CKReference(recordID: recordID, action: .deleteSelf)
-        let pokemon = Pokemon(name: "pikachu", moves: ["Dig"], type1: Type.electric, type2: nil, abilities: ["static"], imageEndpoint: "blah", pokemonTeamRef: reference)
-        guard let record = pokemon.ckRecord else {return}
-        PokemonController.shared.savePokemonRecord(record: record) { (success) in
-            if success == true {
-                print("Pokemon Saved")
-            } else {
-                print("FAILED to save Pokemon")
-            }
-        }
+//        guard let pokemonTeam = pokemonTeam,
+//        let recordID = pokemonTeam.recordID else {return}
+//        let reference = CKReference(recordID: recordID, action: .deleteSelf)
+////        let pokemon = Pokemon(name: "pikachu", moves: ["Dig"], type1: Type.electric, type2: nil, abilities: ["static"], imageEndpoint: "blah", pokemonTeamRef: reference)
+//        guard let record = pokemon.ckRecord else {return}
+//        PokemonController.shared.savePokemonRecord(record: record) { (success) in
+//            if success == true {
+//                print("Pokemon Saved")
+//            } else {
+//                print("FAILED to save Pokemon")
+//            }
+//        }
     }
     
     override func viewDidLoad() {

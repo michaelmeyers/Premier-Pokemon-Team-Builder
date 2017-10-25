@@ -208,10 +208,13 @@
                             <outlet property="delegate" destination="fMC-uC-AqG" id="Qfi-RF-FHL"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="pokemonSearchBar" destination="XcX-Hw-8xb" id="Imj-j5-0U8"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="knc-r5-7sJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2396" y="1555"/>
+            <point key="canvasLocation" x="2522" y="1555"/>
         </scene>
         <!--WEAKNESS CHART-->
         <scene sceneID="5bx-at-oTw">
@@ -280,7 +283,7 @@
                                             <outlet property="defaultImageView" destination="89I-JY-FEC" id="sPM-od-cXC"/>
                                             <outlet property="defaultNameLabel" destination="1Jc-u3-NQI" id="IQc-Ah-fQ9"/>
                                             <outlet property="defaultTypeLabel" destination="cVM-V5-dPs" id="Liq-pN-ZWT"/>
-                                            <segue destination="fMC-uC-AqG" kind="show" id="CRY-n6-brW"/>
+                                            <segue destination="fMC-uC-AqG" kind="show" identifier="toPokemonSearchVC" id="CRY-n6-brW"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonCell" rowHeight="103" id="gkg-Pl-ip7" customClass="PokemonTableViewCell" customModule="PremierTeamBuilder" customModuleProvider="target">
