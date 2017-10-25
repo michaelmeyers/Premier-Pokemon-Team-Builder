@@ -9,6 +9,9 @@
 import UIKit
 
 class PokemonDetailViewController: UIViewController {
+    
+    // MARK: - Properties
+    var pokemon: Pokemon?
 
     override func viewDidLoad() {
         super.viewDidLoad()

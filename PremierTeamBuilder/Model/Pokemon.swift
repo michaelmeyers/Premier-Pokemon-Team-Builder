@@ -25,7 +25,12 @@ class Pokemon {
     var move2: String?
     var move3: String?
     var move4: String?
-    var baseStatsDictionary: [String: Int]
+    var hpStat: Int?
+    var attackStat: Int?
+    var defenseStat: Int?
+    var spAttackStat: Int?
+    var spDefenseStat: Int?
+    var speedStat: Int?
     var role: String
     var weaknessDictionary: typeDictionary? {
         if let type2 = type2 {
@@ -69,7 +74,6 @@ class Pokemon {
         self.type2 = type2
         self.abilities = abilities
         self.role = role
-        self.baseStatsDictionary = baseStatsDictionary
         self.evHP = evHP
         self.evAttack = evAttack
         self.evDefense = evDefense
@@ -122,32 +126,32 @@ class Pokemon {
             abilities.append(ability)
         }
         
-        var baseStatsDictionary: [String: Int] = [:]
         let statDictionary = statsArray[Keys.speedStatKeyInt]
         guard let speedStat = statDictionary[Keys.baseStatKey] as? Int else {return nil}
-        baseStatsDictionary[Keys.speedKey] = speedStat
         
         let spDefStatDictionary = statsArray[Keys.spDefStatKeyInt]
         guard let spDefStat = spDefStatDictionary[Keys.baseStatKey] as? Int else {return nil}
-        baseStatsDictionary[Keys.spDefKey] = spDefStat
         
         let spAttStatDictionary = statsArray[Keys.spAttStatKeyInt]
         guard let spAttStat = spAttStatDictionary[Keys.baseStatKey] as? Int else {return nil}
-        baseStatsDictionary[Keys.spAttKey] = spAttStat
         
         let defStatDictionary = statsArray[Keys.defStatKeyInt]
         guard let defStat = defStatDictionary[Keys.baseStatKey] as? Int else {return nil}
-        baseStatsDictionary[Keys.defKey] = defStat
         
         let attStatDictionary = statsArray[Keys.attStatKeyInt]
         guard let attStat = attStatDictionary[Keys.baseStatKey] as? Int else {return nil}
-        baseStatsDictionary[Keys.attKey] = attStat
         
         let hpStatDictionary = statsArray[Keys.hpStatKeyInt]
         guard let hpStat = hpStatDictionary[Keys.baseStatKey] as? Int else {return nil}
-        baseStatsDictionary[Keys.hpKey] = hpStat
+
         
-        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, baseStatsDictionary: baseStatsDictionary, imageEndpoint: imageEndpoint, pokemonTeamRef: pokemonTeamRef)
+        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, imageEndpoint: imageEndpoint, pokemonTeamRef: pokemonTeamRef)
+        self.hpStat = hpStat
+        self.attackStat = attStat
+        self.defenseStat = defStat
+        self.spAttackStat = spAttStat
+        self.spDefenseStat = spDefStat
+        self.speedStat = speedStat
     }
 }
 

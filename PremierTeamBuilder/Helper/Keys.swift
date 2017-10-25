@@ -113,6 +113,12 @@ struct Keys {
     static let ckIVSpAttack = "ivSpecialAttack"
     static let ckIVSpDefense = "ivSpecialDefense"
     static let ckIVSpeed = "ivSpeed"
+    static let ckHPStat = "hpStat"
+    static let ckAttStat = "attackStat"
+    static let ckDefStat = "defenseStat"
+    static let ckSpAtkStat = "spAttackStat"
+    static let ckSpDefStat = "spDefenseStat"
+    static let ckSpeedStat = "speedStat"
     static let ckReferenceKey = "reference"
     static let ckPokemonPokemonTeamKey = "pokemonTeam"
     
@@ -121,4 +127,5 @@ struct Keys {
     static let pokemonCellIdentifier = "pokemonCell"
     static let defaultPokemonCellIdentifier = "defaultCell"
     static let pokemonTeamListTableViewSegueIdentifier = "toPokemonTeamTVC"
+    static let pokemonTeamDetailSegueIdentifier = "toPokemonDetailVC"
 }

@@ -54,7 +54,14 @@ extension Pokemon {
         self.move3 = move3
         self.move4 = move4
         self.recordID = recordID
+        self.pokemonTeamRef = pokemonTeamRef
     }
+    
+
+//    var baseStatsDictionary: [String: Int]
+
+
+
     
     var ckRecord: CKRecord? {
         let recordID = self.recordID ?? CKRecordID(recordName: UUID().uuidString)
@@ -80,6 +87,24 @@ extension Pokemon {
         pokemonRecord[Keys.ckPokemonImageEndpoint] = imageEndpoint as CKRecordValue
         pokemonRecord[Keys.ckPokemonMovesKey] = moves as CKRecordValue
         pokemonRecord[Keys.ckPokemonAbilitiesKey] = abilities as CKRecordValue
+        if let hpStat = hpStat {
+            pokemonRecord[Keys.ckHPStat] = hpStat as CKRecordValue
+        }
+        if let attackStat = attackStat {
+            pokemonRecord[Keys.ckAttStat] = attackStat as CKRecordValue
+        }
+        if let defenseStat = defenseStat {
+            pokemonRecord[Keys.ckDefStat] = defenseStat as CKRecordValue
+        }
+        if let spAttackStat = spAttackStat {
+            pokemonRecord[Keys.ckSpAtkStat] = spAttackStat as CKRecordValue
+        }
+        if let spDefenseStat = spDefenseStat {
+            pokemonRecord[Keys.ckSpDefStat] = spDefenseStat as CKRecordValue
+        }
+        if let speedStat = speedStat {
+            pokemonRecord[Keys.ckSpeedStat] = speedStat as CKRecordValue
+        }
         if let type2  = type2 {
             pokemonRecord[Keys.ckPokemonType2Key] = type2.rawValue as CKRecordValue
         }
