@@ -9,6 +9,9 @@
 import UIKit
 
 class PokemonTeamDetailTableViewController: UITableViewController {
+    
+    // MARK: - Propreties
+    var pokemonTeam: PokemonTeam?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,25 +30,30 @@ class PokemonTeamDetailTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 6
     }
 
-    /*
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let pokemonTeam = pokemonTeam else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            return cell
+        }
+        guard let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            return cell
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Configure the cell...
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.

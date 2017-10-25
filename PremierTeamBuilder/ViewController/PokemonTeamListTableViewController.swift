@@ -17,12 +17,7 @@ class PokemonTeamListTableViewController: UITableViewController {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
     }
 
     // MARK: - Actions
@@ -36,7 +31,7 @@ class PokemonTeamListTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellKey, for: indexPath) as? PokemonTeamTableViewCell,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell,
             let pokemonTeams = PokemonTeamController.shared.pokemonTeams else {return PokemonTeamTableViewCell()}
         let pokemonTeam = pokemonTeams[indexPath.row]
         
@@ -87,8 +82,11 @@ class PokemonTeamListTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == Keys.pokemonTeamListTableViewSegueIdentifier,
+        let pokemonTeamTVC = segue.destination as? PokemonTeamDetailTableViewController,
+            let indexPath = tableView.indexPathForSelectedRow else {return}
+        let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[indexPath.row]
+        pokemonTeamTVC.pokemonTeam = pokemonTeam
     }
 
 

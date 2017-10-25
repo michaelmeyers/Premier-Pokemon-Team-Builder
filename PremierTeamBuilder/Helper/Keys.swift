@@ -117,6 +117,8 @@ struct Keys {
     static let ckPokemonPokemonTeamKey = "pokemonTeam"
     
     // View and View Controller Keys
-    static let pokemonTeamCellKey = "pokemonTeamCell"
-    
+    static let pokemonTeamCellIdentifier = "pokemonTeamCell"
+    static let pokemonCellIdentifier = "pokemonCell"
+    static let defaultPokemonCellIdentifier = "defaultCell"
+    static let pokemonTeamListTableViewSegueIdentifier = "toPokemonTeamTVC"
 }

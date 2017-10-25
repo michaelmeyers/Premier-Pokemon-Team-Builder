@@ -14,6 +14,8 @@
 		920943141FA0EA6C0090ACB2 /* PokemonStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */; };
 		920943161FA0EA830090ACB2 /* MovesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */; };
 		920943181FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */; };
+		9209431A1FA0F9ED0090ACB2 /* PokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943191FA0F9ED0090ACB2 /* PokemonTableViewCell.swift */; };
+		9209431C1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209431B1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift */; };
 		923B11D21F980788005E8A44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923B11D11F980788005E8A44 /* AppDelegate.swift */; };
 		923B11D41F980788005E8A44 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923B11D31F980788005E8A44 /* ViewController.swift */; };
 		923B11D71F980788005E8A44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 923B11D51F980788005E8A44 /* Main.storyboard */; };
@@ -42,6 +44,8 @@
 		920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonStatsViewController.swift; sourceTree = "<group>"; };
 		920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListTableViewController.swift; sourceTree = "<group>"; };
 		920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamTableViewCell.swift; sourceTree = "<group>"; };
+		920943191FA0F9ED0090ACB2 /* PokemonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTableViewCell.swift; sourceTree = "<group>"; };
+		9209431B1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPokemonTableViewCell.swift; sourceTree = "<group>"; };
 		923B11CE1F980788005E8A44 /* PremierTeamBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PremierTeamBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		923B11D11F980788005E8A44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		923B11D31F980788005E8A44 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */,
+				920943191FA0F9ED0090ACB2 /* PokemonTableViewCell.swift */,
+				9209431B1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,6 +284,7 @@
 				920943101FA0EA300090ACB2 /* PokemonSearchTableViewController.swift in Sources */,
 				92F98FCF1F9E54AB003CA08C /* Helper Functions.swift in Sources */,
 				9209430E1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift in Sources */,
+				9209431C1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift in Sources */,
 				92F98FBC1F9A99CA003CA08C /* Pokemon.swift in Sources */,
 				920943181FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift in Sources */,
 				92F98FC01F9C5904003CA08C /* PokemonController.swift in Sources */,
@@ -292,6 +299,7 @@
 				92F98FBE1F9ABEC5003CA08C /* Move.swift in Sources */,
 				923B11D21F980788005E8A44 /* AppDelegate.swift in Sources */,
 				920943121FA0EA490090ACB2 /* PokemonDetailViewController.swift in Sources */,
+				9209431A1FA0F9ED0090ACB2 /* PokemonTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

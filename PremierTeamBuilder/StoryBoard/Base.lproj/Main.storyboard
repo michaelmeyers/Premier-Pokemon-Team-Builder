@@ -156,7 +156,7 @@
                                     <outlet property="pokemon5ImageView" destination="0IY-cN-qOT" id="Z2q-Ez-1E9"/>
                                     <outlet property="pokemon6ImageView" destination="dmO-d3-PPR" id="Brv-yH-tVf"/>
                                     <outlet property="teamNameLabel" destination="Rfz-fq-1XR" id="fBk-jt-slg"/>
-                                    <segue destination="cfR-Lf-jUe" kind="show" id="aiW-ob-MOm"/>
+                                    <segue destination="cfR-Lf-jUe" kind="show" identifier="toPokemonTeamTVC" id="aiW-ob-MOm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -166,7 +166,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Pxn-4r-0a0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Spu-oO-78L"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Spu-oO-78L">
+                            <connections>
+                                <segue destination="cfR-Lf-jUe" kind="show" id="N1e-bR-UXi"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJh-tF-O0o" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -207,7 +211,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="knc-r5-7sJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2453.5999999999999" y="784.85757121439292"/>
+            <point key="canvasLocation" x="2396" y="1555"/>
         </scene>
         <!--WEAKNESS CHART-->
         <scene sceneID="5bx-at-oTw">
@@ -245,8 +249,39 @@
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="103" id="gkg-Pl-ip7">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="defaultCell" rowHeight="103" id="vV5-aA-W8m" customClass="DefaultPokemonTableViewCell" customModule="PremierTeamBuilder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="58" width="375" height="103"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vV5-aA-W8m" id="bKV-CW-8aD">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="102.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89I-JY-FEC">
+                                                    <rect key="frame" x="0.0" y="0.0" width="112" height="103"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Jc-u3-NQI">
+                                                    <rect key="frame" x="120" y="8" width="247" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVM-V5-dPs">
+                                                    <rect key="frame" x="120" y="50" width="60" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="fMC-uC-AqG" kind="show" id="CRY-n6-brW"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonCell" rowHeight="103" id="gkg-Pl-ip7" customClass="PokemonTableViewCell" customModule="PremierTeamBuilder" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="161" width="375" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gkg-Pl-ip7" id="CX4-Bk-rHQ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="102.5"/>
@@ -256,10 +291,6 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="112" height="103"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eq5-ZS-K0b">
-                                                    <rect key="frame" x="120" y="50" width="68" height="33"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqM-Vh-slZ">
                                                     <rect key="frame" x="120" y="8" width="247" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -267,14 +298,28 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4d-7e-e1z">
-                                                    <rect key="frame" x="196" y="50" width="68" height="33"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tFn-HF-kQf">
+                                                    <rect key="frame" x="120" y="47" width="60" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUh-uY-01r">
+                                                    <rect key="frame" x="188" y="47" width="60" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="fMC-uC-AqG" kind="show" id="Ujs-Lh-L2m"/>
+                                            <outlet property="pokemonImageView" destination="fjd-59-z2o" id="A7G-bf-1gQ"/>
+                                            <outlet property="pokemonNameLabel" destination="YqM-Vh-slZ" id="c7d-Ab-qBe"/>
+                                            <outlet property="pokemonType1Label" destination="tFn-HF-kQf" id="Xgu-79-fvO"/>
+                                            <outlet property="pokemonType2Label" destination="DUh-uY-01r" id="94s-Tz-eOM"/>
+                                            <segue destination="Wag-2q-zC2" kind="show" id="Wsw-fu-11C"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -756,5 +801,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4Je-Qi-nla"/>
+        <segue reference="Wsw-fu-11C"/>
+        <segue reference="aiW-ob-MOm"/>
     </inferredMetricsTieBreakers>
 </document>
