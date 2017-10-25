@@ -129,6 +129,8 @@ struct Keys {
     static let pokemonTeamCellIdentifier = "pokemonTeamCell"
     static let pokemonCellIdentifier = "pokemonCell"
     static let defaultPokemonCellIdentifier = "defaultCell"
+    static let searchResultsCellIdentifier = "searchResultsCell"
+    static let moveCellIdentifier = "moveCell"
     static let pokemonTeamListTableViewSegueIdentifier = "toPokemonTeamTVC"
     static let pokemonTeamDetailSegueIdentifier = "toPokemonDetailVC"
     static let segueIdentifierToPokemonSearchVC = "toPokemonSearchVC"

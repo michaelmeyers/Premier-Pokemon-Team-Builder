@@ -29,6 +29,7 @@
 		926A08471F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926A08461F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift */; };
 		92B2D07B1F9FFD22005C0044 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B2D07A1F9FFD22005C0044 /* CloudKit.framework */; };
 		92B2D07D1FA046F4005C0044 /* PokemonTeamListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B2D07C1FA046F4005C0044 /* PokemonTeamListTableViewController.swift */; };
+		92CE8D2E1FA1465000D124C0 /* pokemonSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE8D2D1FA1465000D124C0 /* pokemonSearchTableViewCell.swift */; };
 		92F98FBC1F9A99CA003CA08C /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBB1F9A99CA003CA08C /* Pokemon.swift */; };
 		92F98FBE1F9ABEC5003CA08C /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBD1F9ABEC5003CA08C /* Move.swift */; };
 		92F98FC01F9C5904003CA08C /* PokemonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F98FBF1F9C5904003CA08C /* PokemonController.swift */; };
@@ -62,6 +63,7 @@
 		926A08461F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PokemonTeam+CloudKit.swift"; sourceTree = "<group>"; };
 		92B2D07A1F9FFD22005C0044 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		92B2D07C1FA046F4005C0044 /* PokemonTeamListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamListTableViewController.swift; sourceTree = "<group>"; };
+		92CE8D2D1FA1465000D124C0 /* pokemonSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokemonSearchTableViewCell.swift; sourceTree = "<group>"; };
 		92F98FBB1F9A99CA003CA08C /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		92F98FBD1F9ABEC5003CA08C /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		92F98FBF1F9C5904003CA08C /* PokemonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonController.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */,
 				920943191FA0F9ED0090ACB2 /* PokemonTableViewCell.swift */,
 				9209431B1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift */,
+				92CE8D2D1FA1465000D124C0 /* pokemonSearchTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				9209431C1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift in Sources */,
 				92F98FBC1F9A99CA003CA08C /* Pokemon.swift in Sources */,
 				920943181FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift in Sources */,
+				92CE8D2E1FA1465000D124C0 /* pokemonSearchTableViewCell.swift in Sources */,
 				92F98FC01F9C5904003CA08C /* PokemonController.swift in Sources */,
 				92F98FC21F9E5416003CA08C /* MoveController.swift in Sources */,
 				926571C71F9EA82B006DDF4C /* PokemonTeam.swift in Sources */,
