@@ -19,10 +19,26 @@ class PokemonController {
     // MARK: - CRUD
     
     func createPokemonObject(fromSearchTerm searchTerm: String){
-            
+        fetchSearchResults(fromSearchTerm: searchTerm) { (success) in
+            if success == true {
+                print("Fetching ALL of the Pokemon was a big Success!")
+            } else {
+                print("Could not Fetch at least one Pokemon")
+            }
+        }
     }
     
     func createPokemon(onTeam pokemonTeam: PokemonTeam, fromPokemonObject pokemonObject: Pokemon) {
+        var pokemonTeamRef: CKReference
+        if pokemonObject.pokemonTeamRef == nil {
+            guard let recordID = pokemonTeam.recordID else {return}
+            pokemonObject.pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
+            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
+            pokemonTeamRef = teamRef
+        } else {
+            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
+            pokemonTeamRef = teamRef
+        }
             let name = pokemonObject.name
             let moves = pokemonObject.moves
             let type1 = pokemonObject.type1
@@ -36,9 +52,16 @@ class PokemonController {
             let spDefenseStat = pokemonObject.spDefenseStat
             let speedStat = pokemonObject.speedStat
             let pokemon = Pokemon(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, imageEndpoint: imageEndpoint, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat)
-            guard let recordID = pokemonTeam.recordID else {return}
-            pokemon.pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
             pokemonTeam.sixPokemon.append(pokemon)
+            pokemon.pokemonTeamRef = pokemonTeamRef
+        guard let record = pokemon.ckRecord else {return}
+        PokemonController.shared.savePokemonRecord(record: record) { (success) in
+            if success == true {
+                print("Saving your Pokemon was a big Success!")
+            } else {
+                print("Saving your Pokemon Failed")
+            }
+        }
     }
     
     func updatePokemon(pokemon: Pokemon) {
@@ -72,57 +95,47 @@ class PokemonController {
     }
     
     // MARK: - API CALLS
-    func fetchSearchResults(fromSearchTerm searchTerm: String, completion: @escaping (Data?) -> Void) {
+    func fetchSearchResults(fromSearchTerm searchTerm: String, completion: @escaping (Bool) -> Void) {
         var finalURL: URL
         if typesKeyArray.contains(searchTerm) {
             guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchTypeKey).appendingPathComponent(searchTerm) else {
-                completion(nil)
+                completion(false)
                 return
             }
             finalURL = url
             let dataTask = URLSession.shared.dataTask(with: finalURL){ (data, _, error) in
                 if let error = error {
                     print("There was an error fetching Pokemon data: \(error.localizedDescription)")
-                    completion(nil)
+                    completion(false)
                     return
                 }
                 guard let data = data else {
-                    completion(nil)
+                    completion(false)
                     return
                 }
                 guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                     let pokemonArray = jsonDictionary?[Keys.pokemonArrayKey] as? [[String: Any]] else {
-                        completion(nil)
+                        completion(false)
                         return
                 }
                 for dictionary in pokemonArray {
                     guard let pokemonDictionary = dictionary[Keys.pokemonDictionaryKey] as? [String: Any],
                         let pokemonURLString = pokemonDictionary[Keys.pokemonURLKey] as? String,
                         let pokemonURL = URL(string: pokemonURLString) else {
-                            completion(nil)
+                            completion(false)
                             return
                     }
-                    self.fetchPokemon(withURL: pokemonURL, completion: { (success) in
-                        if success == true {
-                            print("Fetching ALL of the Pokemon was a big Success!")
-                        } else {
-                            print("Could not Fetch at least one Pokemon")
-                        }
-                    })
+                    self.fetchPokemon(withURL: pokemonURL, completion: completion)
+                    completion(true)
                 }
             }
             dataTask.resume()
         } else {
             guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchPokemonKey).appendingPathComponent(searchTerm) else {
-                completion(nil)
+                completion(false)
                 return}
-            fetchPokemon(withURL: url, completion: { (success) in
-                if success == true {
-                    print("Fetching Pokemon was a big Success!")
-                } else {
-                    print("Could not Fetch Pokemon")
-                }
-            })
+            fetchPokemon(withURL: url, completion: completion)
+            completion(true)
         }
     }
 

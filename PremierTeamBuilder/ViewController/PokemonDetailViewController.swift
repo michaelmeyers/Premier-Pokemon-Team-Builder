@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import CloudKit
 
 class PokemonDetailViewController: UIViewController {
     
     // MARK: - Properties
+    var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var natureLabel: UILabel!
     @IBOutlet weak var abilityLabel: UILabel!
     @IBOutlet weak var itemLabel: UILabel!
@@ -34,6 +37,7 @@ class PokemonDetailViewController: UIViewController {
             guard let data = pokemon.imageData,
                 let pokeImage = UIImage(data: data) else {return}
             pokemonImageView.image = pokeImage
+            nameLabel.text = pokemon.name
             natureLabel.text = pokemon.nature.rawValue
             abilityLabel.text =  pokemon.chosenAbility
             itemLabel.text = pokemon.item
@@ -53,9 +57,13 @@ class PokemonDetailViewController: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // MARK: - Actions
+    
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let pokemonTeam = pokemonTeam,
+            let pokemon = pokemon else {return}
+        PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
     }
     
 

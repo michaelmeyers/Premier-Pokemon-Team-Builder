@@ -20,12 +20,6 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         pokemonSearchBar.delegate = self
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     
@@ -41,15 +35,14 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return PokemonController.shared.searchResults.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Keys.searchResultsCellIdentifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.searchResultsCellIdentifier, for: indexPath) as? pokemonSearchTableViewCell else {return UITableViewCell()}
         let pokemon = PokemonController.shared.searchResults[indexPath.row]
-        
-
+        cell.pokemon = pokemon
+        cell.updateCell()
         return cell
     }
 
@@ -94,8 +87,13 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == Keys.segueIdentiferToPokemonDetailVCFromSearch,
+            let tabBarController = segue.destination as? UITabBarController,
+            let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
+            let indexPath = tableView.indexPathForSelectedRow else {return}
+        let pokemon = PokemonController.shared.searchResults[indexPath.row]
+        pokemonDetailVC.pokemonTeam = pokemonTeam
+        pokemonDetailVC.pokemon = pokemon
     }
 
 }

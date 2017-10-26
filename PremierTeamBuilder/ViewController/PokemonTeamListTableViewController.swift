@@ -83,10 +83,11 @@ class PokemonTeamListTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == Keys.pokemonTeamListTableViewSegueIdentifier,
-        let pokemonTeamTVC = segue.destination as? PokemonTeamDetailTableViewController,
+        let tabBarController = segue.destination as? UITabBarController,
+            let pokemonTeamDetailVC = tabBarController.childViewControllers.first as? PokemonTeamDetailTableViewController,
             let indexPath = tableView.indexPathForSelectedRow else {return}
         let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[indexPath.row]
-        pokemonTeamTVC.pokemonTeam = pokemonTeam
+        pokemonTeamDetailVC.pokemonTeam = pokemonTeam
     }
 
 

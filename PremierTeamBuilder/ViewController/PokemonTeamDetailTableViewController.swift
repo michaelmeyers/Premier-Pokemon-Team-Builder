@@ -8,12 +8,13 @@
 
 import UIKit
 
-class PokemonTeamDetailTableViewController: UITableViewController, UITextFieldDelegate {
+class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     // MARK: - Propreties
     var pokemonTeam: PokemonTeam?
 
     @IBOutlet weak var teamNameTextField: UITextField!
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,20 @@ class PokemonTeamDetailTableViewController: UITableViewController, UITextFieldDe
             teamNameTextField.text = pokemonTeam.name
         }
         teamNameTextField.delegate = self
+        tableView.delegate = self
     }
+    
+    // MARK: - Actions
+    
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let text = teamNameTextField.text, !text.isEmpty else {
+            // PRESENT ALERT
+            return
+        }
+        PokemonTeamController.shared.createTeam(withName: text)
+        navigationController?.popViewController(animated: true)
+    }
+    
     
     private func textFieldShouldReturn(_ textField: UITextField){
         guard let text = teamNameTextField.text, !text.isEmpty else {return}
@@ -32,22 +46,14 @@ class PokemonTeamDetailTableViewController: UITableViewController, UITextFieldDe
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: - Table view data source
-
-
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
 
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let pokemonTeam = pokemonTeam else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
             return cell
@@ -106,11 +112,13 @@ class PokemonTeamDetailTableViewController: UITableViewController, UITextFieldDe
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Keys.pokemonTeamDetailSegueIdentifier {
-            guard let pokemonDetailVC = segue.destination as? PokemonDetailViewController,
+            guard let tabBarController = segue.destination as? UITabBarController,
+                let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
                 let pokemonTeam = pokemonTeam,
                 let indexPath = tableView.indexPathForSelectedRow,
                 let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {return}
             pokemonDetailVC.pokemon = pokemon
+            pokemonDetailVC.pokemonTeam = pokemonTeam
         }
         if segue.identifier == Keys.segueIdentifierToPokemonSearchVC {
             guard let pokemonSearchTVC = segue.destination as? PokemonSearchTableViewController,

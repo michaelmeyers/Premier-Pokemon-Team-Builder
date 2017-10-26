@@ -112,7 +112,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="95"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lw0-SN-Crh" id="b1S-In-aMQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="95"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="94.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfz-fq-1XR">
@@ -228,8 +228,6 @@
                                 <connections>
                                     <outlet property="pokemonImageView" destination="MIo-tj-S6S" id="eT4-EX-iGG"/>
                                     <outlet property="pokemonNameLabel" destination="pwA-vB-jfF" id="Peh-mr-DaA"/>
-                                    <outlet property="pokemonType1Label" destination="pzZ-HB-Z7U" id="Xvt-Ya-T6p"/>
-                                    <outlet property="pokemonType2Label" destination="JzQ-KQ-MJJ" id="ekg-hg-Pgu"/>
                                     <segue destination="Wag-2q-zC2" kind="show" id="jTO-Zr-nUh"/>
                                 </connections>
                             </tableViewCell>
@@ -366,10 +364,15 @@
                         <viewLayoutGuide key="safeArea" id="rf2-3d-cEz"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="TEAM PREVIEW" id="7bf-S0-POx"/>
-                    <navigationItem key="navigationItem" title="Title" id="wu2-HC-cba">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="ifs-jj-iQw"/>
+                    <navigationItem key="navigationItem" title="Title" id="1Vw-xE-Uv1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="jfb-O7-gXd">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="llt-Wu-Phm" id="cAk-1n-hH3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="Aoi-bs-vPm" id="hFY-y0-Boe"/>
                         <outlet property="teamNameTextField" destination="TOn-CW-t2z" id="1q6-7B-uSI"/>
                     </connections>
                 </viewController>
@@ -855,7 +858,11 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="POKEMON" id="umw-9T-WkM"/>
                     <navigationItem key="navigationItem" title="Title" id="VfL-Ur-LD7">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="g1i-rl-fF5"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="g1i-rl-fF5">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="jz2-4F-yJy" id="PSs-Ji-8oM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="abilityLabel" destination="PDi-xX-iAX" id="oE2-0s-8az"/>
@@ -943,7 +950,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4Je-Qi-nla"/>
-        <segue reference="jTO-Zr-nUh"/>
+        <segue reference="Wsw-fu-11C"/>
         <segue reference="aiW-ob-MOm"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -134,4 +134,5 @@ struct Keys {
     static let pokemonTeamListTableViewSegueIdentifier = "toPokemonTeamTVC"
     static let pokemonTeamDetailSegueIdentifier = "toPokemonDetailVC"
     static let segueIdentifierToPokemonSearchVC = "toPokemonSearchVC"
+    static let segueIdentiferToPokemonDetailVCFromSearch = "searchToPokemonDetailVC"
 }
