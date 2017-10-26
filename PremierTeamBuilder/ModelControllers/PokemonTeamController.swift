@@ -15,7 +15,9 @@ class PokemonTeamController {
     
     var pokemonList: [String] = []
     var items: [String] = []
+    var pokemonTypes: [String] = typesKeyArray
     var pokemonTeams: [PokemonTeam]?
+    
     
     // MARK: - Crud
     func createTeam(pokemonTeam: PokemonTeam){
@@ -53,16 +55,12 @@ class PokemonTeamController {
     
     // MARK: - API Methods
     
-    func fetchListOfAllPokemon(){
+    func fetchListOfAllPokemon(completion: @escaping (Bool?) -> Void) {
         var generation = 1
         for _ in 1...6 {
             guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.generationKey).appendingPathComponent("\(generation)") else {return}
             fetchGenerationWithURL(url: url, completion: { (success) in
-                if success == true {
-                    print ("Pokemon List Fully Loaded")
-                } else {
-                    print ("There was an error with the pokemon List fetch")
-                }
+                completion(success)
             })
             generation += 1
         }
@@ -91,8 +89,8 @@ class PokemonTeamController {
                         return
                     }
                     PokemonTeamController.shared.pokemonList.append(name)
-                    completion(true)
                 }
+                completion(true)
             }
         dataTask.resume()
         }
@@ -100,15 +98,17 @@ class PokemonTeamController {
     
     //https://pokeapi.co/api/v2/generation/6/
     
-    func fetchItems() {
+    func fetchItems(completion: @escaping (Bool?) -> Void) {
         guard let url = URL(string: Keys.itemBaseURLString) else {return}
         let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
                 print("There was an error fetching the Items info: \(error.localizedDescription)")
+                completion(false)
                 return
             }
         guard let data = data else {
             print("No Data from Fetch Items")
+            completion(false)
             return
         }
         guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
@@ -118,6 +118,7 @@ class PokemonTeamController {
                 guard let item = itemDictionary[Keys.itemNameKey] as? String else {return}
                 PokemonTeamController.shared.items.append(item)
             }
+            completion(true)
         }
         dataTask.resume()
     }

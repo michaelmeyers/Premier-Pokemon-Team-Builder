@@ -22,8 +22,24 @@ class PokemonTeamListTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-        PokemonTeamController.shared.fetchListOfAllPokemon()
-        PokemonTeamController.shared.fetchItems()
+        if PokemonTeamController.shared.pokemonList.count == 0 {
+        PokemonTeamController.shared.fetchListOfAllPokemon { (success) in
+            if success == true {
+                print ("Pokemon List Fully Loaded")
+            } else {
+                print ("There was an error with the pokemon List fetch")
+            }
+        }
+        }
+        if PokemonTeamController.shared.items.count == 0 {
+        PokemonTeamController.shared.fetchItems { (success) in
+            if success == true {
+                print ("Item List Fully Loaded")
+            } else {
+                print ("There was an error with the Item List fetch")
+            }
+        }
+        }
     }
 
     // MARK: - Actions
