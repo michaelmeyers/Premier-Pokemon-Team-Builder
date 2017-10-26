@@ -103,26 +103,36 @@ class Pokemon {
             let statsArray = dictionary[Keys.statsArrayKey] as? [[String:Any]],
             let spritesDictionary = dictionary[Keys.spriteDictionaryKey] as? [String: Any],
             let imageEndpoint = spritesDictionary[Keys.spriteKey] as? String else {return nil}
-        
+        var type1: Type
+        var type2: Type?
+        if typesArray.count == 2 {
         let firstTypeDictionary = typesArray[Keys.type1DictionaryInt]
         guard let type1Dictionary = firstTypeDictionary[Keys.typeDictionaryKey] as? [String: Any],
         let type1String = type1Dictionary[Keys.typeNameKey] as? String,
-            let type1 = changeStringToType(string: type1String) else {return nil}
+            let type = changeStringToType(string: type1String) else {return nil}
+            type1 = type
         
         let secondTypeDictionary = typesArray[Keys.type2DictionaryInt]
         let type2Dictionary = secondTypeDictionary[Keys.typeDictionaryKey] as? [String: Any] ?? nil
         let type2String = type2Dictionary?[Keys.typeNameKey] as? String ?? nil
-        let type2: Type?
         if let type2String = type2String {
             guard let type = changeStringToType(string: type2String) else {return nil}
             type2 = type
         } else {
             type2 = nil
         }
+        } else {
+            let firstTypeDictionary = typesArray[Keys.type1DictionaryInt]
+            guard let type1Dictionary = firstTypeDictionary[Keys.typeDictionaryKey] as? [String: Any],
+                let type1String = type1Dictionary[Keys.typeNameKey] as? String,
+                let type = changeStringToType(string: type1String) else {return nil}
+            type1 = type
+        }
         var moves: [String] = []
-        for moveDictionary in movesArray {
-            guard let moveString = moveDictionary[Keys.pokemonMoveNameKey] as? String else {return nil}
-                moves.append(moveString)
+        for dictionary in movesArray {
+            guard let moveDictionary = dictionary[Keys.moveKey] as? [String: Any],
+                let moveString = moveDictionary[Keys.pokemonMoveNameKey] as? String else {return nil}
+            moves.append(moveString)
         }
         var abilities: [String] = []
         for everyDictionary in abilitiesArray {

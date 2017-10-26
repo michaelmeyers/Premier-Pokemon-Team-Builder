@@ -25,10 +25,11 @@ class PokemonSearchTableViewController: UITableViewController, UISearchBarDelega
     
     // MARK: - SearchBarDelegate Methods
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {return}
-        PokemonController.shared.createPokemonObject(fromSearchTerm: searchTerm)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        guard let searchTerm = searchBar.text?.lowercased(), !searchTerm.isEmpty else {return}
+        PokemonController.shared.createPokemonObject(fromSearchTerm: searchTerm) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
 

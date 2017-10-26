@@ -37,7 +37,11 @@ class pokemonSearchTableViewCell: UITableViewCell {
         pokemonImageView.image = image
         pokemonNameLabel.text = pokemon.name
         pokemonType1Label.text = pokemon.type1.rawValue
-        pokemonType2Label.text = pokemon.type2?.rawValue
+        if let type2String = pokemon.type2?.rawValue {
+        pokemonType2Label.text = type2String
+        } else {
+            pokemonType2Label.text = nil
+        }
     }
 
 }

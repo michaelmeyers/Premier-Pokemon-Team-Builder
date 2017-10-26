@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ViewController/PokemonTeamDetailTableViewController.swift"
-            timestampString = "530724209.105199"
+            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
+            timestampString = "530732826.498561"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "fetchPokemon(withURL:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ViewController/PokemonTeamDetailTableViewController.swift"
-            timestampString = "530724209.105319"
+            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
+            timestampString = "530732826.499769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "fetchPokemon(withURL:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ViewController/PokemonTeamListTableViewController.swift"
-            timestampString = "530724209.105415"
+            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
+            timestampString = "530732826.500172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "addButtonTapped(_:)"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "fetchSearchResults(fromSearchTerm:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,29 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ViewController/PokemonTeamListTableViewController.swift"
-            timestampString = "530724209.105547"
+            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
+            timestampString = "530732826.50054"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ViewController/PokemonTeamListTableViewController.swift"
-            timestampString = "530724209.105664"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "fetchSearchResults(fromSearchTerm:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

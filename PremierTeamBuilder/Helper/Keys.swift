@@ -56,7 +56,7 @@ struct Keys {
     static let pokemonURLKey = "url"
     static let pokemonDictionaryKey = "pokemon"
     static let pokemonArrayKey = "pokemon"
-    static let pokemonNameKey = "names"
+    static let pokemonNameKey = "name"
     static let movesArrayKey = "moves"
     static let pokemonMoveNameKey = "name"
     static let typesArrayKey = "types"

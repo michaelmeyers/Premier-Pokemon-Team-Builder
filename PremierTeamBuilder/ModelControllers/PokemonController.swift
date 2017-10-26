@@ -18,12 +18,14 @@ class PokemonController {
     
     // MARK: - CRUD
     
-    func createPokemonObject(fromSearchTerm searchTerm: String){
+    func createPokemonObject(fromSearchTerm searchTerm: String, completion: @escaping () -> Void) {
         fetchSearchResults(fromSearchTerm: searchTerm) { (success) in
             if success == true {
                 print("Fetching ALL of the Pokemon was a big Success!")
+                completion()
             } else {
                 print("Could not Fetch at least one Pokemon")
+                completion()
             }
         }
     }
@@ -74,16 +76,6 @@ class PokemonController {
         }
     }
     
-    func getPokemonImageData(withURL url: URL, completion: @escaping (Data?) -> Void){
-        fetchImageData(withURL: url) { (data) in
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-            completion(data)
-        }
-    }
-    
     func deletePokemon(pokemon: Pokemon) {
         guard let recordID = pokemon.recordID else {return}
         deletePokemonRecord(withID: recordID) { (_, error) in
@@ -125,8 +117,9 @@ class PokemonController {
                             completion(false)
                             return
                     }
-                    self.fetchPokemon(withURL: pokemonURL, completion: completion)
-                    completion(true)
+                    self.fetchPokemon(withURL: pokemonURL, completion: { (success) in
+                        completion(success)
+                    })
                 }
             }
             dataTask.resume()
@@ -134,12 +127,15 @@ class PokemonController {
             guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchPokemonKey).appendingPathComponent(searchTerm) else {
                 completion(false)
                 return}
-            fetchPokemon(withURL: url, completion: completion)
-            completion(true)
+            
+            fetchPokemon(withURL: url, completion: { (success) in
+                completion(success)
+            })
         }
     }
 
     func fetchPokemon(withURL url: URL, completion: @escaping (Bool)->Void) {
+        var searchResults: [Pokemon] = []
         let dataTask = URLSession.shared.dataTask(with: url){ (data, _, error) in
             if let error = error {
                 print("There was an error fetching Pokemon data: \(error.localizedDescription)")
@@ -150,13 +146,18 @@ class PokemonController {
                 let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any],
                 let dictionary = jsonDictionary,
                 let pokemon = Pokemon(dictionary: dictionary),
-                let url = pokemon.imageURL else {
+                let imageURL = pokemon.imageURL else {
                     completion(false)
                     return
                 }
-            self.getPokemonImageData(withURL: url, completion: { (data) in
+            self.fetchImageData(withURL: imageURL, completion: { (data) in
+                guard let data = data else {
+                    completion(false)
+                    return
+                }
                 pokemon.imageData = data
-                PokemonController.shared.searchResults.append(pokemon)
+                searchResults.append(pokemon)
+                PokemonController.shared.searchResults = searchResults
                 completion(true)
             })
         }

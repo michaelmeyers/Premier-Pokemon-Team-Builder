@@ -228,6 +228,8 @@
                                 <connections>
                                     <outlet property="pokemonImageView" destination="MIo-tj-S6S" id="eT4-EX-iGG"/>
                                     <outlet property="pokemonNameLabel" destination="pwA-vB-jfF" id="Peh-mr-DaA"/>
+                                    <outlet property="pokemonType1Label" destination="pzZ-HB-Z7U" id="syp-vl-bVW"/>
+                                    <outlet property="pokemonType2Label" destination="JzQ-KQ-MJJ" id="bnG-1c-9Cf"/>
                                     <segue destination="Wag-2q-zC2" kind="show" id="jTO-Zr-nUh"/>
                                 </connections>
                             </tableViewCell>
@@ -269,7 +271,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Aoi-bs-vPm">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="103" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Aoi-bs-vPm">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -950,6 +952,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="4Je-Qi-nla"/>
-        <segue reference="Wsw-fu-11C"/>
+        <segue reference="jTO-Zr-nUh"/>
     </inferredMetricsTieBreakers>
 </document>

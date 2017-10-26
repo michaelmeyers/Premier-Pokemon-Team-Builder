@@ -23,6 +23,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         }
         teamNameTextField.delegate = self
         tableView.delegate = self
+        tableView.dataSource = self
     }
     
     // MARK: - Actions
@@ -57,6 +58,10 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let pokemonTeam = pokemonTeam else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            return cell
+        }
+        guard pokemonTeam.sixPokemon.count != 0 else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
             return cell
         }
