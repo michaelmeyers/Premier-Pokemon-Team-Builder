@@ -32,7 +32,8 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             // PRESENT ALERT
             return
         }
-        PokemonTeamController.shared.createTeam(withName: text)
+        let pokemonTeam = PokemonTeam(name: text)
+        PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
         navigationController?.popViewController(animated: true)
     }
     
@@ -42,7 +43,8 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         if let pokemonTeam = pokemonTeam {
             pokemonTeam.name = text
         } else {
-            PokemonTeamController.shared.createTeam(withName: text)
+            let pokemonTeam = PokemonTeam(name: text)
+            PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
         }
     }
 

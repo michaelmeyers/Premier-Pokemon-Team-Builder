@@ -168,7 +168,7 @@
                     <navigationItem key="navigationItem" id="Pxn-4r-0a0">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Spu-oO-78L">
                             <connections>
-                                <segue destination="cfR-Lf-jUe" kind="show" id="N1e-bR-UXi"/>
+                                <action selector="addButtonTapped:" destination="aGz-ul-gN5" id="K3w-6g-CZQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -951,6 +951,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="4Je-Qi-nla"/>
         <segue reference="Wsw-fu-11C"/>
-        <segue reference="aiW-ob-MOm"/>
     </inferredMetricsTieBreakers>
 </document>

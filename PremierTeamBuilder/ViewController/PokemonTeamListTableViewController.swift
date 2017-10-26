@@ -17,11 +17,18 @@ class PokemonTeamListTableViewController: UITableViewController {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        PokemonTeamController.shared.fetchPokemonTeamsAndPokemonRecords {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 
     // MARK: - Actions
-
+    @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
+        addTeamAlert()
+    }
+    
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -88,6 +95,29 @@ class PokemonTeamListTableViewController: UITableViewController {
             let indexPath = tableView.indexPathForSelectedRow else {return}
         let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[indexPath.row]
         pokemonTeamDetailVC.pokemonTeam = pokemonTeam
+    }
+    
+    // MARK: - Alert Controller
+    func addTeamAlert() {
+        var nameTextField = UITextField()
+        let alertController = UIAlertController(title: "Create New Pokemon Team", message: "Pick a Team Name", preferredStyle: .alert)
+        
+        alertController.addTextField { (textfield) in
+            textfield.placeholder = "Enter Team Name"
+            nameTextField = textfield
+        }
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
+            guard let text = nameTextField.text, !text.isEmpty else {return}
+            let pokemonTeam = PokemonTeam(name: text)
+            PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
+            self.tableView.reloadData()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 
 

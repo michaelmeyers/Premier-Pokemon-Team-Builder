@@ -16,8 +16,7 @@ class PokemonTeamController {
     var pokemonTeams: [PokemonTeam]?
     
     // MARK: - Crud
-    func createTeam(withName name: String){
-        let pokemonTeam = PokemonTeam(name: name)
+    func createTeam(pokemonTeam: PokemonTeam){
         guard let record = pokemonTeam.ckRecord else {return}
         savePokemonTeamRecord(record: record) { (success) in
             if success == true {
@@ -26,7 +25,7 @@ class PokemonTeamController {
                 print ("Team was not Saved")
             }
         }
-        pokemonTeams?.append(pokemonTeam)
+        PokemonTeamController.shared.pokemonTeams?.append(pokemonTeam)
     }
     
     func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){

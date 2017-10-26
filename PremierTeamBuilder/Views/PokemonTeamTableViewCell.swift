@@ -39,6 +39,8 @@ class PokemonTeamTableViewCell: UITableViewCell {
         let sixPokemon = pokemonTeam.sixPokemon
         teamNameLabel.text = pokemonTeam.name
         
+        guard sixPokemon.count != 0 else {return}
+        
         if let pokemon1 = sixPokemon[0] {
             guard let data = pokemon1.imageData else {return}
             let image = UIImage(data: data)
