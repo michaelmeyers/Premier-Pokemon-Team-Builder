@@ -15,6 +15,13 @@ struct Keys {
     static let itemBaseURLString = "https://pokeapi.co/api/v2/item-attribute/holdable-active"
     static let searchTypeKey = "type"
     static let searchPokemonKey = "pokemon"
+    static let allPokemonArrayKey = "pokemon_species"
+    static let allPokemonNameKey = "name"
+    static let generationKey = "generation"
+    static let itemsArrayKey = "items"
+    static let itemAttributeKey = "item-attribute"
+    static let holdableItemKey = "holdable-active"
+    static let itemNameKey = "name"
     
     // Type Keys
     static let typeNormalKey = "normal"

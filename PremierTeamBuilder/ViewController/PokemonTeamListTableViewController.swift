@@ -22,6 +22,8 @@ class PokemonTeamListTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        PokemonTeamController.shared.fetchListOfAllPokemon()
+        PokemonTeamController.shared.fetchItems()
     }
 
     // MARK: - Actions

@@ -13,7 +13,8 @@ class PokemonTeamController {
     
     static let shared = PokemonTeamController()
     
-    var items: [String]?
+    var pokemonList: [String] = []
+    var items: [String] = []
     var pokemonTeams: [PokemonTeam]?
     
     // MARK: - Crud
@@ -29,15 +30,104 @@ class PokemonTeamController {
         PokemonTeamController.shared.pokemonTeams?.append(pokemonTeam)
     }
     
-    func fetchItemData() {
-        
+    func updateTeam(pokemonTeam: PokemonTeam, newName: String) {
+        pokemonTeam.name = newName
+        updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
+            if success == true {
+                print ("successfully updated Team")
+            } else {
+                print ("Team was not Updated")
+            }
+        }
     }
+    
+    func deleteTeam(pokemonTeam: PokemonTeam) {
+        guard let recordID = pokemonTeam.recordID else {return}
+        deletePokemonTeamRecord(withID: recordID) { (_, error) in
+            if let error = error {
+                print("There was an error deleting Pokemon Team: \(error.localizedDescription)")
+                return
+            }
+        }
+    }
+    
+    // MARK: - API Methods
+    
+    func fetchListOfAllPokemon(){
+        var generation = 1
+        for _ in 1...6 {
+            guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.generationKey).appendingPathComponent("\(generation)") else {return}
+            fetchGenerationWithURL(url: url, completion: { (success) in
+                if success == true {
+                    print ("Pokemon List Fully Loaded")
+                } else {
+                    print ("There was an error with the pokemon List fetch")
+                }
+            })
+            generation += 1
+        }
+    }
+        
+    func fetchGenerationWithURL(url: URL, completion: @escaping (Bool?) -> Void) {
+            let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
+                if let error = error {
+                    print("There was an error fetching the pokemonList information : \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                guard let data = data else {
+                    completion(false)
+                    return
+                }
+                guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+                    let dictionary = jsonDictionary,
+                    let allPokemon = dictionary[Keys.allPokemonArrayKey] as? [[String: Any]] else {
+                        completion(false)
+                        return
+                }
+                for dictionary in allPokemon {
+                    guard let name = dictionary[Keys.allPokemonNameKey] as? String else {
+                        completion(false)
+                        return
+                    }
+                    PokemonTeamController.shared.pokemonList.append(name)
+                    completion(true)
+                }
+            }
+        dataTask.resume()
+        }
+        
+    
+    //https://pokeapi.co/api/v2/generation/6/
+    
+    func fetchItems() {
+        guard let url = URL(string: Keys.itemBaseURLString) else {return}
+        let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                print("There was an error fetching the Items info: \(error.localizedDescription)")
+                return
+            }
+        guard let data = data else {
+            print("No Data from Fetch Items")
+            return
+        }
+        guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+            let dictionary = jsonDictionary,
+            let itemsArray = dictionary[Keys.itemsArrayKey] as? [[String: Any]] else {return}
+            for itemDictionary in itemsArray {
+                guard let item = itemDictionary[Keys.itemNameKey] as? String else {return}
+                PokemonTeamController.shared.items.append(item)
+            }
+        }
+        dataTask.resume()
+    }
+    //https://pokeapi.co/api/v2/item-attribute/holdable-active/
     
     func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){
         
         fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
             
-           
+            
             if let error = error {
                 print(" : \(error.localizedDescription)")
                 completion()
@@ -52,7 +142,7 @@ class PokemonTeamController {
                     completion()
                     return}
                 pokemonTeams.append(pokemonTeam)
-
+                
             }
             
             let group = DispatchGroup()
@@ -84,27 +174,6 @@ class PokemonTeamController {
             })
         }
         
-    }
-    
-    func updateTeam(pokemonTeam: PokemonTeam, newName: String) {
-        pokemonTeam.name = newName
-        updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
-            if success == true {
-                print ("successfully updated Team")
-            } else {
-                print ("Team was not Updated")
-            }
-        }
-    }
-    
-    func deleteTeam(pokemonTeam: PokemonTeam) {
-        guard let recordID = pokemonTeam.recordID else {return}
-        deletePokemonTeamRecord(withID: recordID) { (_, error) in
-            if let error = error {
-                print("There was an error deleting Pokemon Team: \(error.localizedDescription)")
-                return
-            }
-        }
     }
     
     // MARK: - CloudKit Func
