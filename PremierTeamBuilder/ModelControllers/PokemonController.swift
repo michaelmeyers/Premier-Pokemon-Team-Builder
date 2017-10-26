@@ -127,8 +127,8 @@ class PokemonController {
             guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchPokemonKey).appendingPathComponent(searchTerm) else {
                 completion(false)
                 return}
-            
-            fetchPokemon(withURL: url, completion: { (success) in
+            finalURL = url
+            fetchPokemon(withURL: finalURL, completion: { (success) in
                 completion(success)
             })
         }
@@ -166,20 +166,16 @@ class PokemonController {
 
 
     func fetchImageData(withURL url:URL, completion: @escaping (Data?)-> Void) {
-        
         let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
                 print("There was an error with the fetch image dataTask: \(error.localizedDescription)")
-                return completion(nil)
+                completion(nil)
             }
             completion(data)
         }
         dataTask.resume()
     }
     
-    func fetchItemData() {
-        
-    }
     
     // MARK: - Cloud Kit Functions
         

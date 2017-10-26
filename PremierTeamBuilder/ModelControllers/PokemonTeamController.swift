@@ -13,6 +13,7 @@ class PokemonTeamController {
     
     static let shared = PokemonTeamController()
     
+    var items: [String]?
     var pokemonTeams: [PokemonTeam]?
     
     // MARK: - Crud
@@ -26,6 +27,10 @@ class PokemonTeamController {
             }
         }
         PokemonTeamController.shared.pokemonTeams?.append(pokemonTeam)
+    }
+    
+    func fetchItemData() {
+        
     }
     
     func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){

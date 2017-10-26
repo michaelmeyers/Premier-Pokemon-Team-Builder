@@ -59,7 +59,7 @@ class Pokemon {
     var ivSpeed: Int
     let imageEndpoint: String
     var imageURL: URL? {
-        guard let url = URL(string: Keys.baseURLString)?.appendingPathExtension(imageEndpoint) else {return nil}
+        guard let url = URL(string: imageEndpoint) else {return nil}
         return url
     }
     var imageData: Data? 
