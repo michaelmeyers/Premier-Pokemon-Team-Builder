@@ -771,21 +771,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nature" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j8P-vk-Bok">
-                                <rect key="frame" x="198" y="122" width="161" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ability" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDi-xX-iAX">
-                                <rect key="frame" x="198" y="163" width="161" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CvF-qV-7cd">
-                                <rect key="frame" x="198" y="204" width="161" height="33"/>
+                                <rect key="frame" x="198" y="122" width="161" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -847,6 +833,32 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3o-eh-cHA" userLabel="Ability">
+                                <rect key="frame" x="198" y="187" width="161" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="abilityButtonTapped:" destination="jz2-4F-yJy" eventType="touchUpInside" id="RYj-PC-GCC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7J5-mE-RhZ" userLabel="Item">
+                                <rect key="frame" x="198" y="252" width="161" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="itemActionTapped:" destination="jz2-4F-yJy" eventType="touchUpInside" id="fa2-2L-zBe"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LXh-tV-9fo" userLabel="Item Picker View">
+                                <rect key="frame" x="198" y="285" width="161" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0bH-vQ-9Dh" userLabel="Ability Picker View">
+                                <rect key="frame" x="198" y="224" width="161" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="V8F-jW-agR"/>
@@ -860,11 +872,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="abilityLabel" destination="PDi-xX-iAX" id="oE2-0s-8az"/>
+                        <outlet property="abilityButton" destination="K3o-eh-cHA" id="qqq-gf-jfT"/>
+                        <outlet property="abilityPickerView" destination="0bH-vQ-9Dh" id="fHx-lz-TvF"/>
                         <outlet property="attackLabel" destination="Teg-BZ-hkZ" id="fPB-86-9BM"/>
                         <outlet property="defenseLabel" destination="t0O-Cr-f0G" id="oTl-iV-g4W"/>
                         <outlet property="hpLabel" destination="sCb-CL-zqs" id="viW-cZ-bIo"/>
-                        <outlet property="itemLabel" destination="CvF-qV-7cd" id="65P-CK-d7O"/>
+                        <outlet property="itemButton" destination="7J5-mE-RhZ" id="ulL-1g-oZi"/>
+                        <outlet property="itemPickerView" destination="LXh-tV-9fo" id="xuI-9Y-juv"/>
+                        <outlet property="nameLabel" destination="3FO-Zi-d5K" id="ChX-x0-T9n"/>
                         <outlet property="natureLabel" destination="j8P-vk-Bok" id="xfO-RE-YW5"/>
                         <outlet property="pokemonImageView" destination="8XA-h1-Wvh" id="w8n-hm-8AI"/>
                         <outlet property="spAtkLabel" destination="0nJ-ju-yT1" id="vNN-9G-zWY"/>
