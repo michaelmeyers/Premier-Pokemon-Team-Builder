@@ -18,6 +18,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpSaveButton()
         if let pokemonTeam = pokemonTeam {
             teamNameTextField.text = pokemonTeam.name
         }
@@ -28,14 +29,13 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     // MARK: - Actions
     
-    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+    @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let pokemonTeam = pokemonTeam else {return}
         guard let text = teamNameTextField.text, !text.isEmpty else {
-            // PRESENT ALERT
-            return
-        }
-        let pokemonTeam = PokemonTeam(name: text)
-        PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
-        navigationController?.popViewController(animated: true)
+                // PRESENT ALERT
+                return
+            }
+        PokemonTeamController.shared.updateTeam(pokemonTeam: pokemonTeam, newName: text)
     }
     
     
@@ -47,6 +47,16 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             let pokemonTeam = PokemonTeam(name: text)
             PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
         }
+    }
+    // MARK: - setUpButtonItem
+    func setUpSaveButton() {
+        let button = UIButton(type: .custom)
+        button.setTitle("Save", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: button)
+        self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
     }
 
 
@@ -131,6 +141,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             guard let pokemonSearchTVC = segue.destination as? PokemonSearchTableViewController,
                 let pokemonTeam = pokemonTeam else {return}
             pokemonSearchTVC.pokemonTeam = pokemonTeam
+            PokemonController.shared.searchResults = []
         }
     }
 

@@ -35,7 +35,9 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        setUpSaveButton()
         abilityPickerView.delegate = self
         abilityPickerView.dataSource = self
         itemPickerView.delegate = self
@@ -70,10 +72,11 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     // MARK: - Actions
     
-    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+    @objc func saveButtonTapped() {
         guard let pokemonTeam = pokemonTeam,
             let pokemon = pokemon else {return}
         PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func abilityButtonTapped(_ sender: UIButton) {
@@ -86,7 +89,16 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         itemPickerView.isHidden = false
     }
     
-    
+    // MARK: -Set up save button
+    func setUpSaveButton() {
+        let button = UIButton(type: .custom)
+        button.setTitle("Save", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: button)
+        self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
+    }
     
     // MARK: - PickerView Datasource and Delegate
     
