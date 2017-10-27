@@ -19,6 +19,7 @@ func fetchTypeDictionary(fromType type: Type) -> typeDictionary {
     case .poison: return poisonDictionary
     case .ground: return groundDictionary
     case .flying: return flyingDictionary
+    case .fighting: return fightingDictionary
     case .psychic: return psychicDictionary
     case .bug: return bugDictionary
     case .rock: return rockDictionary

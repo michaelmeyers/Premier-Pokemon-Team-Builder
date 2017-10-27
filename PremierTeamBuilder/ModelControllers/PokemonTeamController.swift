@@ -14,7 +14,7 @@ class PokemonTeamController {
     static let shared = PokemonTeamController()
     
     var pokemonList: [String] = []
-    var items: [String] = []
+    var items: [String] = ["None"]
     var pokemonTypes: [String] = typesKeyArray
     var pokemonTeams: [PokemonTeam]?
     

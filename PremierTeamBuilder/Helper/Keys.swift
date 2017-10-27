@@ -143,3 +143,8 @@ struct Keys {
     static let segueIdentifierToPokemonSearchVC = "toPokemonSearchVC"
     static let segueIdentiferToPokemonDetailVCFromSearch = "searchToPokemonDetailVC"
 }
+
+
+
+
+

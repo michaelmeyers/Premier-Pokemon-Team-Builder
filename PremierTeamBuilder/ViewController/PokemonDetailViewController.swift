@@ -46,7 +46,8 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
             guard let data = pokemon.imageData,
                 let pokeImage = UIImage(data: data) else {return}
             pokemonImageView.image = pokeImage
-            nameLabel.text = pokemon.name
+            let name = pokemon.name.uppercased()
+            nameLabel.text = name
             natureLabel.text = pokemon.nature.rawValue
 //            abilityLabel.text =  pokemon.chosenAbility
 //            itemLabel.text = pokemon.item
@@ -76,11 +77,13 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     @IBAction func abilityButtonTapped(_ sender: UIButton) {
+        abilityButton.isHidden = true
         abilityPickerView.isHidden = false
     }
     
     @IBAction func itemActionTapped(_ sender: UIButton) {
-        abilityPickerView.isHidden = false
+        itemButton.isHidden = true
+        itemPickerView.isHidden = false
     }
     
     
@@ -116,12 +119,14 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
             abilityButton.setTitle(pokemon?.abilities[row], for: .normal)
             pokemon?.chosenAbility = pokemon?.abilities[row]
             abilityPickerView.isHidden = true
+            abilityButton.isHidden = false
         }
         if pickerView == itemPickerView {
             let item = PokemonTeamController.shared.items[row]
             itemButton.setTitle(item, for: .normal)
             pokemon?.item = item
             itemPickerView.isHidden = true
+            itemButton.isHidden = false
         }
     }
     

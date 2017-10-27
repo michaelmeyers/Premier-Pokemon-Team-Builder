@@ -78,6 +78,7 @@ enum Type: String{
     case poison
     case ground
     case flying
+    case fighting
     case psychic
     case bug
     case rock
