@@ -14,12 +14,12 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: - Properties
     var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
+    var labelArray: [UILabel] = []
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var natureLabel: UILabel!
-
     @IBOutlet weak var type1Label: UILabel!
     @IBOutlet weak var type2Label: UILabel!
     @IBOutlet weak var hpLabel: UILabel!
@@ -32,12 +32,19 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var abilityPickerView: UIPickerView!
     @IBOutlet weak var itemButton: UIButton!
     @IBOutlet weak var itemPickerView: UIPickerView!
+    @IBOutlet weak var hpBarLabel: UILabel!
+    @IBOutlet weak var attackBarLabel: UILabel!
+    @IBOutlet weak var defenseBarLabel: UILabel!
+    @IBOutlet weak var spAttackBarLabel: UILabel!
+    @IBOutlet weak var spDefenseBarLabel: UILabel!
+    @IBOutlet weak var speedBarLabel: UILabel!
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         
         super.viewDidLoad()
         setUpSaveButton()
+        barLabelSetup()
         abilityPickerView.delegate = self
         abilityPickerView.dataSource = self
         itemPickerView.delegate = self
@@ -51,21 +58,12 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
             let name = pokemon.name.uppercased()
             nameLabel.text = name
             natureLabel.text = pokemon.nature.rawValue
-//            abilityLabel.text =  pokemon.chosenAbility
-//            itemLabel.text = pokemon.item
-            type1Label.text = pokemon.type1.rawValue
+            changeLabelToTypeLabel(label: type1Label, type: pokemon.type1)
             if let type2 = pokemon.type2 {
-                type2Label.text = type2.rawValue
+                changeLabelToTypeLabel(label: type2Label, type: type2)
             } else {
                 type2Label.isHidden = true
             }
-            hpLabel.text = "\(String(describing: pokemon.hpStat))"
-            attackLabel.text = "\(String(describing: pokemon.attackStat))"
-            defenseLabel.text = "\(String(describing: pokemon.defenseStat))"
-            spAtkLabel.text = "\(String(describing: pokemon.spAttackStat))"
-            spDefLabel.text = "\(String(describing: pokemon.spDefenseStat))"
-            speedLabel.text = "\(String(describing: pokemon.speedStat))"
-            
         }
     }
 
@@ -76,6 +74,15 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         guard let pokemonTeam = pokemonTeam,
             let pokemon = pokemon else {return}
         PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
+        guard let record = pokemonTeam.ckRecord else {return}
+        PokemonTeamController.shared.savePokemonTeamRecord(record: record) { (success) in
+            if success == true {
+                print ("Team Saved")
+            } else {
+                print("Team Was NOT Saved")
+            }
+        }
+        navigationController?.popViewController(animated: true)
         navigationController?.popViewController(animated: true)
     }
     
@@ -89,7 +96,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         itemPickerView.isHidden = false
     }
     
-    // MARK: -Set up save button
+    // MARK: -View Setup
     func setUpSaveButton() {
         let button = UIButton(type: .custom)
         button.setTitle("Save", for: .normal)
@@ -98,6 +105,50 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         let item = UIBarButtonItem(customView: button)
         self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
+    }
+    
+    func barLabelSetup(){
+        guard let pokemon = pokemon else {return}
+        let hpLabel = createLabel(int: pokemon.hpStat)
+        let attackLabel = createLabel(int: pokemon.attackStat)
+        let defenseLabel = createLabel(int: pokemon.defenseStat)
+        let spAttackLabel = createLabel(int: pokemon.spAttackStat)
+        let spDefenseLabel = createLabel(int: pokemon.spDefenseStat)
+        let speedLabel = createLabel(int: pokemon.speedStat)
+        
+        for label in labelArray {
+            configureColor(label: label)
+        }
+        self.hpLabel = hpLabel
+        self.attackLabel = attackLabel
+        self.defenseLabel = defenseLabel
+        self.spAtkLabel = spAttackLabel
+        self.spDefLabel = spDefenseLabel
+        self.speedLabel = speedLabel
+    }
+    
+    func createLabel(int: Int) -> UILabel {
+        let cgFloat = CGFloat(int)
+        let cgRect = CGRect(x: 0, y: 0, width: cgFloat, height: 20.5)
+        let label = UILabel(frame: cgRect)
+        label.text = ""
+        labelArray.append(label)
+        return label
+    }
+    
+    func configureColor(label: UILabel){
+        switch label.frame.width {
+        case ..<40.0: label.backgroundColor = UIColor.maroon
+        case ..<50.0: label.backgroundColor = UIColor.red
+        case ..<60.0: label.backgroundColor = UIColor.redOrange
+        case ..<70.0: label.backgroundColor = UIColor.orange
+        case ..<80.0: label.backgroundColor = UIColor.orangeYellow
+        case ..<90.0: label.backgroundColor = UIColor.brightYellow
+        case ..<100.0: label.backgroundColor = UIColor.yellowGreen
+        case ..<120.0: label.backgroundColor = UIColor.greenYellow
+        case ..<150.0: label.backgroundColor = UIColor.greenish
+        default: label.backgroundColor = UIColor.greenBlue
+        }
     }
     
     // MARK: - PickerView Datasource and Delegate

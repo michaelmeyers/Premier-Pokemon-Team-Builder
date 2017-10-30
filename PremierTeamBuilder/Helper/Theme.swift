@@ -207,4 +207,30 @@ extension UIColor {
     static var grassBorder: UIColor {
         return UIColor(red: 67.0/255.0, green: 122.0/255.0, blue: 41.0/255.0, alpha: 1.0)
     }
+    
+    // MARK: - BarGraph Colors
+    static var maroon: UIColor {
+        return UIColor(red: 197.0/255.0, green: 3.0/255.0, blue: 58.0/255.0, alpha: 1.0)
+    }
+    static var redOrange: UIColor {
+        return UIColor(red: 236.0/255.0, green: 130.0/255.0, blue: 60.0/255.0, alpha: 1.0)
+    }
+    static var orangeYellow: UIColor {
+        return UIColor(red: 243.0/255.0, green: 184.0/255.0, blue: 60.0/255.0, alpha: 1.0)
+    }
+    static var brightYellow: UIColor {
+        return UIColor(red: 234.0/255.0, green: 244.0/255.0, blue: 42.0/255.0, alpha: 1.0)
+    }
+    static var yellowGreen: UIColor {
+        return UIColor(red: 152.0/255.0, green: 237.0/255.0, blue: 57.0/255.0, alpha: 1.0)
+    }
+    static var greenYellow: UIColor {
+        return UIColor(red: 76.0/255.0, green: 255.0/255.0, blue: 100.0/255.0, alpha: 1.0)
+    }
+    static var greenish: UIColor {
+        return UIColor(red: 22.0/255.0, green: 242.0/255.0, blue: 150.0/255.0, alpha: 1.0)
+    }
+    static var greenBlue: UIColor {
+        return UIColor(red: 80.0/255.0, green: 227.0/255.0, blue: 194.0/255.0, alpha: 1.0)
+    }
 }

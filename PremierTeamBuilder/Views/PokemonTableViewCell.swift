@@ -38,9 +38,9 @@ class PokemonTableViewCell: UITableViewCell {
         let pokemonImage = UIImage(data: data)
         pokemonImageView.image = pokemonImage
         pokemonNameLabel.text = pokemon.name
-        pokemonType1Label.text = "\(pokemon.type1)"
+        changeLabelToTypeLabel(label: pokemonType1Label, type: pokemon.type1)
         if let type2 = pokemon.type2 {
-            pokemonType2Label.text = "\(type2)"
+            changeLabelToTypeLabel(label: pokemonType2Label, type: type2)
         } else {
             pokemonType2Label.isHidden = true
         }

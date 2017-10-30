@@ -149,17 +149,15 @@ class PokemonTeamController {
             let group = DispatchGroup()
             for pokemonTeam in pokemonTeams {
                 group.enter()
-                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, error) in
+                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error)  in
                     if let error = error {
                         print("There was an error fetching the pokemonRecords: \(error.localizedDescription)")
                         group.leave()
                         return
                     }
-                    guard let records = records,
-                        let recordID = pokemonTeam.recordID else {
+                    guard let records = records else {
                             group.leave()
                             return}
-                    let reference = CKReference(recordID: recordID, action: .deleteSelf)
                     for record in records {
                         guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
                             group.leave()

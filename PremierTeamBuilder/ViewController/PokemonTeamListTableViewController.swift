@@ -31,7 +31,7 @@ class PokemonTeamListTableViewController: UITableViewController {
             }
         }
         }
-        if PokemonTeamController.shared.items.count == 0 {
+        if PokemonTeamController.shared.items.count == 1 {
         PokemonTeamController.shared.fetchItems { (success) in
             if success == true {
                 print ("Item List Fully Loaded")

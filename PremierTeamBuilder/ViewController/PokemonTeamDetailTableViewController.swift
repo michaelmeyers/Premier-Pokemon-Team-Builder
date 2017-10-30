@@ -25,6 +25,21 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         teamNameTextField.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+        if let pokemonTeam = pokemonTeam {
+            PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error) in
+                if let error = error {
+                    print("There was an error fethcing Pokemon Data for CloudKit: \(error.localizedDescription)")
+                    return
+                }
+                PokemonController.shared.loadPokemon(fromRecords: records, pokemonTeamRef: reference, completion: { (pokemons) in
+                    guard let sixPokemon = pokemons else {return}
+                    pokemonTeam.sixPokemon = sixPokemon
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                })
+            })
+        }
     }
     
     // MARK: - Actions

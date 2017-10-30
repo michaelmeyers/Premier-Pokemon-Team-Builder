@@ -17,7 +17,6 @@ class PokemonController {
     var searchResults: [Pokemon] = []
     
     // MARK: - CRUD
-    
     func createPokemonObject(fromSearchTerm searchTerm: String, completion: @escaping () -> Void) {
         fetchSearchResults(fromSearchTerm: searchTerm) { (success) in
             if success == true {
@@ -64,6 +63,21 @@ class PokemonController {
                 print("Saving your Pokemon Failed")
             }
         }
+    }
+    
+    func loadPokemon(fromRecords records: [CKRecord]?, pokemonTeamRef: CKReference, completion: ([Pokemon]?) -> Void) {
+        var pokemonArray: [Pokemon] = []
+        guard let records = records else {
+            print("No records from pokemon fetch")
+            completion(nil)
+            return}
+        for record in records {
+            guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef) else {
+                completion(nil)
+                return}
+            pokemonArray.append(pokemon)
+        }
+        completion(pokemonArray)
     }
     
     func updatePokemon(pokemon: Pokemon) {
@@ -134,8 +148,7 @@ class PokemonController {
         }
     }
 
-    func fetchPokemon(withURL url: URL, completion: @escaping (Bool)->Void) {
-        var searchResults: [Pokemon] = []
+    func fetchPokemon(withURL url: URL, completion: @escaping (Bool) -> Void) {
         let dataTask = URLSession.shared.dataTask(with: url){ (data, _, error) in
             if let error = error {
                 print("There was an error fetching Pokemon data: \(error.localizedDescription)")
@@ -156,8 +169,7 @@ class PokemonController {
                     return
                 }
                 pokemon.imageData = data
-                searchResults.append(pokemon)
-                PokemonController.shared.searchResults = searchResults
+                PokemonController.shared.searchResults.append(pokemon)
                 completion(true)
             })
         }
@@ -178,15 +190,16 @@ class PokemonController {
     
     
     // MARK: - Cloud Kit Functions
-        
     let privateDatabase = CKContainer.default().privateCloudDatabase
         
-    func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, completion: @escaping ([CKRecord]?, Error?) -> Void) {
+    func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, completion: @escaping ([CKRecord]?, CKReference, Error?) -> Void) {
         
         let reference = CKReference(recordID: pokemonTeam.recordID!, action: .deleteSelf)
         let predicate = NSPredicate(format: "%K == %@", Keys.ckReferenceKey,  reference)
         let query = CKQuery(recordType: Keys.ckPokemonRecordType, predicate: predicate)
-        privateDatabase.perform(query, inZoneWith: nil, completionHandler: completion)
+        privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            completion(records, reference, error)
+        }
     }
     
     func savePokemonRecord(record: CKRecord, completion: @escaping (Bool) -> Void) {
@@ -210,9 +223,12 @@ class PokemonController {
             completion(success)
             return
         }
-        savePokemonRecord(record: record) { (success) in
-            completion(success)
-        }
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.savePolicy = .changedKeys
+        operation.queuePriority = .high
+        operation.qualityOfService = .userInteractive
+        privateDatabase.add(operation)
+        completion(success)
     }
     
     func deletePokemonRecord(withID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
