@@ -13,7 +13,7 @@ class PokemonTeamController {
     
     static let shared = PokemonTeamController()
     
-    var pokemonList: [String] = []
+    var pokemonList: [String: URL] = [:]
     var items: [String] = ["None"]
     var pokemonTypes: [String] = typesKeyArray
     var pokemonTeams: [PokemonTeam]?
@@ -54,19 +54,9 @@ class PokemonTeamController {
     }
     
     // MARK: - API Methods
-    
-    func fetchListOfAllPokemon(completion: @escaping (Bool?) -> Void) {
-        var generation = 1
-        for _ in 1...6 {
-            guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.generationKey).appendingPathComponent("\(generation)") else {return}
-            fetchGenerationWithURL(url: url, completion: { (success) in
-                completion(success)
-            })
-            generation += 1
-        }
-    }
         
-    func fetchGenerationWithURL(url: URL, completion: @escaping (Bool?) -> Void) {
+    func fetchListOfAllPokemon(completion: @escaping (Bool?) -> Void) {
+        guard let url = URL(string: Keys.allPokemonBaseURL) else {return}
             let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
                 if let error = error {
                     print("There was an error fetching the pokemonList information : \(error.localizedDescription)")
@@ -79,16 +69,24 @@ class PokemonTeamController {
                 }
                 guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                     let dictionary = jsonDictionary,
-                    let allPokemon = dictionary[Keys.allPokemonArrayKey] as? [[String: Any]] else {
+                    let resultsArray = dictionary[Keys.allPokemonArrayKey] as? [[String: Any]] else {
                         completion(false)
                         return
                 }
-                for dictionary in allPokemon {
+                for dictionary in resultsArray {
                     guard let name = dictionary[Keys.allPokemonNameKey] as? String else {
                         completion(false)
                         return
                     }
-                    PokemonTeamController.shared.pokemonList.append(name)
+                    guard let urlString = dictionary[Keys.allPokemonURLKey] as? String else {
+                        completion(false)
+                        return
+                    }
+                    guard let url = URL(string: urlString) else {
+                        completion(false)
+                        return
+                    }
+                    self.pokemonList[name] = url
                 }
                 completion(true)
             }

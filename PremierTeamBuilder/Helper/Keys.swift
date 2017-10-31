@@ -13,9 +13,11 @@ struct Keys {
     // Search Keys
     static let baseURLString = "https://pokeapi.co/api/v2"
     static let itemBaseURLString = "https://pokeapi.co/api/v2/item-attribute/holdable-active"
+    static let allPokemonBaseURL = "https://pokeapi.co/api/v2/pokemon/?limit=1000"
+    static let allPokemonURLKey = "url"
     static let searchTypeKey = "type"
     static let searchPokemonKey = "pokemon"
-    static let allPokemonArrayKey = "pokemon_species"
+    static let allPokemonArrayKey = "results"
     static let allPokemonNameKey = "name"
     static let generationKey = "generation"
     static let itemsArrayKey = "items"
