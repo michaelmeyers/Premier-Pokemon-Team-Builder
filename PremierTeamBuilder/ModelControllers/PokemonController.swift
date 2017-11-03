@@ -138,9 +138,7 @@ class PokemonController {
             }
             dataTask.resume()
         } else {
-            guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchPokemonKey).appendingPathComponent(searchTerm) else {
-                completion(false)
-                return}
+            guard let url = PokemonTeamController.shared.pokemonList[searchTerm] else {return}
             finalURL = url
             fetchPokemon(withURL: finalURL, completion: { (success) in
                 completion(success)

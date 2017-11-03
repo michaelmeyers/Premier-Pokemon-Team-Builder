@@ -10,6 +10,11 @@ import Foundation
 
 struct Keys {
     
+    // Move Keys
+    static let specialKey = "special"
+    static let statusKey = "status"
+    static let physicalKey = "physical"
+    
     // Search Keys
     static let baseURLString = "https://pokeapi.co/api/v2"
     static let itemBaseURLString = "https://pokeapi.co/api/v2/item-attribute/holdable-active"
@@ -140,10 +145,16 @@ struct Keys {
     static let defaultPokemonCellIdentifier = "defaultCell"
     static let searchResultsCellIdentifier = "searchResultsCell"
     static let moveCellIdentifier = "moveCell"
+    static let teamWeaknessHeaderIdentifier = "headerCell"
+    static let teamWeaknessTypeIdentifier = "weaknessTypeCell"
     static let pokemonTeamListTableViewSegueIdentifier = "toPokemonTeamTVC"
     static let pokemonTeamDetailSegueIdentifier = "toPokemonDetailVC"
     static let segueIdentifierToPokemonSearchVC = "toPokemonSearchVC"
     static let segueIdentiferToPokemonDetailVCFromSearch = "searchToPokemonDetailVC"
+    static let segueIdentifierMove1ToMovesTVC = "move1ToMovesTVC"
+    static let segueIdentifierMove2ToMovesTVC = "move2ToMovesTVC"
+    static let segueIdentifierMove3ToMovesTVC = "move3ToMovesTVC"
+    static let segueIdentifierMove4ToMovesTVC = "move4ToMovesTVC"
 }
 
 

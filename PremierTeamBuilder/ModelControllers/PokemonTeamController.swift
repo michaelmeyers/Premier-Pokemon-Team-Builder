@@ -17,6 +17,10 @@ class PokemonTeamController {
     var items: [String] = ["None"]
     var pokemonTypes: [String] = typesKeyArray
     var pokemonTeams: [PokemonTeam]?
+    var allSearchableItems: [String] {
+        let items: [String] = pokemonTypes + pokemonList.keys
+        return items
+    }
     
     
     // MARK: - Crud

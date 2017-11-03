@@ -110,9 +110,11 @@ class PokemonTeamListTableViewController: UITableViewController {
         guard segue.identifier == Keys.pokemonTeamListTableViewSegueIdentifier,
         let tabBarController = segue.destination as? UITabBarController,
             let pokemonTeamDetailVC = tabBarController.childViewControllers.first as? PokemonTeamDetailTableViewController,
+            let teamWeaknessVC = tabBarController.childViewControllers[1] as? TeamWeaknessViewController,
             let indexPath = tableView.indexPathForSelectedRow else {return}
         let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[indexPath.row]
         pokemonTeamDetailVC.pokemonTeam = pokemonTeam
+        teamWeaknessVC.pokemonTeam = pokemonTeam
     }
     
     // MARK: - Alert Controller

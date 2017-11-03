@@ -146,11 +146,13 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         if segue.identifier == Keys.pokemonTeamDetailSegueIdentifier {
             guard let tabBarController = segue.destination as? UITabBarController,
                 let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
+                let pokemonStatsVC = tabBarController.childViewControllers[1] as? PokemonStatsViewController,
                 let pokemonTeam = pokemonTeam,
                 let indexPath = tableView.indexPathForSelectedRow,
                 let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {return}
             pokemonDetailVC.pokemon = pokemon
             pokemonDetailVC.pokemonTeam = pokemonTeam
+            pokemonStatsVC.pokemon = pokemon
         }
         if segue.identifier == Keys.segueIdentifierToPokemonSearchVC {
             guard let pokemonSearchTVC = segue.destination as? PokemonSearchTableViewController,

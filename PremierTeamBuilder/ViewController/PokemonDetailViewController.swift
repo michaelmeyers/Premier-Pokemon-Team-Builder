@@ -11,6 +11,8 @@ import CloudKit
 
 class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    //TODO: Review Code and fix to make sure it follows proper MVC
+    
     // MARK: - Properties
     var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
@@ -193,15 +195,13 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == Keys.segueIdentifierMove1ToMovesTVC || segue.identifier == Keys.segueIdentifierMove2ToMovesTVC || segue.identifier == Keys.segueIdentifierMove3ToMovesTVC || segue.identifier == Keys.segueIdentifierMove4ToMovesTVC,
+        let movesTVC = segue.destination as? MovesListTableViewController,
+        let pokemon = pokemon else {return}
+        movesTVC.pokemon = pokemon
     }
-    */
-
 }

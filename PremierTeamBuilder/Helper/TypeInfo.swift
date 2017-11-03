@@ -41,7 +41,7 @@ enum Role{
 }
 
 enum Nature: String{
-    case attack
+    case adamant
     case bashful
     case bold
     case brave

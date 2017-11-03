@@ -57,7 +57,7 @@ func changeStringToType(string: String) ->Type? {
 
 func changeStringToNature(string: String) -> Nature? {
     switch string {
-    case Nature.attack.rawValue: return Nature.attack
+    case Nature.adamant.rawValue: return Nature.adamant
     case Nature.bashful.rawValue: return Nature.bashful
     case Nature.bold.rawValue: return Nature.bold
     case Nature.brave.rawValue: return Nature.brave

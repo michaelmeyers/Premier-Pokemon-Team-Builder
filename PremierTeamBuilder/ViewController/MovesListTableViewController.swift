@@ -8,16 +8,28 @@
 
 import UIKit
 
-class MovesListTableViewController: UITableViewController {
+class MovesListTableViewController: UITableViewController, MoveTableViewCellDelegate {
 
+    // MARK: - Properties
+    var pokemon: Pokemon?
+    var moves: [Move] = []
+    var cellMove: Move?
+    
+    // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if let pokemon = pokemon {
+            let movesStrings = pokemon.moves
+            for moveString in movesStrings {
+                MoveController.shared.createMove(fromSearchTerm: moveString, completion: { (move) in
+                    guard let move = move else {return}
+                    self.moves.append(move)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                })
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,25 +39,20 @@ class MovesListTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return moves.count
     }
 
-    /*
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.moveCellIdentifier, for: indexPath) as? MoveTableViewCell else {return UITableViewCell()}
+        let move = moves[indexPath.row]
+        cell.move = move
+        cell.updateCell()
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -91,5 +98,22 @@ class MovesListTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - MoveTableViewCell Delegate
+    func moveTVCInfoButtonTapped(_ cell: MoveTableViewCell) {
+        guard let move = cell.move else {return}
+        cellMove = move
+        infoAlert()
+    }
+    
+    // MARK: - Alert Controller
+    func infoAlert() {
+        guard let move = cellMove else {return}
+        let alertController = UIAlertController(title: move.name, message: move.description, preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 
 }
