@@ -48,6 +48,7 @@ class MoveTableViewCell: UITableViewCell {
         guard let move = move else {return}
         nameLabel.text = move.name
         changeLabelToTypeLabel(label: typeLabel, type: move.type)
+        typeLabel.font = UIFont(name: "ArialRoundedMTBold", size: 10)
         configuringImageIcon(imageView: catagoryImageView)
         powerTextLabel.text = "Power"
         accuracyTextLabel.text = "Accuracy"
@@ -72,7 +73,7 @@ class MoveTableViewCell: UITableViewCell {
     
     func configureInfoButton() {
         infoButton.backgroundColor = UIColor.blue
-        infoButton.setTitle("?", for: .normal)
+        infoButton.setTitle("i", for: .normal)
         infoButton.setTitleColor(.white, for: .normal)
         infoButton.layer.cornerRadius = (infoButton.frame.height/2)
     }

@@ -35,7 +35,8 @@ class Move {
         guard let namesArray = dicitionary[Keys.namesArrayKey] as? [[String: Any]],
             
             let typeDictionary = dicitionary[Keys.moveTypeDictionaryKey] as? [String: Any],
-            let type = typeDictionary[Keys.moveTypeKey] as? Type,
+            let typeString = typeDictionary[Keys.moveTypeKey] as? String,
+            let type = changeStringToType(string: typeString),
             let catagoryDictionary = dicitionary[Keys.catagoryDictionaryKey] as? [String: Any],
             let catagory = catagoryDictionary[Keys.catagoryNameKey] as? String,
             let power = dicitionary[Keys.movePowerKey] as? Int,

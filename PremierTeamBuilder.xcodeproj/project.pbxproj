@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9209430C1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209430B1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift */; };
 		9209430E1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209430D1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift */; };
-		920943101FA0EA300090ACB2 /* PokemonSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209430F1FA0EA300090ACB2 /* PokemonSearchTableViewController.swift */; };
 		920943121FA0EA490090ACB2 /* PokemonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */; };
 		920943141FA0EA6C0090ACB2 /* PokemonStatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */; };
 		920943161FA0EA830090ACB2 /* MovesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */; };
@@ -23,6 +22,7 @@
 		923B11DC1F980788005E8A44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 923B11DA1F980788005E8A44 /* LaunchScreen.storyboard */; };
 		923B11E61F9807F1005E8A44 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923B11E51F9807F1005E8A44 /* Keys.swift */; };
 		923B11E81F980A62005E8A44 /* TypeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923B11E71F980A62005E8A44 /* TypeInfo.swift */; };
+		924E37781FAE74DD00D7D4FE /* PokemonSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924E37771FAE74DD00D7D4FE /* PokemonSearchViewController.swift */; };
 		926571C71F9EA82B006DDF4C /* PokemonTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926571C61F9EA82B006DDF4C /* PokemonTeam.swift */; };
 		926571C91F9EA998006DDF4C /* PokemonTeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926571C81F9EA998006DDF4C /* PokemonTeamController.swift */; };
 		926A08451F9FA0BB0075C1E5 /* Pokemon+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926A08441F9FA0BB0075C1E5 /* Pokemon+CloudKit.swift */; };
@@ -44,7 +44,6 @@
 /* Begin PBXFileReference section */
 		9209430B1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamDetailTableViewController.swift; sourceTree = "<group>"; };
 		9209430D1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamWeaknessViewController.swift; sourceTree = "<group>"; };
-		9209430F1FA0EA300090ACB2 /* PokemonSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSearchTableViewController.swift; sourceTree = "<group>"; };
 		920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewController.swift; sourceTree = "<group>"; };
 		920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonStatsViewController.swift; sourceTree = "<group>"; };
 		920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovesListTableViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 		923B11DD1F980788005E8A44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		923B11E51F9807F1005E8A44 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		923B11E71F980A62005E8A44 /* TypeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeInfo.swift; sourceTree = "<group>"; };
+		924E37771FAE74DD00D7D4FE /* PokemonSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSearchViewController.swift; sourceTree = "<group>"; };
 		926571C61F9EA82B006DDF4C /* PokemonTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeam.swift; sourceTree = "<group>"; };
 		926571C81F9EA998006DDF4C /* PokemonTeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamController.swift; sourceTree = "<group>"; };
 		926571CA1F9EB99E006DDF4C /* PremierTeamBuilder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PremierTeamBuilder.entitlements; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 				92B2D07C1FA046F4005C0044 /* PokemonTeamListTableViewController.swift */,
 				9209430B1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift */,
 				9209430D1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift */,
-				9209430F1FA0EA300090ACB2 /* PokemonSearchTableViewController.swift */,
+				924E37771FAE74DD00D7D4FE /* PokemonSearchViewController.swift */,
 				920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */,
 				920943131FA0EA6C0090ACB2 /* PokemonStatsViewController.swift */,
 				920943151FA0EA830090ACB2 /* MovesListTableViewController.swift */,
@@ -295,8 +295,8 @@
 				9209430C1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift in Sources */,
 				926A08451F9FA0BB0075C1E5 /* Pokemon+CloudKit.swift in Sources */,
 				920943161FA0EA830090ACB2 /* MovesListTableViewController.swift in Sources */,
+				924E37781FAE74DD00D7D4FE /* PokemonSearchViewController.swift in Sources */,
 				926A08471F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift in Sources */,
-				920943101FA0EA300090ACB2 /* PokemonSearchTableViewController.swift in Sources */,
 				92F98FCF1F9E54AB003CA08C /* Helper Functions.swift in Sources */,
 				9209430E1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift in Sources */,
 				9209431C1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift in Sources */,

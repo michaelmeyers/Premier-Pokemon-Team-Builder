@@ -111,17 +111,18 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     }
     */
 
-    /*
+
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            guard let pokemon = pokemonTeam?.sixPokemon[indexPath.row] else {return}
+            PokemonController.shared.deletePokemon(pokemon: pokemon)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.
@@ -155,9 +156,9 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             pokemonStatsVC.pokemon = pokemon
         }
         if segue.identifier == Keys.segueIdentifierToPokemonSearchVC {
-            guard let pokemonSearchTVC = segue.destination as? PokemonSearchTableViewController,
+            guard let pokemonSearchVC = segue.destination as? PokemonSearchViewController,
                 let pokemonTeam = pokemonTeam else {return}
-            pokemonSearchTVC.pokemonTeam = pokemonTeam
+            pokemonSearchVC.pokemonTeam = pokemonTeam
             PokemonController.shared.searchResults = []
         }
     }

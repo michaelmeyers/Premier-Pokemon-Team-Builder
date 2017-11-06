@@ -18,6 +18,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let pokemon = pokemon {
             let movesStrings = pokemon.moves
             for moveString in movesStrings {
@@ -49,6 +50,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.moveCellIdentifier, for: indexPath) as? MoveTableViewCell else {return UITableViewCell()}
         let move = moves[indexPath.row]
         cell.move = move
+        cell.delegate = self
         cell.updateCell()
         return cell
     }

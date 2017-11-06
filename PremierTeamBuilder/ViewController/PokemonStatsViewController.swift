@@ -55,13 +55,13 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let pokemon = pokemon {
-            setUpSlider(slider: hpSlider, evTextField: evHPTextField, pokemon: pokemon)
-            setUpSlider(slider: attackSlider, evTextField: evAttackTextField, pokemon: pokemon)
-            setUpSlider(slider: defenseSlider, evTextField: evDefenseTextField, pokemon: pokemon)
-            setUpSlider(slider: spAttSlider, evTextField: evSpAttTextField, pokemon: pokemon)
-            setUpSlider(slider: spDefSlider, evTextField: evSpDefTextField, pokemon: pokemon)
-            setUpSlider(slider: speedSlider, evTextField: evSpeedTextField, pokemon: pokemon)
+        if pokemon != nil {
+            setUpSlider(slider: hpSlider, evTextField: evHPTextField)
+            setUpSlider(slider: attackSlider, evTextField: evAttackTextField)
+            setUpSlider(slider: defenseSlider, evTextField: evDefenseTextField)
+            setUpSlider(slider: spAttSlider, evTextField: evSpAttTextField)
+            setUpSlider(slider: spDefSlider, evTextField: evSpDefTextField)
+            setUpSlider(slider: speedSlider, evTextField: evSpeedTextField)
         }
         hpStatTotal = hpTotalCalculation()
         attackStatTotal = attTotalCalculation()
@@ -85,14 +85,14 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate {
     
     
     // MARK: - UI Setup
-    func setUpSlider(slider: UISlider, evTextField: UITextField, pokemon: Pokemon) {
+    func setUpSlider(slider: UISlider, evTextField: UITextField) {
         slider.maximumValue = 252
         slider.minimumValue = 0
         evTextField.delegate = self
-        textFieldShouldReturn(evTextField, slider: slider, pokemon: pokemon)
+        textFieldShouldReturn(evTextField, slider: slider)
     }
     
-    func textFieldShouldReturn(_ textField: UITextField, slider: UISlider, pokemon: Pokemon) {
+    func textFieldShouldReturn(_ textField: UITextField, slider: UISlider) {
         guard let text = textField.text, !text.isEmpty,
             let textFloat = Float(text) else {return}
         slider.value = textFloat

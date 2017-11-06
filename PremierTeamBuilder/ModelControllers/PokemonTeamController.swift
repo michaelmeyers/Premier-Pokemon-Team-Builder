@@ -207,9 +207,12 @@ class PokemonTeamController {
             completion(success)
             return
         }
-        savePokemonTeamRecord(record: record) { (success) in
-            completion(success)
-        }
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.savePolicy = .changedKeys
+        operation.queuePriority = .high
+        operation.qualityOfService = .userInteractive
+        privateDatabase.add(operation)
+        completion(success)
     }
     
     func deletePokemonTeamRecord(withID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {

@@ -204,7 +204,7 @@ class PokemonController {
         privateDatabase.save(record) { (_, error) in
             var success: Bool = true
             if let error = error {
-                print("There was an error saving Pokemon Team: \(error.localizedDescription)")
+                print("There was an error saving Pokemon: \(error.localizedDescription)")
                 success = false
                 completion(success)
                 return
