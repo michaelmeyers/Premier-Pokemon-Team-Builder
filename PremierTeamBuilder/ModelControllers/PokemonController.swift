@@ -53,7 +53,8 @@ class PokemonController {
         let speedStat = pokemonObject.speedStat
         let imageEndpoint = pokemonObject.imageEndpoint
         
-        guard let imageData = pokemonObject.imageData else {return}
+        let imageData = pokemonObject.imageData
+        
         let pokemon = Pokemon(name: name, moveIDs: moveIDs, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
         pokemonTeam.sixPokemon.append(pokemon)
         pokemon.pokemonTeamRef = pokemonTeamRef
@@ -173,20 +174,19 @@ class PokemonController {
             guard let data = data,
                 let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any],
                 let dictionary = jsonDictionary,
-                let pokemon = Pokemon(dictionary: dictionary),
-                let imageURL = pokemon.imageURL else {
+                let pokemon = Pokemon(dictionary: dictionary) else {
                     completion(false)
                     return
             }
+            if let imageURL = pokemon.imageURL {
             self.fetchImageData(withURL: imageURL, completion: { (data) in
-                guard let data = data else {
-                    completion(false)
-                    return
+                if let data = data {
+                    pokemon.imageData = data
                 }
-                pokemon.imageData = data
-                PokemonController.shared.searchResults.append(pokemon)
-                completion(true)
             })
+            }
+            PokemonController.shared.searchResults.append(pokemon)
+            completion(true)
         }
         dataTask.resume()
     }

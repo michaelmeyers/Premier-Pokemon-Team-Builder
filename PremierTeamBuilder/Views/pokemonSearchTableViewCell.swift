@@ -31,9 +31,14 @@ class pokemonSearchTableViewCell: UITableViewCell {
     }
     
     func updateCell() {
-        guard let pokemon = pokemon,
-            let data = pokemon.imageData else {return}
-        let image = UIImage(data: data)
+        guard let pokemon = pokemon else {return}
+        var image: UIImage
+        if let data = pokemon.imageData {
+            guard let imageFromData = UIImage(data: data) else {return}
+            image = imageFromData
+        } else {
+            image = #imageLiteral(resourceName: "defaultPokemonImage")
+        }
         pokemonImageView.image = image
         pokemonNameLabel.text = pokemon.name
         changeLabelToTypeLabel(label: pokemonType1Label, type: pokemon.type1)

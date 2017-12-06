@@ -34,7 +34,7 @@ class PokemonTableViewCell: UITableViewCell {
     func updatePokemonCell() {
         
         guard let pokemon = pokemon else {return}
-        
+        pokemonImageView.image = #imageLiteral(resourceName: "defaultPokemonImage")
         if let data = pokemon.imageData {
             let pokemonImage = UIImage(data: data)
             pokemonImageView.image = pokemonImage

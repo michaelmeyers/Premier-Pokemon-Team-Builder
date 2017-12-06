@@ -126,8 +126,11 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         abilityPickerView.isHidden = true
         itemPickerView.isHidden = true
         
-        guard let data = pokemon.imageData,
-            let pokeImage = UIImage(data: data) else {return}
+        var pokeImage = #imageLiteral(resourceName: "defaultPokemonImage")
+        if let data = pokemon.imageData {
+            guard let image = UIImage(data: data) else {return}
+            pokeImage = image
+        }
         pokemonImageView.image = pokeImage
         let name = pokemon.name.uppercased()
         nameLabel.text = name

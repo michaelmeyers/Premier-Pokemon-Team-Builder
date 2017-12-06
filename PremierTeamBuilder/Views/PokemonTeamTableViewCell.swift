@@ -45,10 +45,13 @@ class PokemonTeamTableViewCell: UITableViewCell {
         var count = 0
         
         while count < sixPokemon.count {
-            guard let pokemon = sixPokemon[count],
-            let data = pokemon.imageData else {return}
-            let image = UIImage(data: data)
-            pokemonImages[count].image = image
+            guard let pokemon = sixPokemon[count] else {return}
+            if let data = pokemon.imageData {
+                let image = UIImage(data: data)
+                pokemonImages[count].image = image
+            } else {
+                pokemonImages[count].image = #imageLiteral(resourceName: "defaultPokemonImage")
+            }
             count += 1
         }
     }

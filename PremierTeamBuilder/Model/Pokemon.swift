@@ -57,16 +57,17 @@ class Pokemon: Equatable {
     var ivSpecialAttack: Int
     var ivSpecialDefense: Int
     var ivSpeed: Int
-    let imageEndpoint: String
+    let imageEndpoint: String?
     var imageURL: URL? {
-        guard let url = URL(string: imageEndpoint) else {return nil}
+        guard let imageEndpoint = imageEndpoint,
+        let url = URL(string: imageEndpoint) else {return nil}
         return url
     }
     var imageData: Data? 
     var recordID: CKRecordID?
     var moves: [Move]?
     
-    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moveIDs: [Int], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 31, ivAttack: Int = 31, ivDefense: Int = 31, ivSpecialDefense: Int = 31, ivSpecialAttack: Int = 31, ivSpeed: Int = 31, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int, imageData: Data? = nil, imageEndpoint: String ) {
+    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moveIDs: [Int], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 31, ivAttack: Int = 31, ivDefense: Int = 31, ivSpecialDefense: Int = 31, ivSpecialAttack: Int = 31, ivSpeed: Int = 31, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int, imageData: Data? = nil, imageEndpoint: String? ) {
         self.name = name
         self.item = item
         self.nature = nature
@@ -142,7 +143,7 @@ class Pokemon: Equatable {
             abilities.append(ability)
         }
         
-        guard let imageEndpoint = spritesDictionary[Keys.spriteKey] as? String else {return nil}
+        let imageEndpoint = spritesDictionary[Keys.spriteKey] as? String
         
         let statDictionary = statsArray[Keys.speedStatKeyInt]
         guard let speedStat = statDictionary[Keys.baseStatKey] as? Int else {return nil}

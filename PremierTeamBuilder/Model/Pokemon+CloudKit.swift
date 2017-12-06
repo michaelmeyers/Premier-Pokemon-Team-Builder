@@ -38,12 +38,11 @@ extension Pokemon {
             let spAttackStat = ckRecord[Keys.ckSpAtkStat] as? Int,
             let spDefenseStat = ckRecord[Keys.ckSpDefStat] as? Int,
             let speedStat = ckRecord[Keys.ckSpeedStat] as? Int,
-            let imageEndpoint = ckRecord[Keys.ckPokemonImageEndpoint] as? String,
             let imageData = ckRecord[Keys.ckPokemonImageData] as? Data? else {
                 return nil
         }
         
-        
+        let imageEndpoint = ckRecord[Keys.ckPokemonImageEndpoint] as? String
         let recordID = ckRecord.recordID
         let type2String = ckRecord[Keys.ckPokemonType2Key] as? String
         var type2: Type?
@@ -100,8 +99,10 @@ extension Pokemon {
         pokemonRecord[Keys.ckSpAtkStat] = spAttackStat as CKRecordValue
         pokemonRecord[Keys.ckSpDefStat] = spDefenseStat as CKRecordValue
         pokemonRecord[Keys.ckSpeedStat] = speedStat as CKRecordValue
-        pokemonRecord[Keys.ckPokemonImageEndpoint] = imageEndpoint as CKRecordValue
         
+        if let imageEndpoint = imageEndpoint {
+            pokemonRecord[Keys.ckPokemonImageEndpoint] = imageEndpoint as CKRecordValue
+        }
         if let imageData = imageData{
             pokemonRecord[Keys.ckPokemonImageData] = imageData as CKRecordValue
         }
