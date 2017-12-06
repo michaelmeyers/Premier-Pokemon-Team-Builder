@@ -36,6 +36,9 @@ class PokemonTeamTableViewCell: UITableViewCell {
     }
     
     func updatePokemonTeamCell() {
+        for imageView in pokemonImages {
+            imageView.image = UIImage()
+        }
         
         guard let pokemonTeam = pokemonTeam else {return}
         let sixPokemon = pokemonTeam.sixPokemon

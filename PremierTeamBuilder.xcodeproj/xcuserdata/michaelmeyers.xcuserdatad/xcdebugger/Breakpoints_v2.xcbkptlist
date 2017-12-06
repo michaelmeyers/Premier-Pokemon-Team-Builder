@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534287807.181675"
+            timestampString = "534289441.590107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "169"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534287807.182176"
+            timestampString = "534289441.590621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "174"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ViewController/PokemonSearchViewController.swift"
-            timestampString = "534287807.182286"
+            timestampString = "534289441.590716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "57"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534287807.182628"
+            timestampString = "534289441.591016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534287807.182725"
+            timestampString = "534289441.591098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -90,7 +90,7 @@
                   moduleName = "PremierTeamBuilder"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonController.swift"
-                  timestampString = "534287147.60868"
+                  timestampString = "534289441.829265"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "21"
@@ -105,7 +105,7 @@
                   moduleName = "PremierTeamBuilder"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonController.swift"
-                  timestampString = "534287147.61142"
+                  timestampString = "534289441.836471"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "22"
@@ -113,6 +113,70 @@
                   offsetFromSymbolStart = "29">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/PokemonTeamDetailTableViewController.swift"
+            timestampString = "534289043.816592"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "tableView(_:commit:forRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/PokemonTeamDetailTableViewController.swift"
+            timestampString = "534289045.133232"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "tableView(_:commit:forRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/PokemonTeamListTableViewController.swift"
+            timestampString = "534289441.591249"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/Views/PokemonTeamTableViewCell.swift"
+            timestampString = "534289441.59154"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "updatePokemonTeamCell()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
