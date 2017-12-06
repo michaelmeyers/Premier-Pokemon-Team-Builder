@@ -182,11 +182,14 @@ class PokemonController {
             self.fetchImageData(withURL: imageURL, completion: { (data) in
                 if let data = data {
                     pokemon.imageData = data
+                    PokemonController.shared.searchResults.append(pokemon)
+                    completion(true)
                 }
             })
+            } else {
+                PokemonController.shared.searchResults.append(pokemon)
+                completion(true)
             }
-            PokemonController.shared.searchResults.append(pokemon)
-            completion(true)
         }
         dataTask.resume()
     }

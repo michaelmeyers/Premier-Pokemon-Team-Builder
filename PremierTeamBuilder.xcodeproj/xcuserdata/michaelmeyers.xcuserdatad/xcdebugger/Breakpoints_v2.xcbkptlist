@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534282521.49711"
+            timestampString = "534287807.181675"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "169"
@@ -26,44 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534282521.497615"
+            timestampString = "534287807.182176"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "fetchImageData(withURL:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534282521.497719"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "createPokemonObject(fromSearchTerm:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534282521.4978"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "createPokemonObject(fromSearchTerm:completion:)"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "fetchPokemon(withURL:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,44 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ViewController/PokemonSearchViewController.swift"
-            timestampString = "534282521.497879"
+            timestampString = "534287807.182286"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/Views/pokemonSearchTableViewCell.swift"
-            timestampString = "534282521.49822"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "updateCell()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ViewController/PokemonDetailViewController.swift"
-            timestampString = "534282521.498528"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "saveButtonTapped()"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "searchBarSearchButtonClicked(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,13 +58,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534282521.498816"
+            timestampString = "534287807.182628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "createPokemon(onTeam:fromPokemonObject:)"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "createPokemonObject(fromSearchTerm:completion:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
+            timestampString = "534287807.182725"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "createPokemonObject(fromSearchTerm:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PremierTeamBuilder.PokemonController.createPokemonObject(fromSearchTerm: Swift.String, completion: () -&gt; ()) -&gt; ()"
+                  moduleName = "PremierTeamBuilder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonController.swift"
+                  timestampString = "534287147.60868"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "34">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool) -&gt; () in PremierTeamBuilder.PokemonController.createPokemonObject(fromSearchTerm: Swift.String, completion: () -&gt; ()) -&gt; ()"
+                  moduleName = "PremierTeamBuilder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonController.swift"
+                  timestampString = "534287147.61142"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "29">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
