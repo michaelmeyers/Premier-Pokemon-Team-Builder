@@ -62,7 +62,7 @@ func changeLabelToTypeLabel(label: UILabel, type: Type) {
         label.layer.borderColor = UIColor.normalBorder.cgColor
         label.layer.backgroundColor = UIColor.normal.cgColor
     case .poison:
-        label.layer.borderColor = UIColor.poison.cgColor
+        label.layer.borderColor = UIColor.poisonBorder.cgColor
         label.layer.backgroundColor = UIColor.poison.cgColor
     case .psychic:
         label.layer.borderColor = UIColor.psychicBorder.cgColor

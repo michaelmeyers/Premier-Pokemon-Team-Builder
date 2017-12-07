@@ -38,13 +38,20 @@ class PokemonTeamTableViewCell: UITableViewCell {
     func updatePokemonTeamCell() {
         for imageView in pokemonImages {
             imageView.image = UIImage()
+            imageView.isHidden = false
         }
         
         guard let pokemonTeam = pokemonTeam else {return}
         let sixPokemon = pokemonTeam.sixPokemon
         teamNameLabel.text = pokemonTeam.name
         
-        guard sixPokemon.count != 0 else {return}
+        guard sixPokemon.count != 0 else {
+            for imageView in pokemonImages {
+                imageView.isHidden = true
+            }
+            return
+        }
+        
         var count = 0
         
         while count < sixPokemon.count {
