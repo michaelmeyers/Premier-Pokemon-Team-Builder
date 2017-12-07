@@ -682,6 +682,7 @@
                                 <rect key="frame" x="58" y="307" width="202" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
+                                    <action selector="sliderValueChanged:" destination="4zV-ny-UaT" eventType="valueChanged" id="Bfn-jM-fVh"/>
                                     <action selector="updateSlider:" destination="4zV-ny-UaT" eventType="valueChanged" id="pgR-YW-fRl"/>
                                 </connections>
                             </slider>
@@ -731,6 +732,7 @@
                                 <rect key="frame" x="59" y="377" width="202" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
+                                    <action selector="sliderValueChanged:" destination="4zV-ny-UaT" eventType="valueChanged" id="ApF-RH-Agl"/>
                                     <action selector="updateSlider:" destination="4zV-ny-UaT" eventType="valueChanged" id="zZ8-ml-LCB"/>
                                 </connections>
                             </slider>
@@ -780,6 +782,7 @@
                                 <rect key="frame" x="59" y="447" width="202" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
+                                    <action selector="sliderValueChanged:" destination="4zV-ny-UaT" eventType="valueChanged" id="sVF-Oa-H45"/>
                                     <action selector="updateSlider:" destination="4zV-ny-UaT" eventType="valueChanged" id="1PL-ZE-ghz"/>
                                 </connections>
                             </slider>
@@ -829,6 +832,7 @@
                                 <rect key="frame" x="59" y="517" width="202" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
+                                    <action selector="sliderValueChanged:" destination="4zV-ny-UaT" eventType="valueChanged" id="xaf-Kw-DOX"/>
                                     <action selector="updateSlider:" destination="4zV-ny-UaT" eventType="valueChanged" id="p9z-3R-ibn"/>
                                 </connections>
                             </slider>
@@ -878,6 +882,7 @@
                                 <rect key="frame" x="59" y="587" width="202" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
+                                    <action selector="sliderValueChanged:" destination="4zV-ny-UaT" eventType="valueChanged" id="c0t-Ga-spz"/>
                                     <action selector="updateSlider:" destination="4zV-ny-UaT" eventType="valueChanged" id="Ez6-c5-T0e"/>
                                 </connections>
                             </slider>
@@ -927,6 +932,7 @@
                                 <rect key="frame" x="58" y="237" width="202" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
+                                    <action selector="sliderValueChanged:" destination="4zV-ny-UaT" eventType="valueChanged" id="wKB-rO-ePd"/>
                                     <action selector="updateSlider:" destination="4zV-ny-UaT" eventType="valueChanged" id="59K-qS-nHu"/>
                                 </connections>
                             </slider>
