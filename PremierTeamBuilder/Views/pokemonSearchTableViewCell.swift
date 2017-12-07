@@ -31,6 +31,7 @@ class pokemonSearchTableViewCell: UITableViewCell {
     }
     
     func updateCell() {
+        pokemonType2Label.isHidden = false
         guard let pokemon = pokemon else {return}
         var image: UIImage
         if let data = pokemon.imageData {

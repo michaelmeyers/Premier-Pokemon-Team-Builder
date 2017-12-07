@@ -53,6 +53,7 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         searchBar.resignFirstResponder()
         guard let searchTerm = searchBar.text?.lowercased(), !searchTerm.isEmpty else {return}
         PokemonController.shared.createPokemonObject(fromSearchTerm: searchTerm) {
+            print("Reload TableView")
             DispatchQueue.main.async {
                 self.resultsTableView.reloadData()
             }
@@ -91,6 +92,7 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         if tableView == resultsTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.searchResultsCellIdentifier, for: indexPath) as? pokemonSearchTableViewCell else {return UITableViewCell()}
             let pokemon = PokemonController.shared.searchResults[indexPath.row]
+
             cell.pokemon = pokemon
             cell.updateCell()
             return cell

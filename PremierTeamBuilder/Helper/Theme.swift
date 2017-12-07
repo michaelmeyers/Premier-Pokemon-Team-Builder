@@ -19,6 +19,8 @@ func changeLabelToTypeLabel(label: UILabel, type: Type) {
     label.text = type.rawValue.uppercased()
     label.textAlignment = .center
     label.layer.cornerRadius = label.frame.height/2.5
+    label.adjustsFontSizeToFitWidth = true
+    label.minimumScaleFactor = 0.5
     switch type {
     case .bug:
         label.layer.borderColor = UIColor.bugBorder.cgColor

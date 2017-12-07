@@ -118,7 +118,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     func setUpView(pokemon: Pokemon) {
         setUpSaveButton()
         setStatLabels(pokemon: pokemon)
-        barGraphSetup()
+        barGraphSetup(pokemon: pokemon)
         abilityPickerView.delegate = self
         abilityPickerView.dataSource = self
         itemPickerView.delegate = self
@@ -153,8 +153,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
     }
     
-    func barGraphSetup(){
-        guard let pokemon = pokemon else {return}
+    func barGraphSetup(pokemon: Pokemon){
         configureProgressView(progressView: hpProgressView, stat: pokemon.hpStat, maxValue: maxHPValue)
         configureProgressView(progressView: attackProgressView, stat: pokemon.attackStat, maxValue: maxValue)
         configureProgressView(progressView: defenseProgressView, stat: pokemon.defenseStat, maxValue: maxValue)
