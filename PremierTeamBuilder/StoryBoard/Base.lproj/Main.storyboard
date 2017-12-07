@@ -1271,9 +1271,11 @@
                         <outlet property="speedStatLabel" destination="0tx-Xv-JFI" id="TgF-cM-tdN"/>
                         <outlet property="type1Label" destination="BGH-sb-UKD" id="dTl-GD-hwc"/>
                         <outlet property="type2Label" destination="iJy-bX-dek" id="eeQ-Zf-Wdc"/>
+                        <segue destination="cSw-YG-UXa" kind="unwind" identifier="unwindToPokemonTeamDetailVC" unwindAction="unwindToPokemonTeamDetailVCWithSegue:" id="02T-uw-R9B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFU-J1-q2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="cSw-YG-UXa" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4213.6000000000004" y="784.85757121439292"/>
         </scene>

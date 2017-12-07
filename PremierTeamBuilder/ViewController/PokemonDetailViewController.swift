@@ -86,8 +86,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
                         print("Team Was NOT Saved")
                     }
             }
-            navigationController?.popViewController(animated: true)
-            navigationController?.popViewController(animated: true)
+            performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
             return
         }
         
