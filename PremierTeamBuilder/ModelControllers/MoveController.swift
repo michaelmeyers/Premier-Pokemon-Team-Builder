@@ -7,19 +7,22 @@
 //
 
 import Foundation
+import CoreData
 
 class MoveController {
     
     static let shared = MoveController()
     
-    var moves: [Move] = []
+    var moves: [Move] {
+        return loadPokemonMoves()
+    }
     
     func createMove(fromSearchTerm searchTerm:String, completion: @escaping(Move?) -> Void) {
         fetchMoveData(fromSearchTerm: searchTerm) { (data) in
             guard let data = data,
-            let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-                completion(nil)
-                return}
+                let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                    completion(nil)
+                    return}
             guard let dictionary = jsonDictionary else {
                 print("Nothing in the JsonDictionary for fetching move data")
                 completion(nil)
@@ -28,20 +31,21 @@ class MoveController {
             completion(move)
         }
     }
-   
+    
     func loadMovesFromJSONFile() {
         guard let moveDataURL = Bundle.main.url(forResource: "moveData", withExtension: "json"),
-        
-        let data = try? Data(contentsOf: moveDataURL),
-        
-        let jsonDictionary =  (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else {return}
+            
+            let data = try? Data(contentsOf: moveDataURL),
+            
+            let jsonDictionary =  (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else {return}
         var moves: [Move] = []
         for dictionary in jsonDictionary {
             guard let move = Move(dictionary: dictionary) else {return}
             moves.append(move)
         }
-        moves = moves.sorted { $0.id < $1.id }
-        self.moves = moves
+        saveToPersistentStore()
+//        moves = moves.sorted { $0.id < $1.id }
+//        self.moves = moves
     }
     
     func createMoveJSON(fromSearchTerm searchTerm:String, completion: @escaping([String: Any]) -> Void) {
@@ -81,6 +85,18 @@ class MoveController {
             try moc.save()
         } catch let error {
             print("Problem Saving to Persistent Store: \(error)")
+        }
+    }
+    
+    func loadPokemonMoves() -> [Move] {
+        let moc = CoreDataStack.context
+        let fetchRequest: NSFetchRequest<Move> = Move.fetchRequest()
+        do {
+            var fetchedMoves = try moc.fetch(fetchRequest)
+            fetchedMoves = fetchedMoves.sorted(by: {$0.id < $1.id} )
+            return fetchedMoves
+        } catch {
+            fatalError("Failed to fetch employees: \(error)")
         }
     }
 }

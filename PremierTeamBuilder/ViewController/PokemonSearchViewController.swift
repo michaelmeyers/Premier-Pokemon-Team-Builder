@@ -12,12 +12,11 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     
     // MARK: - Properties
     var pokemonTeam: PokemonTeam?
-    var searchTerms: [String]?
     var currentTask: URLSessionTask?
+    var sortedPokemon: [Pokemon] = []
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonSearchBar: UISearchBar!
-    @IBOutlet weak var searchTermTableView: UITableView!
     @IBOutlet weak var resultsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -26,13 +25,11 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegates()
-        searchTerms = PokemonTeamController.shared.allSearchableItems
+        sortedPokemon = PokemonController.shared.allPokemon
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        searchTermTableView.isHidden = true
-        resultsTableView.isHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -47,42 +44,43 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     // MARK: - Setup View
     func setDelegates() {
         pokemonSearchBar.delegate = self
-        searchTermTableView.delegate = self
-        searchTermTableView.dataSource = self
-        searchTermTableView.isHidden = true
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
     }
     
     // MARK: - SearchBarDelegate Methods
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        PokemonController.shared.searchResults = []
-        searchTermTableView.isHidden = true
-        resultsTableView.isHidden = false
-        searchBar.resignFirstResponder()
-        guard let searchTerm = searchBar.text?.lowercased(), !searchTerm.isEmpty else {return}
-        PokemonController.shared.createPokemonObject(fromSearchTerm: searchTerm) {
-            print("Reload TableView")
-            DispatchQueue.main.async {
-                self.resultsTableView.reloadData()
-            }
-        }
-    }
+    //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    //        //PokemonController.shared.searchResults = []
+    //        searchBar.resignFirstResponder()
+    //        guard let searchTerm = searchBar.text?.lowercased(), !searchTerm.isEmpty else {return}
+    //        PokemonController.shared.createPokemonObject(fromSearchTerm: searchTerm) {
+    //            print("Reload TableView")
+    //            DispatchQueue.main.async {
+    //                self.resultsTableView.reloadData()
+    //            }
+    //        }
+    //    }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        resultsTableView.isHidden = true
-        searchTermTableView.isHidden = false
+        //Want to reset it "" i think
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let allPokemon = PokemonController.shared.allPokemon
         if searchText.isEmpty {
-            searchTerms = PokemonTeamController.shared.allSearchableItems
-            searchTermTableView.reloadData()
+            
+            // All Pokemon are viewed on Table View
+            sortedPokemon = allPokemon
+        } else if typesKeyArray.contains(searchText.lowercased())  {
+            
+            // Allows the user to search pokemon list by type
+            sortedPokemon = allPokemon.filter({ $0.type1String == searchText.lowercased() || $0.type2String == searchText.lowercased() })
         } else {
-            searchTerms = searchTerms?.filter {
-                return $0.lowercased().range(of: searchText.lowercased()) != nil}
-            searchTermTableView.reloadData()
+            
+            // Allows user to sort pokemon list by name
+            sortedPokemon = allPokemon.filter { $0.name.lowercased().range(of: searchText.lowercased()) != nil}
         }
+        resultsTableView.reloadData()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -90,36 +88,26 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == resultsTableView {
-            return PokemonController.shared.searchResults.count
-        } else {
-            return searchTerms?.count ?? 0
-        }
+        return sortedPokemon.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == resultsTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.searchResultsCellIdentifier, for: indexPath) as? pokemonSearchTableViewCell else {return UITableViewCell()}
-            let pokemon = PokemonController.shared.searchResults[indexPath.row]
-
+            let pokemon = sortedPokemon[indexPath.row]
+            
             cell.pokemon = pokemon
             cell.updateCell()
             return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Keys.searchTermCellIdentifier, for: indexPath)
-            cell.textLabel?.text = searchTerms?[indexPath.row]
-            return cell
-        }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == searchTermTableView {
-            guard tableView == searchTermTableView else {return}
-            let searchTerm = searchTerms?[indexPath.row]
-            pokemonSearchBar.text = searchTerm
-            searchBarSearchButtonClicked(pokemonSearchBar)
-        }
-    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        if tableView == searchTermTableView {
+    //            guard tableView == searchTermTableView else {return}
+    //            let searchTerm = searchTerms?[indexPath.row]
+    //            pokemonSearchBar.text = searchTerm
+    //            searchBarSearchButtonClicked(pokemonSearchBar)
+    //        }
+    //    }
     
     
     
@@ -129,9 +117,7 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
      // Return false if you do not want the specified item to be editable.
      return true
      }
-     */
-    
-    /*
+
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
      if editingStyle == .delete {
@@ -141,16 +127,12 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
      }
      }
-     */
-    
-    /*
+
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
      
      }
-     */
-    
-    /*
+
      // Override to support conditional rearranging of the table view.
      override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the item to be re-orderable.
@@ -169,10 +151,8 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
             let indexPath = resultsTableView.indexPathForSelectedRow else {
                 return
         }
-        let pokemon = PokemonController.shared.searchResults[indexPath.row]
+        let pokemon = PokemonController.shared.allPokemon[indexPath.row]
         pokemonDetailVC.pokemonTeam = pokemonTeam
         pokemonDetailVC.pokemonObject = pokemon
     }
-    
-    
 }

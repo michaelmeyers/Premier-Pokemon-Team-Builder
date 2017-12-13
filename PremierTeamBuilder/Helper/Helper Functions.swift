@@ -88,7 +88,7 @@ func changeStringToNature(string: String) -> Nature? {
     return nil
     }
 }
-    
+
 func changeNatureEnumToArray() -> [Nature] {
     var array: [Nature] = []
     array.append(.adamant)

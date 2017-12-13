@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 
 protocol CloudKitSyncable {
-        
+    
     var recordID: CKRecordID? { get }
     var recordType: String { get }
 }

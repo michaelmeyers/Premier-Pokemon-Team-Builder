@@ -9,7 +9,7 @@
 import UIKit
 
 class DefaultPokemonTableViewCell: UITableViewCell {
-
+    
     // MARK: - Properties
     
     // MARK: - Outlets
@@ -25,11 +25,11 @@ class DefaultPokemonTableViewCell: UITableViewCell {
         defaultNameLabel.text = "Click to add Pokemon"
         defaultTypeLabel.text = "???"
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }

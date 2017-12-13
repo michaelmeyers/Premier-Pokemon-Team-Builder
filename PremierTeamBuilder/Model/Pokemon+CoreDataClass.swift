@@ -21,7 +21,7 @@ public class Pokemon: NSManagedObject {
     }
     
     var type1: Type? {
-        return Type(rawValue: type1String)  // THIS SHOULD NOT BE OPTIONAL
+        return Type(rawValue: type1String)
     }
     
     var type2: Type? {
@@ -69,9 +69,10 @@ public class Pokemon: NSManagedObject {
         }
     }
     
-    convenience init(name: String, item: String = "None", natureString: String = Nature.gentle.rawValue, moveIDsData: Data, type1String: String, type2String: String?, abilitiesData: Data, role: String = "None", evHP: Int64 = 0, evAttack: Int64 = 0, evDefense: Int64 = 0, evSpecialDefense: Int64 = 0, evSpecialAttack: Int64 = 0, evSpeed: Int64 = 0, ivHP: Int64 = 31, ivAttack: Int64 = 31, ivDefense: Int64 = 31, ivSpecialDefense: Int64 = 31, ivSpecialAttack: Int64 = 31, ivSpeed: Int64 = 31, hpStat: Int64, attackStat: Int64, defenseStat: Int64, spAttackStat: Int64, spDefenseStat: Int64, speedStat: Int64, imageData: Data? = nil, imageEndpoint: String?, context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init(name: String, id: Int64, item: String = "None", natureString: String = Nature.gentle.rawValue, moveIDsData: Data, type1String: String, type2String: String?, abilitiesData: Data, role: String = "None", evHP: Int64 = 0, evAttack: Int64 = 0, evDefense: Int64 = 0, evSpecialDefense: Int64 = 0, evSpecialAttack: Int64 = 0, evSpeed: Int64 = 0, ivHP: Int64 = 31, ivAttack: Int64 = 31, ivDefense: Int64 = 31, ivSpecialDefense: Int64 = 31, ivSpecialAttack: Int64 = 31, ivSpeed: Int64 = 31, hpStat: Int64, attackStat: Int64, defenseStat: Int64, spAttackStat: Int64, spDefenseStat: Int64, speedStat: Int64, imageData: Data? = nil, imageEndpoint: String?, context: NSManagedObjectContext = CoreDataStack.context) {
         self.init(context: context)
         self.name = name
+        self.id = id
         self.item = item
         self.natureString = natureString
         self.moveIDsData = moveIDsData as NSData
@@ -103,6 +104,7 @@ public class Pokemon: NSManagedObject {
     
     convenience init?(dictionary: [String: Any]) {
         guard let name = dictionary[Keys.pokemonNameKey] as? String,
+            let id = dictionary[Keys.pokemonIDKey] as? Int64,
             let movesArray = dictionary[Keys.movesArrayKey] as? [[String: Any]],
             let typesArray = dictionary[Keys.typesArrayKey] as? [[String: Any]],
             let abilitiesArray = dictionary[Keys.pokemonAbilitiesKey] as? [[String:Any]],
@@ -161,6 +163,6 @@ public class Pokemon: NSManagedObject {
         let hpStatDictionary = statsArray[Keys.hpStatKeyInt]
         guard let hpStat = hpStatDictionary[Keys.baseStatKey] as? Int64 else {return nil}
         
-        self.init(name: name, moveIDsData: moveIDsData, type1String: type1String, type2String: type2String, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
+        self.init(name: name, id: id, moveIDsData: moveIDsData, type1String: type1String, type2String: type2String, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
     }
 }

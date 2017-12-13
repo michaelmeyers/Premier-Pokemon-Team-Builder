@@ -23,14 +23,14 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
             guard let pokemon = pokemon else {return}
             if pokemon.moveIDs.count != 0 {
                 let moveIDs = pokemon.moveIDs
-            let moves = MoveController.shared.moves
-            var pokemonMoves: [Move] = []
-            for id in moveIDs {
-                pokemonMoves.append(moves[Int(id) - 1])
-            }
-            let sortedMoves = pokemonMoves.sorted { $0.name < $1.name }
-            pokemon.moves = NSOrderedSet(array: sortedMoves)
-            return
+                let moves = MoveController.shared.moves
+                var pokemonMoves: [Move] = []
+                for id in moveIDs {
+                    pokemonMoves.append(moves[Int(id) - 1])
+                }
+                let sortedMoves = pokemonMoves.sorted { $0.name < $1.name }
+                pokemon.moves = NSOrderedSet(array: sortedMoves)
+                return
             }
         }
     }

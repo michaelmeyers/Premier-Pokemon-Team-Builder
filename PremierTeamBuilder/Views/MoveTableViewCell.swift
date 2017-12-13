@@ -31,10 +31,10 @@ class MoveTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configureInfoButton()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -46,7 +46,7 @@ class MoveTableViewCell: UITableViewCell {
     // MARK: - Cell Configuration
     func updateCell() {
         guard let move = move,
-        let type = move.type else {return}
+            let type = move.type else {return}
         nameLabel.text = move.name
         changeLabelToTypeLabel(label: typeLabel, type: type)
         typeLabel.font = UIFont(name: "ArialRoundedMTBold", size: 10)

@@ -71,7 +71,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         super.viewWillAppear(animated)
         updateMoveButtons()
     }
-
+    
     // MARK: - Actions
     
     @objc func saveButtonTapped() {
@@ -80,11 +80,11 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
             guard let pokemon = pokemonObject else {return}
             PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
             PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
-                    if success == true {
-                        print ("Team Saved")
-                    } else {
-                        print("Team Was NOT Saved")
-                    }
+                if success == true {
+                    print ("Team Saved")
+                } else {
+                    print("Team Was NOT Saved")
+                }
             }
             performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
             return
@@ -92,11 +92,11 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         
         PokemonController.shared.updatePokemon(pokemon: pokemon)
         PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
-                if success == true {
-                    print ("Team Saved")
-                } else {
-                    print("Team Was NOT Saved")
-                }
+            if success == true {
+                print ("Team Saved")
+            } else {
+                print("Team Was NOT Saved")
+            }
         }
         navigationController?.popViewController(animated: true)
         navigationController?.popViewController(animated: true)
@@ -272,11 +272,11 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     // MARK: - Methods
-
-
+    
+    
     
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var buttonPressed: String = ""
         if segue.identifier == Keys.segueIdentifierMove1ToMovesTVC {

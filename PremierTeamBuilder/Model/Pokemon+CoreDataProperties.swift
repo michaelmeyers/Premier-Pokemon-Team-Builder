@@ -2,7 +2,7 @@
 //  Pokemon+CoreDataProperties.swift
 //  PremierTeamBuilder
 //
-//  Created by Michael Meyers on 12/7/17.
+//  Created by Michael Meyers on 12/13/17.
 //  Copyright © 2017 Michael Meyers. All rights reserved.
 //
 //
@@ -43,6 +43,7 @@ extension Pokemon {
     @NSManaged public var move4: String?
     @NSManaged public var moveIDsData: NSData
     @NSManaged public var name: String
+    @NSManaged public var natureString: String
     @NSManaged public var pokemonTeamRefString: String?
     @NSManaged public var recordIDString: String?
     @NSManaged public var role: String
@@ -51,8 +52,9 @@ extension Pokemon {
     @NSManaged public var speedStat: Int64
     @NSManaged public var type1String: String
     @NSManaged public var type2String: String?
-    @NSManaged public var natureString: String
+    @NSManaged public var id: Int64
     @NSManaged public var moves: NSOrderedSet?
+    @NSManaged public var pokemonTeam: NSSet?
 
 }
 
@@ -88,5 +90,22 @@ extension Pokemon {
 
     @objc(removeMoves:)
     @NSManaged public func removeFromMoves(_ values: NSOrderedSet)
+
+}
+
+// MARK: Generated accessors for pokemonTeam
+extension Pokemon {
+
+    @objc(addPokemonTeamObject:)
+    @NSManaged public func addToPokemonTeam(_ value: PokemonTeam)
+
+    @objc(removePokemonTeamObject:)
+    @NSManaged public func removeFromPokemonTeam(_ value: PokemonTeam)
+
+    @objc(addPokemonTeam:)
+    @NSManaged public func addToPokemonTeam(_ values: NSSet)
+
+    @objc(removePokemonTeam:)
+    @NSManaged public func removeFromPokemonTeam(_ values: NSSet)
 
 }

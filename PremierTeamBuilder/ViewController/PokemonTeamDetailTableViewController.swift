@@ -18,28 +18,22 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpSaveButton()
-        if let pokemonTeam = pokemonTeam {
-            teamNameTextField.text = pokemonTeam.name
-        }
-        teamNameTextField.delegate = self
-        tableView.delegate = self
-        tableView.dataSource = self
-        if let pokemonTeam = pokemonTeam {
-            PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error) in
-                if let error = error {
-                    print("There was an error fethcing Pokemon Data for CloudKit: \(error.localizedDescription)")
-                    return
-                }
-                PokemonController.shared.loadPokemon(fromRecords: records, pokemonTeamRef: reference, completion: { (pokemons) in
-                    guard let sixPokemon = pokemons else {return}
-                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                })
-            })
-        }
+        setUpUI()
+//        if let pokemonTeam = pokemonTeam {
+//            PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error) in
+//                if let error = error {
+//                    print("There was an error fethcing Pokemon Data for CloudKit: \(error.localizedDescription)")
+//                    return
+//                }
+//                PokemonController.shared.loadPokemon(fromRecords: records, pokemonTeamRef: reference, completion: { (pokemons) in
+//                    guard let sixPokemon = pokemons else {return}
+//                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                    }
+//                })
+//            })
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +64,21 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
         }
     }
-    // MARK: - setUpButtonItem
+    // MARK: - setUpUI
+    func setUpUI() {
+        setDelegates()
+        setUpSaveButton()
+        if let pokemonTeam = pokemonTeam {
+            teamNameTextField.text = pokemonTeam.name
+        }
+    }
+    
+    func setDelegates() {
+        teamNameTextField.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
     func setUpSaveButton() {
         let button = UIButton(type: .custom)
         button.setTitle("Save", for: .normal)
@@ -129,8 +137,8 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
                 return
             }
             guard let pokemonTeam = pokemonTeam,
-            let sixPokemon = pokemonTeam.sixPokemon,
-            let pokemon = sixPokemon.object(at: indexPath.row) as? Pokemon else {return}
+                let sixPokemon = pokemonTeam.sixPokemon,
+                let pokemon = sixPokemon.object(at: indexPath.row) as? Pokemon else {return}
             //let newIndexPath = IndexPath(row: 5, section: 0)
             PokemonController.shared.deletePokemon(pokemon: pokemon, fromTeam: pokemonTeam)
             tableView.reloadData()
@@ -145,9 +153,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
      
      }
-     */
-    
-    /*
+
      // Override to support conditional rearranging of the table view.
      override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the item to be re-orderable.
@@ -176,9 +182,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             guard let pokemonSearchVC = segue.destination as? PokemonSearchViewController,
                 let pokemonTeam = pokemonTeam else {return}
             pokemonSearchVC.pokemonTeam = pokemonTeam
-            PokemonController.shared.searchResults = []
+            //PokemonController.shared.allPokemon = []
         }
     }
-    
-    
 }

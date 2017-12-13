@@ -28,10 +28,10 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -44,9 +44,9 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         var extremelyEffectiveTotal: Int = 0
         
         typeLabel.text = typeKey
-
+        
         guard let pokemonTeam = pokemonTeam,
-        let sixPokemon = pokemonTeam.sixPokemon?.array as? [Pokemon] else {return}
+            let sixPokemon = pokemonTeam.sixPokemon?.array as? [Pokemon] else {return}
         for pokemon in sixPokemon {
             guard let value = pokemon.weaknessDictionary?[typeKey] else {return}
             if value == 0 {

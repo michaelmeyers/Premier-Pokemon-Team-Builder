@@ -23,15 +23,15 @@ class PokemonTeamTableViewCell: UITableViewCell {
     @IBOutlet weak var pokemon6ImageView: UIImageView!
     @IBOutlet var pokemonImages: [UIImageView]!
     
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -42,7 +42,7 @@ class PokemonTeamTableViewCell: UITableViewCell {
         }
         
         guard let pokemonTeam = pokemonTeam,
-        let sixPokemon = pokemonTeam.sixPokemon else {return}
+            let sixPokemon = pokemonTeam.sixPokemon else {return}
         
         teamNameLabel.text = pokemonTeam.name
         

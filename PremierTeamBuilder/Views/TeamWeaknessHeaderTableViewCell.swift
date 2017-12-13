@@ -26,10 +26,10 @@ class TeamWeaknessHeaderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -49,5 +49,5 @@ class TeamWeaknessHeaderTableViewCell: UITableViewCell {
         fourLabel.text = "4"
         fourthLabel.textAlignment = .center
     }
-
+    
 }

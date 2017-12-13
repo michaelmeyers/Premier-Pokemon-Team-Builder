@@ -22,10 +22,10 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isScrollEnabled = false
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,22 +44,22 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
             //guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.teamWeaknessTypeIdentifier, for: indexPath) as? TeamWeaknessTypeTableViewCell,
-            let pokemonTeam = pokemonTeam else {return UITableViewCell()}
+                let pokemonTeam = pokemonTeam else {return UITableViewCell()}
             let typeKey = typesKeyArray[indexPath.row - 1]
             cell.pokemonTeam = pokemonTeam
             cell.updateCell(withTypeKey: typeKey)
             return cell
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

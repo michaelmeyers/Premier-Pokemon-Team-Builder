@@ -23,10 +23,10 @@ class PokemonTeamController {
     }
     
     
-    var allSearchableItems: [String] {
-        let items: [String] = pokemonTypes + pokemonList.keys
-        return items
-    }
+//    var allSearchableItems: [String] {
+//        let items: [String] = pokemonTypes + pokemonList.keys
+//        return items
+//    }
     
     
     // MARK: - Crud
@@ -126,56 +126,56 @@ class PokemonTeamController {
     }
     //https://pokeapi.co/api/v2/item-attribute/holdable-active/
     
-    func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){
-        
-        fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
-            
-            
-            if let error = error {
-                print(" : \(error.localizedDescription)")
-                completion()
-                return
-            }
-            guard let records = records else {
-                completion()
-                return}
-            var pokemonTeams: [PokemonTeam] = []
-            for record in records{
-                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
-                    completion()
-                    return}
-                pokemonTeams.append(pokemonTeam)
-            }
-            
-            let group = DispatchGroup()
-            for pokemonTeam in pokemonTeams {
-                group.enter()
-                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error)  in
-                    if let error = error {
-                        print("There was an error fetching the pokemonRecords: \(error.localizedDescription)")
-                        group.leave()
-                        return
-                    }
-                    var sixPokemon: [Pokemon] = []
-                    guard let records = records else {
-                        group.leave()
-                        return}
-                    for record in records {
-                        guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
-                            group.leave()
-                            return}
-                        sixPokemon.append(pokemon)
-                    }
-                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
-                    group.leave()
-                })
-            }
-            group.notify(queue: DispatchQueue.main, execute: {
-                completion()
-            })
-        }
-        
-    }
+    //    func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){
+    //
+    //        fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
+    //
+    //
+    //            if let error = error {
+    //                print(" : \(error.localizedDescription)")
+    //                completion()
+    //                return
+    //            }
+    //            guard let records = records else {
+    //                completion()
+    //                return}
+    //            var pokemonTeams: [PokemonTeam] = []
+    //            for record in records{
+    //                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
+    //                    completion()
+    //                    return}
+    //                pokemonTeams.append(pokemonTeam)
+    //            }
+    //
+    //            let group = DispatchGroup()
+    //            for pokemonTeam in pokemonTeams {
+    //                group.enter()
+    //                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error)  in
+    //                    if let error = error {
+    //                        print("There was an error fetching the pokemonRecords: \(error.localizedDescription)")
+    //                        group.leave()
+    //                        return
+    //                    }
+    //                    var sixPokemon: [Pokemon] = []
+    //                    guard let records = records else {
+    //                        group.leave()
+    //                        return}
+    //                    for record in records {
+    //                        guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
+    //                            group.leave()
+    //                            return}
+    //                        sixPokemon.append(pokemon)
+    //                    }
+    //                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
+    //                    group.leave()
+    //                })
+    //            }
+    //            group.notify(queue: DispatchQueue.main, execute: {
+    //                completion()
+    //            })
+    //        }
+    //
+    //    }
     
     // MARK: - Core Data
     func saveToPersistentStore() {
@@ -212,184 +212,201 @@ class PokemonTeamController {
             return
         }
         isSyncing = true
-        pushChangesToCloudKit { (success, error)  in
+        pushChangesToCloudKit { (success)  in
+            if success == true {
+                print("Pushed Changes To Cloud Kit")
+            } else {
+                print("Changes were NOT Pushed to Cloud Kit")
+            }
             self.fetchNewPokemonTeams(completion: { (pokemonTeams) in
                 guard let pokemonTeams = pokemonTeams else {
                     print ("No pokemon Teams")
+                    completion()
                     return
                 }
                 for pokemonTeam in pokemonTeams {
                     self.fetchNewPokemon(pokemonTeam: pokemonTeam)
                 }
+                completion()
             })
         }
     }
     
-    func pushChangesToCloudKit(completion: @escaping ((_ success: Bool, _ error: Error?) -> Void) = { _,_ in }) {
+    func pushChangesToCloudKit(completion: @escaping ((_ success: Bool) -> Void) = { _ in }) {
+        
+        var successes: [Bool] = []
         
         let unsavedPokemonTeams = unsyncedRecordsOf(type: Keys.ckTeamRecordType) as? [PokemonTeam] ?? []
         let unsavedPokemon = unsyncedRecordsOf(type: Keys.ckPokemonRecordType) as? [Pokemon] ?? []
-        
-        for pokemonTeam in unsavedPokemonTeams {
-            savePokemonTeam(pokemonTeam:pokemonTeam , completion: { (success) in
-                if success == true {
-                    print ("Save of Pokemon Team Successful")
-                } else {
-                    print ("Save of Pokemon Team Failed")
-                }
-            })
+        let group = DispatchGroup()
+        if unsavedPokemonTeams.count != 0 {
+            for pokemonTeam in unsavedPokemonTeams {
+                group.enter()
+                savePokemonTeam(pokemonTeam:pokemonTeam , completion: { (success) in
+                    successes.append(success)
+                    group.leave()
+                })
+            }
         }
         
-        for pokemon in unsavedPokemon {
-            PokemonController.shared.savePokemonToCloudKit(pokemon: pokemon, completion: { (success) in
-                if success == true {
-                    print ("Save of Pokemon Successful")
-                } else {
-                    print ("Save of Pokemon Failed")
+        if unsavedPokemon.count != 0 {
+            for pokemon in unsavedPokemon {
+                group.enter()
+                PokemonController.shared.savePokemonToCloudKit(pokemon: pokemon, completion: { (success) in
+                    successes.append(success)
+                    group.leave()
+                })
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            if successes.contains(false) {
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+        
+    }
+    
+    
+    func fetchNewPokemonTeams(completion: @escaping ([PokemonTeam]?) -> Void) {
+        let type = Keys.ckTeamRecordType
+        var referencesToExclude = [CKReference]()
+        var predicate: NSPredicate
+        referencesToExclude = syncedRecordsOf(type: type).flatMap { $0.cloudKitReference }
+        predicate = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [referencesToExclude])
+        
+        if referencesToExclude.isEmpty {
+            predicate = NSPredicate(value: true)
+        }
+        
+        fetchPokemonTeamRecord(withRecordType: type, andPredicate: predicate) { (records, error) in
+            if let error = error {
+                print("Error Fetching Pokemon Team Records : \(error.localizedDescription)")
+                completion(nil)
+            }
+            guard let records = records else {
+                print ("no records")
+                completion(nil)
+                return
+            }
+            var pokemonTeams: [PokemonTeam] = []
+            for record in records {
+                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
+                    print ("Could not initialize pokemon team")
+                    completion(nil)
+                    return
                 }
-            })
+                pokemonTeams.append(pokemonTeam)
+                self.saveToPersistentStore()
+            }
+            completion(pokemonTeams)
         }
     }
+    
+    func fetchNewPokemon(pokemonTeam: PokemonTeam) {
+        let type = Keys.ckPokemonRecordType
+        var referencesToExclude = [CKReference]()
+        var predicate: NSPredicate
+        referencesToExclude = syncedRecordsOf(type: type).flatMap { $0.cloudKitReference }
+        predicate = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [referencesToExclude])
         
+        if referencesToExclude.isEmpty {
+            predicate = NSPredicate(value: true)
+        }
         
-        func fetchNewPokemonTeams(completion: @escaping ([PokemonTeam]?) -> Void) {
-            let type = Keys.ckTeamRecordType
-            var referencesToExclude = [CKReference]()
-            var predicate: NSPredicate
-            referencesToExclude = syncedRecordsOf(type: type).flatMap { $0.cloudKitReference }
-            predicate = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [referencesToExclude])
-            
-            if referencesToExclude.isEmpty {
-                predicate = NSPredicate(value: true)
+        PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: type, andPredicate: predicate) { (records, _, error) in
+            if let error = error {
+                print("Error Fetching Pokemon Team Records : \(error.localizedDescription)")
+                return
+            }
+            guard let records = records else {
+                print ("no records")
+                return
             }
             
-            fetchPokemonTeamRecord(withRecordType: type, andPredicate: predicate) { (records, error) in
-                if let error = error {
-                    print("Error Fetching Pokemon Team Records : \(error.localizedDescription)")
-                    completion(nil)
-                }
-                guard let records = records else {
-                    print ("no records")
-                    completion(nil)
+            for record in records {
+                guard let recordID = pokemonTeam.recordID else {
+                    print ("Pokemon Team Reference")
                     return
                 }
-                var pokemonTeams: [PokemonTeam] = []
-                for record in records {
-                    guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
-                        print ("Could not initialize pokemon team")
-                        completion(nil)
-                        return
-                    }
-                    pokemonTeams.append(pokemonTeam)
-                    self.saveToPersistentStore()
-                }
-                completion(pokemonTeams)
-            }
-        }
-        
-        func fetchNewPokemon(pokemonTeam: PokemonTeam) {
-            let type = Keys.ckPokemonRecordType
-            var referencesToExclude = [CKReference]()
-            var predicate: NSPredicate
-            referencesToExclude = syncedRecordsOf(type: type).flatMap { $0.cloudKitReference }
-            predicate = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [referencesToExclude])
-            
-            if referencesToExclude.isEmpty {
-                predicate = NSPredicate(value: true)
-            }
-            
-            PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: type, andPredicate: predicate) { (records, _, error) in
-                if let error = error {
-                    print("Error Fetching Pokemon Team Records : \(error.localizedDescription)")
-                    return
-                }
-                guard let records = records else {
-                    print ("no records")
-                    return
-                }
-                
-                for record in records {
-                    guard let recordID = pokemonTeam.recordID else {
-                        print ("Pokemon Team Reference")
-                        return
-                    }
-                    let pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
-                    _ = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef)
-                    self.saveToPersistentStore()
-                }
-            }
-        }
-        
-        func syncedRecordsOf(type: String) -> [CloudKitSyncable] {
-            return recordsOf(type: type).filter { $0.isSynced }
-        }
-        
-        func unsyncedRecordsOf(type: String) -> [CloudKitSyncable] {
-            return recordsOf(type: type).filter { !$0.isSynced }
-        }
-        
-        func recordsOf(type: String) -> [CloudKitSyncable] {
-            switch type {
-            case Keys.ckTeamRecordType:
-                return PokemonTeamController.shared.pokemonTeams.flatMap { $0 as CloudKitSyncable }
-            case Keys.ckPokemonRecordType:
-                
-                var allPokemon: [CloudKitSyncable] = []
-                for pokemonTeam in PokemonTeamController.shared.pokemonTeams {
-                    guard let sixPokemonArray = pokemonTeam.sixPokemon?.array as? [CloudKitSyncable] else {return []}
-                    allPokemon.append(contentsOf: sixPokemonArray)
-                }
-                return allPokemon
-            default:
-                return []
-            }
-        }
-        
-        
-        // MARK: - CloudKit Func
-        let privateDatabase = CKContainer.default().privateCloudDatabase
-        
-        func fetchPokemonTeamRecord(withRecordType type: String, andPredicate predicate: NSPredicate = NSPredicate(value: true), completion: @escaping ([CKRecord]?, Error?) -> Void) {
-            let query = CKQuery(recordType: Keys.ckTeamRecordType, predicate: predicate)
-            privateDatabase.perform(query, inZoneWith: nil, completionHandler: completion)
-        }
-        
-        private func savePokemonTeam(pokemonTeam: PokemonTeam, completion: @escaping (Bool) -> Void) {
-            
-            guard let record = pokemonTeam.ckRecord else { completion(false); return }
-            
-            privateDatabase.save(record) { (_, error) in
-                var success: Bool = true
-                if let error = error {
-                    print("There was an error saving Pokemon Team: \(error.localizedDescription)")
-                    success = false
-                    completion(success)
-                    return
-                }
-                pokemonTeam.recordIDString = record.recordID.recordName
+                let pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
+                _ = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef)
                 self.saveToPersistentStore()
-                print("No Error")
-                completion(success)
             }
         }
+    }
+    
+    func syncedRecordsOf(type: String) -> [CloudKitSyncable] {
+        return recordsOf(type: type).filter { $0.isSynced }
+    }
+    
+    func unsyncedRecordsOf(type: String) -> [CloudKitSyncable] {
+        return recordsOf(type: type).filter { !$0.isSynced }
+    }
+    
+    func recordsOf(type: String) -> [CloudKitSyncable] {
+        switch type {
+        case Keys.ckTeamRecordType:
+            return PokemonTeamController.shared.pokemonTeams.flatMap { $0 as CloudKitSyncable }
+        case Keys.ckPokemonRecordType:
+            
+            var allPokemon: [CloudKitSyncable] = []
+            for pokemonTeam in PokemonTeamController.shared.pokemonTeams {
+                guard let sixPokemonArray = pokemonTeam.sixPokemon?.array as? [CloudKitSyncable] else {return []}
+                allPokemon.append(contentsOf: sixPokemonArray)
+            }
+            return allPokemon
+        default:
+            return []
+        }
+    }
+    
+    
+    // MARK: - CloudKit Func
+    let privateDatabase = CKContainer.default().privateCloudDatabase
+    
+    func fetchPokemonTeamRecord(withRecordType type: String, andPredicate predicate: NSPredicate = NSPredicate(value: true), completion: @escaping ([CKRecord]?, Error?) -> Void) {
+        let query = CKQuery(recordType: Keys.ckTeamRecordType, predicate: predicate)
+        privateDatabase.perform(query, inZoneWith: nil, completionHandler: completion)
+    }
+    
+    private func savePokemonTeam(pokemonTeam: PokemonTeam, completion: @escaping (Bool) -> Void) {
         
-        func updatePokemonTeamRecord(newPokemonTeam: PokemonTeam, completion: @escaping (Bool) -> Void) {
+        guard let record = pokemonTeam.ckRecord else { completion(false); return }
+        
+        privateDatabase.save(record) { (_, error) in
             var success: Bool = true
-            guard let record = newPokemonTeam.ckRecord else {
+            if let error = error {
+                print("There was an error saving Pokemon Team: \(error.localizedDescription)")
                 success = false
                 completion(success)
                 return
             }
-            let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-            operation.savePolicy = .changedKeys
-            operation.queuePriority = .high
-            operation.qualityOfService = .userInteractive
-            privateDatabase.add(operation)
+            pokemonTeam.recordIDString = record.recordID.recordName
+            self.saveToPersistentStore()
+            print("No Error")
             completion(success)
         }
-        
-        func deletePokemonTeamRecord(withID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
-            privateDatabase.delete(withRecordID: recordID, completionHandler: completion)
+    }
+    
+    func updatePokemonTeamRecord(newPokemonTeam: PokemonTeam, completion: @escaping (Bool) -> Void) {
+        var success: Bool = true
+        guard let record = newPokemonTeam.ckRecord else {
+            success = false
+            completion(success)
+            return
         }
-        
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.savePolicy = .changedKeys
+        operation.queuePriority = .high
+        operation.qualityOfService = .userInteractive
+        privateDatabase.add(operation)
+        completion(success)
+    }
+    
+    func deletePokemonTeamRecord(withID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
+        privateDatabase.delete(withRecordID: recordID, completionHandler: completion)
+    }
+    
 }

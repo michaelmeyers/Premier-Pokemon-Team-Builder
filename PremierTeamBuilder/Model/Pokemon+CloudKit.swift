@@ -14,6 +14,7 @@ extension Pokemon: CloudKitSyncable {
     
     convenience init?(ckRecord: CKRecord, pokemonTeamRef: CKReference, context: NSManagedObjectContext = CoreDataStack.context) {
         guard let name = ckRecord[Keys.ckPokemonNameKey] as? String,
+            let id = ckRecord[Keys.ckPokemonIDKey] as? Int64,
             let item = ckRecord[Keys.ckPokemonItemKey] as? String,
             let natureString = ckRecord[Keys.ckPokemonNatureKey] as? String,
             let type1String = ckRecord[Keys.ckPokemonType1Key] as? String,
@@ -52,6 +53,7 @@ extension Pokemon: CloudKitSyncable {
         self.init(context: context)
         
         self.name = name
+        self.id = id
         self.item = item
         self.natureString = natureString
         self.moveIDsData = moveIDsData as NSData
@@ -91,6 +93,7 @@ extension Pokemon: CloudKitSyncable {
         let pokemonRecord = CKRecord(recordType: Keys.ckPokemonRecordType, recordID: recordID)
         pokemonRecord[Keys.ckReferenceKey] = pokemonTeamRef
         pokemonRecord[Keys.ckPokemonNameKey] = name as CKRecordValue
+        pokemonRecord[Keys.ckPokemonIDKey] = id as CKRecordValue
         pokemonRecord[Keys.ckPokemonItemKey] = item as CKRecordValue
         pokemonRecord[Keys.ckPokemonRoleKey] = role as CKRecordValue
         pokemonRecord[Keys.ckEVHP] = evHP as CKRecordValue

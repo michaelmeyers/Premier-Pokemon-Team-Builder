@@ -9,95 +9,99 @@
 import Foundation
 import UIKit
 import CloudKit
+import CoreData
 
 class PokemonController {
     
     static let shared = PokemonController()
     
-    var searchResults: [Pokemon] = []
+    var allPokemon: [Pokemon] {
+        return loadPokemon()
+    }
     var pokemonTypeDictionary: [String: [Pokemon]] = [:]
-//    var allPokemon: [Pokemon] {
-//        self.fetchAllPokemonRecords { (records, error) in
-//            if let error = error {
-//                print("There was an error called fetchAllPokemonRecords : \(error.localizedDescription)")
-//                return
-//            }
-//            guard let records = records else {
-//                print("No Records for fetchAllPokemonRecords")
-//                return
-//            }
-//            var allPokemon: [Pokemon] = []
-//            for record in records {
-//                let pokemon = Pokemon(ckRecord: record)
-//                allPokemon.append(pokemon)
-//            }
+    //    var allPokemon: [Pokemon] {
+    //        self.fetchAllPokemonRecords { (records, error) in
+    //            if let error = error {
+    //                print("There was an error called fetchAllPokemonRecords : \(error.localizedDescription)")
+    //                return
+    //            }
+    //            guard let records = records else {
+    //                print("No Records for fetchAllPokemonRecords")
+    //                return
+    //            }
+    //            var allPokemon: [Pokemon] = []
+    //            for record in records {
+    //                let pokemon = Pokemon(ckRecord: record)
+    //                allPokemon.append(pokemon)
+    //            }
+    //        }
+    //    }
+    
+    // MARK: - CRUD
+//    func createPokemonObject(fromSearchTerm searchTerm: String, completion: @escaping () -> Void) {
+//        searchResults = []
+//        switch searchTerm {
+//        case Keys.typeNormalKey: fillSearchResults(withKey: Keys.typeNormalKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeFireKey: fillSearchResults(withKey: Keys.typeFireKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeWaterKey: fillSearchResults(withKey: Keys.typeWaterKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeElectricKey: fillSearchResults(withKey: Keys.typeElectricKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeGrassKey: fillSearchResults(withKey: Keys.typeGrassKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeIceKey: fillSearchResults(withKey: Keys.typeIceKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeFightingKey: fillSearchResults(withKey: Keys.typeFightingKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typePoisonKey: fillSearchResults(withKey: Keys.typePoisonKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeGroundKey: fillSearchResults(withKey: Keys.typeGroundKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeFlyingKey: fillSearchResults(withKey: Keys.typeFlyingKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typePsychicKey: fillSearchResults(withKey: Keys.typePsychicKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeBugKey: fillSearchResults(withKey: Keys.typeBugKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeRockKey: fillSearchResults(withKey: Keys.typeRockKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeGhostKey: fillSearchResults(withKey: Keys.typeGhostKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeDragonKey: fillSearchResults(withKey: Keys.typeDragonKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeDarkKey: fillSearchResults(withKey: Keys.typeDarkKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeSteelKey: fillSearchResults(withKey: Keys.typeSteelKey, orSearchTerm: searchTerm, completion: completion)
+//        case Keys.typeFairyKey: fillSearchResults(withKey: Keys.typeFairyKey, orSearchTerm: searchTerm, completion: completion)
+//        default:
+//            PokemonController.shared.fetchPokemonSearchResults(fromSearchTerm: searchTerm, completion: { (success) in
+//                if success == true {
+//                    print("Successfully Fetched Pokemon")
+//                    completion()
+//                } else {
+//                    print("Somethings Wrong with the individual Pokemon fetch")
+//                    completion()
+//                }
+//            })
 //        }
 //    }
     
-    // MARK: - CRUD
-    func createPokemonObject(fromSearchTerm searchTerm: String, completion: @escaping () -> Void) {
-        searchResults = []
-        switch searchTerm {
-        case Keys.typeNormalKey: fillSearchResults(withKey: Keys.typeNormalKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeFireKey: fillSearchResults(withKey: Keys.typeFireKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeWaterKey: fillSearchResults(withKey: Keys.typeWaterKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeElectricKey: fillSearchResults(withKey: Keys.typeElectricKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeGrassKey: fillSearchResults(withKey: Keys.typeGrassKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeIceKey: fillSearchResults(withKey: Keys.typeIceKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeFightingKey: fillSearchResults(withKey: Keys.typeFightingKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typePoisonKey: fillSearchResults(withKey: Keys.typePoisonKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeGroundKey: fillSearchResults(withKey: Keys.typeGroundKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeFlyingKey: fillSearchResults(withKey: Keys.typeFlyingKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typePsychicKey: fillSearchResults(withKey: Keys.typePsychicKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeBugKey: fillSearchResults(withKey: Keys.typeBugKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeRockKey: fillSearchResults(withKey: Keys.typeRockKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeGhostKey: fillSearchResults(withKey: Keys.typeGhostKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeDragonKey: fillSearchResults(withKey: Keys.typeDragonKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeDarkKey: fillSearchResults(withKey: Keys.typeDarkKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeSteelKey: fillSearchResults(withKey: Keys.typeSteelKey, orSearchTerm: searchTerm, completion: completion)
-        case Keys.typeFairyKey: fillSearchResults(withKey: Keys.typeFairyKey, orSearchTerm: searchTerm, completion: completion)
-        default:
-            PokemonController.shared.fetchPokemonSearchResults(fromSearchTerm: searchTerm, completion: { (success) in
-                if success == true {
-                    print("Successfully Fetched Pokemon")
-                    completion()
-                } else {
-                    print("Somethings Wrong with the individual Pokemon fetch")
-                    completion()
-                }
-            })
-        }
-    }
-    
-    func fillSearchResults(withKey dictionaryKey: String, orSearchTerm searchTerm: String, completion: @escaping () -> Void) {
-        if let Types = pokemonTypeDictionary[dictionaryKey] {
-            searchResults = Types
-            completion()
-        } else {
-            fetchPokemonTypeSearchResults(fromSearchTerm: searchTerm, storeInToDictionaryWithKey: dictionaryKey, completion: { (success) in
-                if success == true {
-                    print("Successfully Fetched All Pokemon for That Type")
-                    completion()
-                } else {
-                    print("Issue fetching that type of pokemon")
-                    completion()
-                }
-            })
-        }
-    }
+//    func fillSearchResults(withKey dictionaryKey: String, orSearchTerm searchTerm: String, completion: @escaping () -> Void) {
+//        if let Types = pokemonTypeDictionary[dictionaryKey] {
+//            searchResults = Types
+//            completion()
+//        } else {
+//            fetchPokemonTypeSearchResults(fromSearchTerm: searchTerm, storeInToDictionaryWithKey: dictionaryKey, completion: { (success) in
+//                if success == true {
+//                    print("Successfully Fetched All Pokemon for That Type")
+//                    completion()
+//                } else {
+//                    print("Issue fetching that type of pokemon")
+//                    completion()
+//                }
+//            })
+//        }
+//    }
     
     func createPokemon(onTeam pokemonTeam: PokemonTeam, fromPokemonObject pokemonObject: Pokemon) {
-//        var pokemonTeamRef: CKReference
-//        if pokemonObject.pokemonTeamRef == nil {
-//            guard let recordID = pokemonTeam.recordID else {return}
-////            pokemonObject.pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
-//            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
-//            pokemonTeamRef = teamRef
-//        } else {
-//            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
-//            pokemonTeamRef = teamRef
-//        }
+        //        var pokemonTeamRef: CKReference
+        //        if pokemonObject.pokemonTeamRef == nil {
+        //            guard let recordID = pokemonTeam.recordID else {return}
+        ////            pokemonObject.pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
+        //            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
+        //            pokemonTeamRef = teamRef
+        //        } else {
+        //            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
+        //            pokemonTeamRef = teamRef
+        //        }
         let name = pokemonObject.name
+        let id = pokemonObject.id
         let moveIDs = pokemonObject.moveIDs
         guard let moveIDsData = (try? JSONSerialization.data(withJSONObject: moveIDs, options: .prettyPrinted)) else {return}
         let type1 = pokemonObject.type1
@@ -115,8 +119,8 @@ class PokemonController {
         let recordIDString = pokemonObject.recordIDString
         let imageData = pokemonObject.imageData
         
-        let pokemon = Pokemon (name: name, moveIDsData: moveIDsData, type1String: type1String, type2String: type2?.rawValue, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
-
+        let pokemon = Pokemon (name: name, id: id, moveIDsData: moveIDsData, type1String: type1String, type2String: type2?.rawValue, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
+        
         pokemon.recordIDString = recordIDString
         pokemon.imageData = imageData
         saveToPersistentStore()
@@ -150,8 +154,8 @@ class PokemonController {
     
     func deletePokemon(pokemon: Pokemon, fromTeam team: PokemonTeam) {
         guard let recordID = pokemon.recordID,
-        let pokemonArray = team.sixPokemon.flatMap({$0}) else {return}
-    
+            let pokemonArray = team.sixPokemon.flatMap({$0}) else {return}
+        
         let index = pokemonArray.index(of: pokemon)
         guard let pokemon = team.sixPokemon?.object(at: index) as? Pokemon else {return}
         deletePokemonFromContext(pokemon: pokemon)
@@ -165,51 +169,51 @@ class PokemonController {
     
     // MARK: - API CALLS
     
-    func fetchPokemonTypeSearchResults (fromSearchTerm searchTerm: String, storeInToDictionaryWithKey dictionaryKey: String, completion: @escaping (Bool) -> Void) {
-        var finalURL: URL
-        if typesKeyArray.contains(searchTerm) {
-            guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchTypeKey).appendingPathComponent(searchTerm) else {
-                completion(false)
-                return
-            }
-            finalURL = url
-            let dataTask = URLSession.shared.dataTask(with: finalURL){ (data, _, error) in
-                if let error = error {
-                    print("There was an error fetching Pokemon data: \(error.localizedDescription)")
-                    completion(false)
-                    return
-                }
-                guard let data = data else {
-                    completion(false)
-                    return
-                }
-                guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
-                    let pokemonArray = jsonDictionary?[Keys.pokemonArrayKey] as? [[String: Any]] else {
-                        completion(false)
-                        return
-                }
-                let group = DispatchGroup()
-                for dictionary in pokemonArray {
-                    group.enter()
-                    guard let pokemonDictionary = dictionary[Keys.pokemonDictionaryKey] as? [String: Any],
-                        let pokemonURLString = pokemonDictionary[Keys.pokemonURLKey] as? String,
-                        let pokemonURL = URL(string: pokemonURLString) else {
-                            completion(false)
-                            return
-                    }
-                    self.fetchPokemon(withURL: pokemonURL, completion: { (success) in
-                        group.leave()
-                    })
-                }
-                group.notify(queue: .main, execute: {
-                    PokemonController.shared.searchResults = PokemonController.shared.searchResults.sorted {$0.name < $1.name }
-                    self.pokemonTypeDictionary[dictionaryKey] = PokemonController.shared.searchResults
-                    completion(true)
-                })
-            }
-            dataTask.resume()
-        }
-    }
+//    func fetchPokemonTypeSearchResults (fromSearchTerm searchTerm: String, storeInToDictionaryWithKey dictionaryKey: String, completion: @escaping (Bool) -> Void) {
+//        var finalURL: URL
+//        if typesKeyArray.contains(searchTerm) {
+//            guard let url = URL(string: Keys.baseURLString)?.appendingPathComponent(Keys.searchTypeKey).appendingPathComponent(searchTerm) else {
+//                completion(false)
+//                return
+//            }
+//            finalURL = url
+//            let dataTask = URLSession.shared.dataTask(with: finalURL){ (data, _, error) in
+//                if let error = error {
+//                    print("There was an error fetching Pokemon data: \(error.localizedDescription)")
+//                    completion(false)
+//                    return
+//                }
+//                guard let data = data else {
+//                    completion(false)
+//                    return
+//                }
+//                guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+//                    let pokemonArray = jsonDictionary?[Keys.pokemonArrayKey] as? [[String: Any]] else {
+//                        completion(false)
+//                        return
+//                }
+//                let group = DispatchGroup()
+//                for dictionary in pokemonArray {
+//                    group.enter()
+//                    guard let pokemonDictionary = dictionary[Keys.pokemonDictionaryKey] as? [String: Any],
+//                        let pokemonURLString = pokemonDictionary[Keys.pokemonURLKey] as? String,
+//                        let pokemonURL = URL(string: pokemonURLString) else {
+//                            completion(false)
+//                            return
+//                    }
+//                    self.fetchPokemon(withURL: pokemonURL, completion: { (success) in
+//                        group.leave()
+//                    })
+//                }
+//                group.notify(queue: .main, execute: {
+//                    PokemonController.shared.searchResults = PokemonController.shared.searchResults.sorted {$0.name < $1.name }
+//                    self.pokemonTypeDictionary[dictionaryKey] = PokemonController.shared.searchResults
+//                    completion(true)
+//                })
+//            }
+//            dataTask.resume()
+//        }
+//    }
     
     func fetchPokemonSearchResults (fromSearchTerm searchTerm: String, completion: @escaping (Bool) -> Void) {
         guard let url = PokemonTeamController.shared.pokemonList[searchTerm] else {return}
@@ -237,12 +241,12 @@ class PokemonController {
                 self.fetchImageData(withURL: imageURL, completion: { (data) in
                     if let data = data {
                         pokemon.imageData = data as NSData
-                        PokemonController.shared.searchResults.append(pokemon)
+                        self.saveToPersistentStore()
                         completion(true)
                     }
                 })
             } else {
-                PokemonController.shared.searchResults.append(pokemon)
+                self.saveToPersistentStore()
                 print ("Pokemon added to search Results")
                 completion(true)
             }
@@ -273,6 +277,18 @@ class PokemonController {
         }
     }
     
+    func loadPokemon() -> [Pokemon] {
+        let moc = CoreDataStack.context
+        let fetchRequest: NSFetchRequest<Pokemon> = Pokemon.fetchRequest()
+        do {
+            var fetchedPokemon = try moc.fetch(fetchRequest)
+            fetchedPokemon = fetchedPokemon.sorted(by: {$0.id < $1.id} )
+            return fetchedPokemon
+        } catch {
+            fatalError("Failed to fetch employees: \(error)")
+        }
+    }
+    
     func deletePokemonFromContext(pokemon: Pokemon) {
         let moc = CoreDataStack.context
         moc.delete(pokemon)
@@ -293,7 +309,7 @@ class PokemonController {
     func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, andPredicate predicate: NSPredicate = NSPredicate(format: "%K == %@", Keys.ckReferenceKey), completion: @escaping ([CKRecord]?, CKReference, Error?) -> Void) {
         
         let reference = CKReference(recordID: pokemonTeam.recordID!, action: .deleteSelf)
-
+        
         let query = CKQuery(recordType: Keys.ckPokemonRecordType, predicate: predicate)
         privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
             completion(records, reference, error)
