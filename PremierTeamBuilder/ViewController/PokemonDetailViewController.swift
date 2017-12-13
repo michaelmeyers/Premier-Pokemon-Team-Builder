@@ -127,14 +127,16 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         
         var pokeImage = #imageLiteral(resourceName: "defaultPokemonImage")
         if let data = pokemon.imageData {
-            guard let image = UIImage(data: data) else {return}
+            guard let image = UIImage(data: data as Data) else {return}
             pokeImage = image
         }
         pokemonImageView.image = pokeImage
         let name = pokemon.name.uppercased()
         nameLabel.text = name
-        natureLabel.text = pokemon.nature.rawValue
-        changeLabelToTypeLabel(label: type1Label, type: pokemon.type1)
+        guard let natureString = pokemon.nature?.rawValue else {return}
+        natureLabel.text = natureString
+        guard let type1 = pokemon.type1 else {return}
+        changeLabelToTypeLabel(label: type1Label, type: type1)
         if let type2 = pokemon.type2 {
             changeLabelToTypeLabel(label: type2Label, type: type2)
         } else {
@@ -161,7 +163,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         configureProgressView(progressView: speedProgressView, stat: pokemon.speedStat, maxValue: maxValue)
     }
     
-    func configureProgressView (progressView: UIProgressView, stat: Int, maxValue: Float) {
+    func configureProgressView (progressView: UIProgressView, stat: Int64, maxValue: Float) {
         let statFloat = Float(stat)
         let progress = statFloat/maxValue
         progressView.progress = progress
@@ -233,7 +235,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == abilityPickerView {
-            return pokemon?.abilities.count ?? 0
+            return pokemon?.abilities?.count ?? 0
         }
         if pickerView == itemPickerView {
             return PokemonTeamController.shared.items.count
@@ -243,7 +245,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == abilityPickerView {
-            return pokemon?.abilities[row]
+            return pokemon?.abilities?[row] ?? ""
         }
         if pickerView == itemPickerView {
             return PokemonTeamController.shared.items[row]
@@ -253,8 +255,9 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == abilityPickerView {
-            abilityButton.setTitle(pokemon?.abilities[row], for: .normal)
-            pokemon?.chosenAbility = pokemon?.abilities[row]
+            guard let abilities = pokemon?.abilities else {return}
+            abilityButton.setTitle(abilities[row], for: .normal)
+            pokemon?.chosenAbility = pokemon?.abilities?[row] ?? ""
             abilityPickerView.isHidden = true
             abilityButton.isHidden = false
         }

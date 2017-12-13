@@ -12,27 +12,25 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     
     // MARK: - Properties
     var pokemon: Pokemon?
-    var moves: [Move]?
     var cellMove: Move?
     var buttonPressed: String?
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let movesArray = pokemon?.moves {
-            self.moves = movesArray
-        } else {
-            guard let pokemon = pokemon else {return}
+        
+        guard let moves = pokemon?.moves else {
+            guard let pokemon = pokemon,
+            let moveIDs = pokemon.moveIDs else {return}
             let moves = MoveController.shared.moves
             var pokemonMoves: [Move] = []
-            for id in pokemon.moveIDs {
-                pokemonMoves.append(moves[id - 1])
+            for id in moveIDs {
+                pokemonMoves.append(moves[Int(id) - 1])
             }
             let sortedMoves = pokemonMoves.sorted { $0.name < $1.name }
-            pokemon.moves = sortedMoves
-            self.moves = sortedMoves
+            pokemon.moves = NSOrderedSet(array: sortedMoves)
+            return
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -44,14 +42,15 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return moves?.count ?? 0
+        return pokemon?.moves?.count ?? 0
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.moveCellIdentifier, for: indexPath) as? MoveTableViewCell,
-            let moves = moves else {return UITableViewCell()}
-        let move = moves[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.moveCellIdentifier, for: indexPath) as? MoveTableViewCell else {return UITableViewCell()}
+        
+        guard let move = pokemon?.moves?.object(at: indexPath.row) as? Move else {return UITableViewCell()}
+        
         cell.move = move
         cell.delegate = self
         cell.updateCell()
@@ -62,7 +61,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
         guard let buttonPressed = buttonPressed,
             let indexPath = tableView.indexPathForSelectedRow,
             let pokemon = pokemon,
-            let moves = moves else {return}
+            let moves = pokemon.moves as? [Move] else {return}
         let move = moves[indexPath.row]
         switch buttonPressed {
         case "move1": pokemon.move1 = move.name
@@ -111,7 +110,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     // MARK: - Alert Controller
     func infoAlert() {
         guard let move = cellMove else {return}
-        let alertController = UIAlertController(title: move.name, message: move.description, preferredStyle: .alert
+        let alertController = UIAlertController(title: move.name, message: move.moveDescription, preferredStyle: .alert
         )
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)

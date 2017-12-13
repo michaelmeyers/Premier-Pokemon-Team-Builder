@@ -16,6 +16,23 @@ class PokemonController {
     
     var searchResults: [Pokemon] = []
     var pokemonTypeDictionary: [String: [Pokemon]] = [:]
+//    var allPokemon: [Pokemon] {
+//        self.fetchAllPokemonRecords { (records, error) in
+//            if let error = error {
+//                print("There was an error called fetchAllPokemonRecords : \(error.localizedDescription)")
+//                return
+//            }
+//            guard let records = records else {
+//                print("No Records for fetchAllPokemonRecords")
+//                return
+//            }
+//            var allPokemon: [Pokemon] = []
+//            for record in records {
+//                let pokemon = Pokemon(ckRecord: record)
+//                allPokemon.append(pokemon)
+//            }
+//        }
+//    }
     
     // MARK: - CRUD
     func createPokemonObject(fromSearchTerm searchTerm: String, completion: @escaping () -> Void) {
@@ -70,21 +87,24 @@ class PokemonController {
     }
     
     func createPokemon(onTeam pokemonTeam: PokemonTeam, fromPokemonObject pokemonObject: Pokemon) {
-        var pokemonTeamRef: CKReference
-        if pokemonObject.pokemonTeamRef == nil {
-            guard let recordID = pokemonTeam.recordID else {return}
-            pokemonObject.pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
-            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
-            pokemonTeamRef = teamRef
-        } else {
-            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
-            pokemonTeamRef = teamRef
-        }
+//        var pokemonTeamRef: CKReference
+//        if pokemonObject.pokemonTeamRef == nil {
+//            guard let recordID = pokemonTeam.recordID else {return}
+////            pokemonObject.pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
+//            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
+//            pokemonTeamRef = teamRef
+//        } else {
+//            guard let teamRef = pokemonObject.pokemonTeamRef else {return}
+//            pokemonTeamRef = teamRef
+//        }
         let name = pokemonObject.name
         let moveIDs = pokemonObject.moveIDs
+        guard let moveIDsData = (try? JSONSerialization.data(withJSONObject: moveIDs, options: .prettyPrinted)) else {return}
         let type1 = pokemonObject.type1
+        guard let type1String = type1?.rawValue else {return}
         let type2 = pokemonObject.type2
         let abilities = pokemonObject.abilities
+        guard let abilitiesData = (try? JSONSerialization.data(withJSONObject: abilities, options: .prettyPrinted)) else {return}
         let hpStat = pokemonObject.hpStat
         let attackStat = pokemonObject.attackStat
         let defenseStat = pokemonObject.defenseStat
@@ -92,20 +112,14 @@ class PokemonController {
         let spDefenseStat = pokemonObject.spDefenseStat
         let speedStat = pokemonObject.speedStat
         let imageEndpoint = pokemonObject.imageEndpoint
-        
+        let recordIDString = pokemonObject.recordIDString
         let imageData = pokemonObject.imageData
         
-        let pokemon = Pokemon(name: name, moveIDs: moveIDs, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
-        pokemonTeam.sixPokemon.append(pokemon)
-        pokemon.pokemonTeamRef = pokemonTeamRef
-        guard let record = pokemon.ckRecord else {return}
-        PokemonController.shared.savePokemonRecord(record: record) { (success) in
-            if success == true {
-                print("Saving your Pokemon was a big Success!")
-            } else {
-                print("Saving your Pokemon Failed")
-            }
-        }
+        let pokemon = Pokemon (name: name, moveIDsData: moveIDsData, type1String: type1String, type2String: type2?.rawValue, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
+
+        pokemon.recordIDString = recordIDString
+        saveToPersistentStore()
+        PokemonTeamController.shared.performFullSync()
     }
     
     func loadPokemon(fromRecords records: [CKRecord]?, pokemonTeamRef: CKReference, completion: ([Pokemon]?) -> Void) {
@@ -134,16 +148,12 @@ class PokemonController {
     }
     
     func deletePokemon(pokemon: Pokemon, fromTeam team: PokemonTeam) {
-        guard let recordID = pokemon.recordID else {return}
-        
-        let pokemonArray = team.sixPokemon.flatMap({$0})
-        
-        
-        
-        guard let index = pokemonArray.index(of: pokemon) else { return }
-        
-        team.sixPokemon.remove(at: index)
-        
+        guard let recordID = pokemon.recordID,
+        let pokemonArray = team.sixPokemon.flatMap({$0}) else {return}
+    
+        let index = pokemonArray.index(of: pokemon)
+        guard let pokemon = team.sixPokemon?.object(at: index) as? Pokemon else {return}
+        deletePokemonFromContext(pokemon: pokemon)
         deletePokemonRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("Error deleting Pokemon: \(error.localizedDescription)")
@@ -225,7 +235,7 @@ class PokemonController {
             if let imageURL = pokemon.imageURL {
                 self.fetchImageData(withURL: imageURL, completion: { (data) in
                     if let data = data {
-                        pokemon.imageData = data
+                        pokemon.imageData = data as NSData
                         PokemonController.shared.searchResults.append(pokemon)
                         completion(true)
                     }
@@ -251,22 +261,53 @@ class PokemonController {
         dataTask.resume()
     }
     
+    // MARK: - Core Data
+    func saveToPersistentStore() {
+        
+        let moc = CoreDataStack.context
+        do{
+            try moc.save()
+        } catch let error {
+            print("Problem Saving to Persistent Store: \(error)")
+        }
+    }
+    
+    func deletePokemonFromContext(pokemon: Pokemon) {
+        let moc = CoreDataStack.context
+        do{
+            try moc.delete(pokemon)
+        } catch let error {
+            print("Problem Saving to Persistent Store: \(error)")
+        }
+    }
+    
     
     // MARK: - Cloud Kit Functions
     let privateDatabase = CKContainer.default().privateCloudDatabase
     
-    func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, completion: @escaping ([CKRecord]?, CKReference, Error?) -> Void) {
+    func fetchAllPokemonRecords(completion: @escaping ([CKRecord]? , Error?) -> Void) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: Keys.ckPokemonRecordType, predicate: predicate)
+        privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            completion(records, error)
+        }
+    }
+    
+    func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, andPredicate predicate: NSPredicate = NSPredicate(format: "%K == %@", Keys.ckReferenceKey), completion: @escaping ([CKRecord]?, CKReference, Error?) -> Void) {
         
         let reference = CKReference(recordID: pokemonTeam.recordID!, action: .deleteSelf)
-        let predicate = NSPredicate(format: "%K == %@", Keys.ckReferenceKey,  reference)
+
         let query = CKQuery(recordType: Keys.ckPokemonRecordType, predicate: predicate)
         privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
             completion(records, reference, error)
         }
     }
     
-    func savePokemonRecord(record: CKRecord, completion: @escaping (Bool) -> Void) {
-        privateDatabase.save(record) { (_, error) in
+    func savePokemonToCloudKit(pokemon: Pokemon, completion: @escaping (Bool) -> Void) {
+        
+        guard let pokemonRecord = pokemon.ckRecord else { completion(false); return }
+        
+        privateDatabase.save(pokemonRecord) { (_, error) in
             var success: Bool = true
             if let error = error {
                 print("There was an error saving Pokemon: \(error.localizedDescription)")
@@ -274,6 +315,8 @@ class PokemonController {
                 completion(success)
                 return
             }
+            pokemon.recordIDString = pokemonRecord.recordID.recordName
+            self.saveToPersistentStore()
             print("No Error")
             completion(success)
         }

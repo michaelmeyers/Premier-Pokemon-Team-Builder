@@ -72,5 +72,16 @@ class MoveController {
         dataTask.resume()
     }
     
+    
+    // MARK: - Core Data
+    func saveToPersistentStore() {
+        
+        let moc = CoreDataStack.context
+        do{
+            try moc.save()
+        } catch let error {
+            print("Problem Saving to Persistent Store: \(error)")
+        }
+    }
 }
 

@@ -57,13 +57,13 @@ class PokemonTeamListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return PokemonTeamController.shared.pokemonTeams?.count ?? 0
+        return PokemonTeamController.shared.pokemonTeams.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell,
-            let pokemonTeams = PokemonTeamController.shared.pokemonTeams else {return PokemonTeamTableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell else {return PokemonTeamTableViewCell()}
+        let pokemonTeams = PokemonTeamController.shared.pokemonTeams
         let pokemonTeam = pokemonTeams[indexPath.row]
         
         cell.pokemonTeam = pokemonTeam
@@ -85,7 +85,7 @@ class PokemonTeamListTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[indexPath.row] else {return}
+            let pokemonTeam = PokemonTeamController.shared.pokemonTeams[indexPath.row]
             PokemonTeamController.shared.deleteTeam(pokemonTeam: pokemonTeam, indexPath: indexPath)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -119,7 +119,7 @@ class PokemonTeamListTableViewController: UITableViewController {
             let pokemonTeamDetailVC = tabBarController.childViewControllers.first as? PokemonTeamDetailTableViewController,
             let teamWeaknessVC = tabBarController.childViewControllers[1] as? TeamWeaknessViewController,
             let indexPath = tableView.indexPathForSelectedRow else {return}
-        let pokemonTeam = PokemonTeamController.shared.pokemonTeams?[indexPath.row]
+        let pokemonTeam = PokemonTeamController.shared.pokemonTeams[indexPath.row]
         pokemonTeamDetailVC.pokemonTeam = pokemonTeam
         teamWeaknessVC.pokemonTeam = pokemonTeam
     }
@@ -146,6 +146,4 @@ class PokemonTeamListTableViewController: UITableViewController {
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
-
-
 }

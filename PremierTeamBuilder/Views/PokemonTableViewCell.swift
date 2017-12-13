@@ -36,11 +36,12 @@ class PokemonTableViewCell: UITableViewCell {
         guard let pokemon = pokemon else {return}
         pokemonImageView.image = #imageLiteral(resourceName: "defaultPokemonImage")
         if let data = pokemon.imageData {
-            let pokemonImage = UIImage(data: data)
+            let pokemonImage = UIImage(data: data as Data)
             pokemonImageView.image = pokemonImage
         }
         pokemonNameLabel.text = pokemon.name
-        changeLabelToTypeLabel(label: pokemonType1Label, type: pokemon.type1)
+        guard let type1 = pokemon.type1 else {return}
+        changeLabelToTypeLabel(label: pokemonType1Label, type: type1)
         if let type2 = pokemon.type2 {
             changeLabelToTypeLabel(label: pokemonType2Label, type: type2)
         } else {

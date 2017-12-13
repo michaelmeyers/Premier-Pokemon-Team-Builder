@@ -45,21 +45,22 @@ class MoveTableViewCell: UITableViewCell {
     
     // MARK: - Cell Configuration
     func updateCell() {
-        guard let move = move else {return}
+        guard let move = move,
+        let type = move.type else {return}
         nameLabel.text = move.name
-        changeLabelToTypeLabel(label: typeLabel, type: move.type)
+        changeLabelToTypeLabel(label: typeLabel, type: type)
         typeLabel.font = UIFont(name: "ArialRoundedMTBold", size: 10)
         configuringImageIcon(imageView: catagoryImageView)
         powerTextLabel.text = "Power"
         accuracyTextLabel.text = "Accuracy"
         ppTextLabel.text = "PP"
-        if let power = move.power {
-            powerLabel.text = "\(power)"
+        if move.power != -999 {
+            powerLabel.text = "\(move.power)"
         } else {
             powerLabel.text = "-"
         }
-        if let accuracy = move.accuracy {
-            accuracyLabel.text = "\(accuracy)%"
+        if move.accuracy != -999 {
+            accuracyLabel.text = "\(move.accuracy)%"
         } else {
             accuracyLabel.text = "-"
         }

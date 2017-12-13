@@ -13,6 +13,7 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     // MARK: - Properties
     var pokemonTeam: PokemonTeam?
     var searchTerms: [String]?
+    var currentTask: URLSessionTask?
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonSearchBar: UISearchBar!
@@ -32,6 +33,14 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         super.viewWillAppear(animated)
         searchTermTableView.isHidden = true
         resultsTableView.isHidden = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if let currentTask = currentTask {
+            currentTask.cancel()
+            print( "Data Task Cancelled")
+        }
     }
     
     

@@ -23,8 +23,6 @@ import Foundation
 
 import UIKit
 
-// Need a Role Enum
-// Need an Item Enum
 // Method of Learning Enum
 
 enum Role{
@@ -40,7 +38,7 @@ enum Role{
     case bulkySpecialAttack
 }
 
-enum Nature: String{
+enum Nature: String {
     case adamant
     case bashful
     case bold

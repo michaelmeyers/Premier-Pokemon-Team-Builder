@@ -6,17 +6,17 @@
 //  Copyright © 2017 Michael Meyers. All rights reserved.
 //
 
-import Foundation
-import CloudKit
-
-class PokemonTeam{
-    var sixPokemon: [Pokemon?] = []
-    var name: String
-    var recordID: CKRecordID?
-    
-    init(name: String, sixPokemon: [Pokemon] = []) {
-        self.name = name
-        self.sixPokemon = sixPokemon
-    }
-}
+//import Foundation
+//import CloudKit
+//
+//extension PokemonTeam{
+////    var sixPokemon: [Pokemon?] = []
+////    var name: String
+////    var recordID: CKRecordID?
+//    
+//    convenience init(name: String, sixPokemon: [Pokemon] = []) {
+//        self.name = name
+//        self.sixPokemon = sixPokemon
+//    }
+//}
 

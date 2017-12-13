@@ -33,7 +33,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
                 }
                 PokemonController.shared.loadPokemon(fromRecords: records, pokemonTeamRef: reference, completion: { (pokemons) in
                     guard let sixPokemon = pokemons else {return}
-                    pokemonTeam.sixPokemon = sixPokemon
+                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -91,12 +91,14 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let pokemonTeam = pokemonTeam,
-            pokemonTeam.sixPokemon.count != 0 else {
+            pokemonTeam.sixPokemon?.count != 0 else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
                 return cell
         }
-        if indexPath.row <= pokemonTeam.sixPokemon.count - 1 {
-            let pokemon = pokemonTeam.sixPokemon[indexPath.row]
+        guard let sixPokemon = pokemonTeam.sixPokemon else {guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            return cell}
+        if indexPath.row <= sixPokemon.count - 1 {
+            let pokemon = pokemonTeam.sixPokemon?[indexPath.row] as? Pokemon
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonCellIdentifier, for: indexPath) as? PokemonTableViewCell else {return UITableViewCell()}
             
             cell.pokemon = pokemon
@@ -126,10 +128,11 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
                 presentSimpleAlert(controllerToPresentAlert: self, title: "", message: "Cannot delete default pokemon cell.")
                 return
             }
-            guard let pokemon = pokemonTeam?.sixPokemon[indexPath.row],
-                let team = pokemonTeam else {return}
+            guard let pokemonTeam = pokemonTeam,
+            let sixPokemon = pokemonTeam.sixPokemon,
+            let pokemon = sixPokemon.object(at: indexPath.row) as? Pokemon else {return}
             //let newIndexPath = IndexPath(row: 5, section: 0)
-            PokemonController.shared.deletePokemon(pokemon: pokemon, fromTeam: team)
+            PokemonController.shared.deletePokemon(pokemon: pokemon, fromTeam: pokemonTeam)
             tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -163,7 +166,8 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
                 let pokemonStatsVC = tabBarController.childViewControllers[1] as? PokemonStatsViewController,
                 let pokemonTeam = pokemonTeam,
                 let indexPath = tableView.indexPathForSelectedRow,
-                let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {return}
+                let sixPokemon = pokemonTeam.sixPokemon,
+                let pokemon = sixPokemon.object(at: indexPath.row) as? Pokemon else {return}
             pokemonDetailVC.pokemon = pokemon
             pokemonDetailVC.pokemonTeam = pokemonTeam
             pokemonStatsVC.pokemon = pokemon

@@ -35,14 +35,15 @@ class pokemonSearchTableViewCell: UITableViewCell {
         guard let pokemon = pokemon else {return}
         var image: UIImage
         if let data = pokemon.imageData {
-            guard let imageFromData = UIImage(data: data) else {return}
+            guard let imageFromData = UIImage(data: data as Data) else {return}
             image = imageFromData
         } else {
             image = #imageLiteral(resourceName: "defaultPokemonImage")
         }
         pokemonImageView.image = image
         pokemonNameLabel.text = pokemon.name
-        changeLabelToTypeLabel(label: pokemonType1Label, type: pokemon.type1)
+        guard let type1 = pokemon.type1 else {return}
+        changeLabelToTypeLabel(label: pokemonType1Label, type: type1)
         if let type2 = pokemon.type2 {
             changeLabelToTypeLabel(label: pokemonType2Label, type: type2)
         } else {

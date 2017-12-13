@@ -14,12 +14,12 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     let natures = changeNatureEnumToArray()
     var pokemon: Pokemon?
     
-    var hpStatTotal: Int = 0
-    var attackStatTotal: Int = 0
-    var defenseStatTotal: Int = 0
-    var spAttStatTotal: Int = 0
-    var spDefStatTotal: Int = 0
-    var speedStatTotal: Int = 0
+    var hpStatTotal: Int64 = 0
+    var attackStatTotal: Int64 = 0
+    var defenseStatTotal: Int64 = 0
+    var spAttStatTotal: Int64 = 0
+    var spDefStatTotal: Int64 = 0
+    var speedStatTotal: Int64 = 0
     
     // MARK: - Outlets
     @IBOutlet weak var ivHPTextField: UITextField!
@@ -83,7 +83,7 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let nature = natures[row]
-        pokemon?.nature = nature
+        pokemon?.natureString = nature.rawValue
         updateUpUI()
     }
     
@@ -127,37 +127,37 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         
         if textField == ivHPTextField {
             guard let text = textField.text,
-                let value = Int(text) else {return}
+                let value = Int64(text) else {return}
             pokemon.ivHP = value
             updateUpUI()
         }
         if textField == ivAttackTextField {
             guard let text = textField.text,
-                let value = Int(text) else {return}
+                let value = Int64(text) else {return}
             pokemon.ivAttack = value
             updateUpUI()
         }
         if textField == ivDefenseTextField {
             guard let text = textField.text,
-                let value = Int(text) else {return}
+                let value = Int64(text) else {return}
             pokemon.ivDefense = value
             updateUpUI()
         }
         if textField == ivSpAttTextField {
             guard let text = textField.text,
-                let value = Int(text) else {return}
+                let value = Int64(text) else {return}
             pokemon.ivSpecialAttack = value
             updateUpUI()
         }
         if textField == ivSpDefTextField {
             guard let text = textField.text,
-                let value = Int(text) else {return}
+                let value = Int64(text) else {return}
             pokemon.ivSpecialDefense = value
             updateUpUI()
         }
         if textField == ivSpeedTextField {
             guard let text = textField.text,
-                let value = Int(text) else {return}
+                let value = Int64(text) else {return}
             pokemon.ivSpeed = value
             updateUpUI()
         }
@@ -280,49 +280,49 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         guard let pokemon = pokemon else {return}
         if sender == hpSlider {
             let rounded = sender.value
-            pokemon.evHP = Int(rounded)
-            evHPTextField.text = "\(Int(rounded))"
+            pokemon.evHP = Int64(rounded)
+            evHPTextField.text = "\(Int64(rounded))"
             hpStatTotal = hpTotalCalculation()
             hpTotal.text = "\(hpStatTotal)"
         }
         if sender == attackSlider {
             let rounded = sender.value
-            pokemon.evAttack = Int(rounded)
-            evAttackTextField.text = "\(Int(rounded))"
+            pokemon.evAttack = Int64(rounded)
+            evAttackTextField.text = "\(Int64(rounded))"
             attackStatTotal = attTotalCalculation()
             attackTotal.text = "\(attackStatTotal)"
         }
         if sender == defenseSlider {
             let rounded = sender.value
-            pokemon.evDefense = Int(rounded)
-            evDefenseTextField.text = "\(Int(rounded))"
+            pokemon.evDefense = Int64(rounded)
+            evDefenseTextField.text = "\(Int64(rounded))"
             defenseStatTotal = defTotalCalculation()
             defenseTotal.text = "\(defenseStatTotal)"
         }
         if sender == spAttSlider {
             let rounded = sender.value
-            pokemon.evSpecialAttack = Int(rounded)
-            evSpAttTextField.text = "\(Int(rounded))"
+            pokemon.evSpecialAttack = Int64(rounded)
+            evSpAttTextField.text = "\(Int64(rounded))"
             spAttStatTotal = spAttTotalCalculation()
             spAttTotal.text = "\(spAttStatTotal)"
         }
         if sender == spDefSlider {
             let rounded = sender.value
-            pokemon.evSpecialDefense = Int(rounded)
-            evSpDefTextField.text = "\(Int(rounded))"
+            pokemon.evSpecialDefense = Int64(rounded)
+            evSpDefTextField.text = "\(Int64(rounded))"
             spDefStatTotal = spDefTotalCalculation()
             spDefTotal.text = "\(spDefStatTotal)"
         }
         if sender == speedSlider {
             let rounded = sender.value
-            pokemon.evSpeed = Int(rounded)
-            evSpeedTextField.text = "\(Int(rounded))"
+            pokemon.evSpeed = Int64(rounded)
+            evSpeedTextField.text = "\(Int64(rounded))"
             speedStatTotal = speedTotalCalculation()
             speedTotal.text = "\(speedStatTotal)"
         }
     }
     
-    func hpTotalCalculation() -> Int {
+    func hpTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let hp = pokemon.hpStat
         let evHP = pokemon.evHP
@@ -331,13 +331,14 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         return total
     }
     
-    func attTotalCalculation() -> Int {
+    func attTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let baseStat = pokemon.attackStat
         let ev = pokemon.evAttack
         let iv = pokemon.ivAttack
         var total = (baseStat * 2) + 5 + ((ev / 4)) + iv
-        switch pokemon.nature {
+        guard let nature = pokemon.nature else { return 0 }
+        switch nature {
         case .adamant, .brave, .lonely, .naughty:
             total = total + (total / 10)
         case .bold, .modest, .calm, . timid:
@@ -348,13 +349,14 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         return total
     }
     
-    func defTotalCalculation() -> Int {
+    func defTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let baseStat = pokemon.defenseStat
         let ev = pokemon.evDefense
         let iv = pokemon.ivDefense
         var total = (baseStat * 2) + 5 + ((ev / 4)) + iv
-        switch pokemon.nature {
+        guard let nature = pokemon.nature else {return 0}
+        switch nature {
         case .bold, .impish, .relaxed, .lax:
             total = total + (total / 10)
         case .lonely, .mild, .gentle, .hasty:
@@ -365,13 +367,14 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         return total
     }
     
-    func spAttTotalCalculation() -> Int {
+    func spAttTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let baseStat = pokemon.spAttackStat
         let ev = pokemon.evSpecialAttack
         let iv = pokemon.ivSpecialAttack
         var total = (baseStat * 2) + 5 + ((ev / 4)) + iv
-        switch pokemon.nature {
+        guard let nature = pokemon.nature else {return 0}
+        switch nature {
         case .modest, .mild, .rash, .quiet:
             total = total + (total / 10)
         case .adamant, .impish, .careful, .jolly:
@@ -382,13 +385,14 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         return total
     }
     
-    func spDefTotalCalculation() -> Int {
+    func spDefTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let baseStat = pokemon.spDefenseStat
         let ev = pokemon.evSpecialDefense
         let iv = pokemon.ivSpecialDefense
         var total = (baseStat * 2) + 5 + ((ev / 4)) + iv
-        switch pokemon.nature {
+        guard let nature = pokemon.nature else {return 0}
+        switch nature {
         case .calm, .gentle, .careful, .sassy:
             total = total + (total / 10)
         case .naughty, .lax, .rash, .naive:
@@ -399,13 +403,14 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         return total
     }
     
-    func speedTotalCalculation() -> Int {
+    func speedTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let speed = pokemon.speedStat
         let evSpeed = pokemon.evSpeed
         let ivSpeed = pokemon.ivSpeed
         var total = (speed * 2) + 5 + ((evSpeed/4)) + ivSpeed
-        switch pokemon.nature {
+        guard let nature = pokemon.nature else {return 0}
+        switch nature {
         case .jolly, .timid, .naive, .hasty:
             total = total + (total / 10)
         case .brave, .sassy, .relaxed, . quiet:

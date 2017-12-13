@@ -41,8 +41,9 @@ class PokemonTeamTableViewCell: UITableViewCell {
             imageView.isHidden = false
         }
         
-        guard let pokemonTeam = pokemonTeam else {return}
-        let sixPokemon = pokemonTeam.sixPokemon
+        guard let pokemonTeam = pokemonTeam,
+        let sixPokemon = pokemonTeam.sixPokemon else {return}
+        
         teamNameLabel.text = pokemonTeam.name
         
         guard sixPokemon.count != 0 else {
@@ -55,9 +56,9 @@ class PokemonTeamTableViewCell: UITableViewCell {
         var count = 0
         
         while count < sixPokemon.count {
-            guard let pokemon = sixPokemon[count] else {return}
+            guard let pokemon = sixPokemon[count] as? Pokemon else {return}
             if let data = pokemon.imageData {
-                let image = UIImage(data: data)
+                let image = UIImage(data: data as Data)
                 pokemonImages[count].image = image
             } else {
                 pokemonImages[count].image = #imageLiteral(resourceName: "defaultPokemonImage")

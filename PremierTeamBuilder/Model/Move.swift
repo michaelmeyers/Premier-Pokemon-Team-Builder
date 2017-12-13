@@ -9,61 +9,71 @@
 import Foundation
 import CloudKit
 
-class Move {
-    let id: Int
-    let name: String
-    let type: Type
-    let catagory: String
-    let power: Int?
-    let accuracy: Int?
-    let pp : Int
-//    let methodOfLearning: String
-    let description: String
-    let effectChance: Int?
-    
-    init(id: Int, name: String, type: Type, catagory: String, power: Int?, accuracy: Int?, pp: Int, description: String, effectChance: Int?) {
-        self.name = name
-        self.type = type
-        self.catagory = catagory
-        self.power = power
-        self.accuracy = accuracy
-        self.pp = pp
-        self.effectChance = effectChance
-//        self.methodOfLearning = methodOfLearning
-        self.description = description
-        self.id = id
-    }
-    
-    convenience init?(dictionary: [String: Any]) {
-        guard let namesArray = dictionary[Keys.namesArrayKey] as? [[String: Any]],
-            let id = dictionary[Keys.moveIDKey] as? Int,
-            let typeDictionary = dictionary[Keys.moveTypeDictionaryKey] as? [String: Any],
-            let typeString = typeDictionary[Keys.moveTypeKey] as? String,
-            let type = changeStringToType(string: typeString),
-            let catagoryDictionary = dictionary[Keys.catagoryDictionaryKey] as? [String: Any],
-            let catagory = catagoryDictionary[Keys.catagoryNameKey] as? String,
-            let pp = dictionary[Keys.movePPKey] as? Int,
-            let effectArray = dictionary[Keys.effectArrayKey] as? [[String: Any]] else {
-                return nil
-        }
-        let power = dictionary[Keys.movePowerKey] as? Int
-        let accuracy = dictionary[Keys.moveAccuracyKey] as? Int
-        let effectChance = dictionary[Keys.moveEffectChancesKey] as? Int
-        
-        let englishNameDictionary = namesArray[Keys.englishNameDictionaryKey]
-        guard let name = englishNameDictionary[Keys.moveNameKey] as? String else {return nil}
-        
-        let effectDictionary = effectArray[Keys.effectDictionaryKey]
-        guard var description =  effectDictionary[Keys.descriptionKey] as? String else {return nil}
 
-        if let effectChance = effectChance{
-            let realDescription = description.replacingOccurrences(of: "$effect_chance", with: "\(effectChance)")
-            description = realDescription
-        }
-        
-        self.init(id: id, name: name, type: type, catagory: catagory, power: power, accuracy: accuracy, pp: pp, description: description, effectChance: effectChance)
-    }
-}
+//extension Move {
+//    //    let id: Int
+//    //    let name: String
+//    //    let typeString: String
+//    //    let catagory: String
+//    //    let power: Int?
+//    //    let accuracy: Int?
+//    //    let pp : Int
+//    ////    let methodOfLearning: String
+//    //    let description: String
+//    //    let effectChance: Int?
+//    var type: Type? {
+//        return Type(rawValue: typeString)
+//    }
+//    
+//    convenience init(id: Int, name: String, typeString: String, catagory: String, power: Int?, accuracy: Int?, pp: Int, description: String, effectChance: Int?) {
+//        self.name = name
+//        self.typeString = typeString
+//        self.catagory = catagory
+//        self.power = power
+//        self.accuracy = accuracy
+//        self.pp = pp
+//        self.effectChance = effectChance
+//        //        self.methodOfLearning = methodOfLearning
+//        self.description = description
+//        self.id = id
+//    }
+//    
+//    convenience init?(dictionary: [String: Any]) {
+//        guard let namesArray = dictionary[Keys.namesArrayKey] as? [[String: Any]],
+//            let id = dictionary[Keys.moveIDKey] as? Int,
+//            let typeDictionary = dictionary[Keys.moveTypeDictionaryKey] as? [String: Any],
+//            let typeString = typeDictionary[Keys.moveTypeKey] as? String,
+//            let catagoryDictionary = dictionary[Keys.catagoryDictionaryKey] as? [String: Any],
+//            let catagory = catagoryDictionary[Keys.catagoryNameKey] as? String,
+//            let pp = dictionary[Keys.movePPKey] as? Int,
+//            let effectArray = dictionary[Keys.effectArrayKey] as? [[String: Any]] else {
+//                return nil
+//        }
+//        let power = dictionary[Keys.movePowerKey] as? Int
+//        let accuracy = dictionary[Keys.moveAccuracyKey] as? Int
+//        let effectChance = dictionary[Keys.moveEffectChancesKey] as? Int
+//        
+//        let englishNameDictionary = namesArray[Keys.englishNameDictionaryKey]
+//        guard let name = englishNameDictionary[Keys.moveNameKey] as? String else {return nil}
+//        
+//        let effectDictionary = effectArray[Keys.effectDictionaryKey]
+//        guard var moveDescription =  effectDictionary[Keys.descriptionKey] as? String else {return nil}
+//        
+//        if let effectChance = effectChance{
+//            let realDescription = description.replacingOccurrences(of: "$effect_chance", with: "\(effectChance)")
+//            moveDescription = realDescription
+//        }
+//        self.id = id
+//        self.name = name
+//        self.typeString = typeString
+//        self.catagory = catagory
+//        self.power = power
+//        self.accuracy = accuracy
+//        self.pp = pp
+//        self.moveDescription = moveDescription
+//        self.effectChance = effectChance
+//    }
+//}
 
 
 

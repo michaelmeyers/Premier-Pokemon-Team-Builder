@@ -104,6 +104,7 @@ struct Keys {
     static let ckTeamRecordType = "PokemonTeam"
     static let ckPokemonRecordType = "Pokemon"
     static let ckPokemonTeamNameKey = "name"
+    static let ckPokemonTeamRecordIDString = "recordIDString"
     static let ckSixPokemonKey = "sixPokemon"
     static let ckPokemonNameKey = "name"
     static let ckPokemonItemKey = "item"

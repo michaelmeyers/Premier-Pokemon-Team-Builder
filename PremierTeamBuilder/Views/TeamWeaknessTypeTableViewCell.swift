@@ -45,9 +45,10 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         
         typeLabel.text = typeKey
 
-        guard let pokemonTeam = pokemonTeam else {return}
-        for pokemon in pokemonTeam.sixPokemon {
-            guard let value = pokemon?.weaknessDictionary?[typeKey] else {return}
+        guard let pokemonTeam = pokemonTeam,
+        let sixPokemon = pokemonTeam.sixPokemon?.array as? [Pokemon] else {return}
+        for pokemon in sixPokemon {
+            guard let value = pokemon.weaknessDictionary?[typeKey] else {return}
             if value == 0 {
                 zeroTotal += 1
             }
