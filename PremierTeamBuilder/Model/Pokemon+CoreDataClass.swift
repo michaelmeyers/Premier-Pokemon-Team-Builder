@@ -46,12 +46,12 @@ public class Pokemon: NSManagedObject {
         return CKReference(recordID: recordID , action: .deleteSelf)
     }
     
-    var moveIDs: [Int64]? {
-        return (try? JSONSerialization.jsonObject(with: moveIDsData as Data, options: .allowFragments)) as? [Int64]
+    var moveIDs: [Int64] {
+        return (try? JSONSerialization.jsonObject(with: moveIDsData as Data, options: .allowFragments)) as? [Int64] ?? []
     }
     
-    var abilities: [String]? {
-        return (try? JSONSerialization.jsonObject(with: abilitiesData as Data, options: .allowFragments)) as? [String]
+    var abilities: [String] {
+        return (try? JSONSerialization.jsonObject(with: abilitiesData as Data, options: .allowFragments)) as? [String] ?? []
     }
     
     var weaknessDictionary: typeDictionary? {

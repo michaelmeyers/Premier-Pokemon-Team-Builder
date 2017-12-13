@@ -19,9 +19,10 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let moves = pokemon?.moves else {
-            guard let pokemon = pokemon,
-            let moveIDs = pokemon.moveIDs else {return}
+        if pokemon?.moves == nil {
+            guard let pokemon = pokemon else {return}
+            if pokemon.moveIDs.count != 0 {
+                let moveIDs = pokemon.moveIDs
             let moves = MoveController.shared.moves
             var pokemonMoves: [Move] = []
             for id in moveIDs {
@@ -30,6 +31,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
             let sortedMoves = pokemonMoves.sorted { $0.name < $1.name }
             pokemon.moves = NSOrderedSet(array: sortedMoves)
             return
+            }
         }
     }
     
@@ -61,7 +63,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
         guard let buttonPressed = buttonPressed,
             let indexPath = tableView.indexPathForSelectedRow,
             let pokemon = pokemon,
-            let moves = pokemon.moves as? [Move] else {return}
+            let moves = pokemon.moves?.array as? [Move] else {return}
         let move = moves[indexPath.row]
         switch buttonPressed {
         case "move1": pokemon.move1 = move.name

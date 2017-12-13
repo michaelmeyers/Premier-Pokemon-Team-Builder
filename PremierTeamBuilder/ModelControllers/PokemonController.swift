@@ -118,6 +118,7 @@ class PokemonController {
         let pokemon = Pokemon (name: name, moveIDsData: moveIDsData, type1String: type1String, type2String: type2?.rawValue, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
 
         pokemon.recordIDString = recordIDString
+        pokemon.imageData = imageData
         saveToPersistentStore()
         PokemonTeamController.shared.performFullSync()
     }
@@ -274,11 +275,7 @@ class PokemonController {
     
     func deletePokemonFromContext(pokemon: Pokemon) {
         let moc = CoreDataStack.context
-        do{
-            try moc.delete(pokemon)
-        } catch let error {
-            print("Problem Saving to Persistent Store: \(error)")
-        }
+        moc.delete(pokemon)
     }
     
     

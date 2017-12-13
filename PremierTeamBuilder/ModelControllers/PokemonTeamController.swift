@@ -314,7 +314,7 @@ class PokemonTeamController {
                         return
                     }
                     let pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
-                    let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef)
+                    _ = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef)
                     self.saveToPersistentStore()
                 }
             }

@@ -11,6 +11,7 @@
         <attribute name="power" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="pp" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="typeString" attributeType="String" syncable="YES"/>
+        <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Pokemon" inverseName="moves" inverseEntity="Pokemon" syncable="YES"/>
     </entity>
     <entity name="Pokemon" representedClassName="Pokemon" syncable="YES">
         <attribute name="abilitiesData" attributeType="Binary" syncable="YES"/>
@@ -48,16 +49,17 @@
         <attribute name="speedStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="type1String" attributeType="String" syncable="YES"/>
         <attribute name="type2String" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="moves" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Move" syncable="YES"/>
+        <relationship name="moves" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Move" inverseName="pokemon" inverseEntity="Move" syncable="YES"/>
+        <relationship name="pokemonTeam" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonTeam" inverseName="sixPokemon" inverseEntity="PokemonTeam" syncable="YES"/>
     </entity>
     <entity name="PokemonTeam" representedClassName="PokemonTeam" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="recordIDString" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="sixPokemon" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Pokemon" syncable="YES"/>
+        <relationship name="sixPokemon" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Pokemon" inverseName="pokemonTeam" inverseEntity="Pokemon" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Move" positionX="-36" positionY="9" width="128" height="195"/>
-        <element name="Pokemon" positionX="-54" positionY="-9" width="128" height="585"/>
+        <element name="Move" positionX="-36" positionY="9" width="128" height="210"/>
+        <element name="Pokemon" positionX="-54" positionY="-9" width="128" height="600"/>
         <element name="PokemonTeam" positionX="18" positionY="189" width="128" height="90"/>
     </elements>
 </model>
