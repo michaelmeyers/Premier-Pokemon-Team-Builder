@@ -36,18 +36,31 @@ class TeamWeaknessHeaderTableViewCell: UITableViewCell {
     func updateCell() {
         typeLabel.text = "Type"
         typeLabel.textAlignment = .center
+        
         label0.text = "0"
+        label0.backgroundColor = .black
+        label0.textColor = .white
         label0.textAlignment = .center
+        
         halfLabel.text = "1/2"
         halfLabel.textAlignment = .center
+        halfLabel.backgroundColor = .yellowGreen
+        
         fourthLabel.text = "1/4"
         fourthLabel.textAlignment = .center
+        fourLabel.backgroundColor = .greenBlue
+        
         oneLabel.text = "1"
         oneLabel.textAlignment = .center
+        oneLabel.backgroundColor = .yellow
+        
         twoLabel.text = "2"
         twoLabel.textAlignment = .center
+        twoLabel.backgroundColor = .orangeYellow
+        
         fourLabel.text = "4"
         fourthLabel.textAlignment = .center
+        twoLabel.backgroundColor = .red
     }
     
 }

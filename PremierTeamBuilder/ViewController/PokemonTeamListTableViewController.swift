@@ -17,16 +17,21 @@ class PokemonTeamListTableViewController: UITableViewController {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        if PokemonTeamController.shared.pokemonList.count == 0 {
-//            PokemonTeamController.shared.fetchListOfAllPokemon(completion: { (success) in
-//                if success == true {
-//                    print ("Pokemon List Fully Loaded")
-//                } else {
-//                    print ("There was an error with the pokemon List fetch")
-//                }
-//            })
-//        }
+        fetchItemsList()
+        setUpUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    // MARK: - SetUpUI
+    func setUpUI() {
+        navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 76.0/255.0, blue: 76.0/255.0, alpha: 1.0)
+    }
+    
+    func fetchItemsList() {
         if PokemonTeamController.shared.items.count == 1 {
             PokemonTeamController.shared.fetchItems { (success) in
                 if success == true {
@@ -36,12 +41,16 @@ class PokemonTeamListTableViewController: UITableViewController {
                 }
             }
         }
-        MoveController.shared.loadMovesFromJSONFile()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+        
+        //        if PokemonTeamController.shared.pokemonList.count == 0 {
+        //            PokemonTeamController.shared.fetchListOfAllPokemon(completion: { (success) in
+        //                if success == true {
+        //                    print ("Pokemon List Fully Loaded")
+        //                } else {
+        //                    print ("There was an error with the pokemon List fetch")
+        //                }
+        //            })
+        //        }
     }
     
     // MARK: - Actions
@@ -61,9 +70,14 @@ class PokemonTeamListTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell else {return PokemonTeamTableViewCell()}
         let pokemonTeams = PokemonTeamController.shared.pokemonTeams
         let pokemonTeam = pokemonTeams[indexPath.row]
-        
+        var color: UIColor
+        if indexPath.row % 2 == 0 {
+            color = .cellGray
+        } else {
+            color = .white
+        }
         cell.pokemonTeam = pokemonTeam
-        cell.updatePokemonTeamCell()
+        cell.updatePokemonTeamCell(withColor: color)
         
         return cell
     }

@@ -44,6 +44,8 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         var extremelyEffectiveTotal: Int = 0
         
         typeLabel.text = typeKey
+        typeLabel.textColor = .black
+        typeLabel.backgroundColor = configureBackgroundColor(type: typeKey)
         
         guard let pokemonTeam = pokemonTeam,
             let sixPokemon = pokemonTeam.sixPokemon?.array as? [Pokemon] else {return}
@@ -111,6 +113,48 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
             if extremelyEffectiveTotal > 0 {
                 extremelyEffectiveLabel.backgroundColor = .red
             }
+        }
+    }
+    
+    func configureBackgroundColor(type: String) -> UIColor {
+        switch type {
+        case Type.bug.rawValue:
+            return UIColor.bug
+        case Type.dark.rawValue:
+            return UIColor.dark
+        case Type.dragon.rawValue:
+            return UIColor.dragon
+        case Type.electric.rawValue:
+            return UIColor.electric
+        case Type.fairy.rawValue:
+            return UIColor.fairy
+        case Type.fighting.rawValue:
+            return UIColor.fighting
+        case Type.fire.rawValue:
+            return UIColor.fire
+        case Type.flying.rawValue:
+            return UIColor.flying
+        case Type.ghost.rawValue:
+            return UIColor.ghost
+        case Type.grass.rawValue:
+            return UIColor.grass
+        case Type.ground.rawValue:
+            return UIColor.ground
+        case Type.ice.rawValue:
+            return UIColor.ice
+        case Type.normal.rawValue:
+            return UIColor.normal
+        case Type.poison.rawValue:
+            return UIColor.poison
+        case Type.psychic.rawValue:
+            return UIColor.psychic
+        case Type.rock.rawValue:
+            return UIColor.rock
+        case Type.steel.rawValue:
+            return UIColor.steel
+        case Type.water.rawValue:
+            return UIColor.water
+        default: fatalError()
         }
     }
 }

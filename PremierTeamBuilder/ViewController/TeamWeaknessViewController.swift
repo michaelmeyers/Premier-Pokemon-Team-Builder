@@ -15,13 +15,16 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     
     // MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var definitelyBalancedView: UIView!
+    @IBOutlet weak var probablyBalancedView: UIView!
+    @IBOutlet weak var teamWeaknessView: UIView!
+    @IBOutlet weak var UnbalancedWeaknessView: UIView!
+    
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.isScrollEnabled = false
+        
         
         // Do any additional setup after loading the view.
     }
@@ -29,6 +32,24 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - SetUpUI
+    func setUpUI() {
+        setDelegates()
+    }
+    
+    func configureLegend() {
+        definitelyBalancedView.backgroundColor = UIColor.green
+        probablyBalancedView.backgroundColor = UIColor.greenYellow
+        teamWeaknessView.backgroundColor = UIColor.red
+        UnbalancedWeaknessView.backgroundColor = UIColor.maroon
+    }
+    
+    func setDelegates() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isScrollEnabled = false
     }
     
     // MARK: - TableView Setup
@@ -51,15 +72,4 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
             return cell
         }
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
