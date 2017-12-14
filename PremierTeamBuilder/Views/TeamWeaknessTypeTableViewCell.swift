@@ -43,9 +43,11 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         var superEffectiveTotal: Int = 0
         var extremelyEffectiveTotal: Int = 0
         
-        typeLabel.text = typeKey
+        typeLabel.text = typeKey.uppercased()
         typeLabel.textColor = .black
         typeLabel.backgroundColor = configureBackgroundColor(type: typeKey)
+        typeLabel.adjustsFontSizeToFitWidth = true
+        typeLabel.minimumScaleFactor = 0.2
         
         guard let pokemonTeam = pokemonTeam,
             let sixPokemon = pokemonTeam.sixPokemon?.array as? [Pokemon] else {return}
@@ -72,11 +74,17 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         }
         
         immunityLabel.text = "\(zeroTotal)"
+        immunityLabel.textAlignment = .center
         fourthLabel.text = "\(fourthTotal)"
+        fourthLabel.textAlignment = .center
         halfLabel.text = "\(halfTotal)"
+        halfLabel.textAlignment = .center
         normalEffectiveLabel.text = "\(oneTotal)"
+        normalEffectiveLabel.textAlignment = .center
         superEffectiveLabel.text = "\(superEffectiveTotal)"
+        superEffectiveLabel.textAlignment = .center
         extremelyEffectiveLabel.text = "\(extremelyEffectiveTotal)"
+        extremelyEffectiveLabel.textAlignment = .center
         
         
         // TODO: GET MORE DISTINCT COLORS

@@ -24,8 +24,8 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegates()
-        sortedPokemon = PokemonController.shared.allPokemon
+        setUpUI()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +42,12 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     // MARK: - Setup View
+    func setUpUI() {
+        setDelegates()
+        sortedPokemon = PokemonController.shared.allPokemon
+        setNavigationBarTitle(onViewController: self, withTitle: "Pokemon Search")
+    }
+    
     func setDelegates() {
         pokemonSearchBar.delegate = self
         resultsTableView.dataSource = self
@@ -154,5 +160,6 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         let pokemon = PokemonController.shared.allPokemon[indexPath.row]
         pokemonDetailVC.pokemonTeam = pokemonTeam
         pokemonDetailVC.pokemonObject = pokemon
+        setBackBarButtonItem(ViewController: self)
     }
 }

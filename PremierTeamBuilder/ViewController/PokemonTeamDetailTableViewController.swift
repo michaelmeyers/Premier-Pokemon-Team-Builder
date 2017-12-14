@@ -12,9 +12,19 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     // MARK: - Propreties
     var pokemonTeam: PokemonTeam?
+    var teamName: String? {
+        didSet{
+            guard let teamName = teamName else {return}
+            setNavigationBarTitle(onViewController: self, withTitle: teamName)
+            tableView.reloadData()
+        }
+    }
     
-    @IBOutlet weak var teamNameTextField: UITextField!
+    // MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var editTeamNameButton: UIButton!
+    @IBOutlet weak var editTeamView: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,78 +52,71 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     // MARK: - Actions
     
-    @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
-        guard let pokemonTeam = pokemonTeam else {return}
-        guard let text = teamNameTextField.text, !text.isEmpty else {
-            // TODO: PRESENT ALERT
-            return
-        }
-        PokemonTeamController.shared.updateTeam(pokemonTeam: pokemonTeam, newName: text)
-        navigationController?.popViewController(animated: true)
-    }
-    
     @IBAction func unwindToPokemonTeamDetailVC(segue:UIStoryboardSegue) { }
     
-    
-    private func textFieldShouldReturn(_ textField: UITextField){
-        guard let text = teamNameTextField.text, !text.isEmpty else {return}
-        if let pokemonTeam = pokemonTeam {
-            pokemonTeam.name = text
-        } else {
-            let pokemonTeam = PokemonTeam(name: text)
-            PokemonTeamController.shared.createTeam(pokemonTeam: pokemonTeam)
-        }
+    @IBAction func editTeamNameButtonTapped(_ sender: UIButton) {
+        presentEditNameAlert()
     }
+
     // MARK: - setUpUI
     func setUpUI() {
         setDelegates()
-        setUpSaveButton()
         if let pokemonTeam = pokemonTeam {
-            teamNameTextField.text = pokemonTeam.name
+            teamName = pokemonTeam.name
         }
+        editTeamNameButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        editTeamNameButton.titleLabel?.minimumScaleFactor = 0.2
     }
     
     func setDelegates() {
-        teamNameTextField.delegate = self
+        tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func setUpSaveButton() {
-        let button = UIButton(type: .custom)
-        button.setTitle("Save", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        let item = UIBarButtonItem(customView: button)
-        self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
+    func configuredCellBackgroundColor(forCell cell: UITableViewCell, withIndexPath indexPath: IndexPath) {
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = .cellGray
+        } else {
+            cell.backgroundColor = .white
+        }
     }
-    
     
     // MARK: - Table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height = tableView.frame.height - editTeamView.frame.height
+        let cellCount = CGFloat(tableView.numberOfRows(inSection: 0))
+        let cellheight = height/cellCount
+        return cellheight
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let pokemonTeam = pokemonTeam,
             pokemonTeam.sixPokemon?.count != 0 else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+                configuredCellBackgroundColor(forCell: cell, withIndexPath: indexPath)
                 return cell
         }
         guard let sixPokemon = pokemonTeam.sixPokemon else {guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            configuredCellBackgroundColor(forCell: cell, withIndexPath: indexPath)
             return cell}
         if indexPath.row <= sixPokemon.count - 1 {
             let pokemon = pokemonTeam.sixPokemon?[indexPath.row] as? Pokemon
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonCellIdentifier, for: indexPath) as? PokemonTableViewCell else {return UITableViewCell()}
             
+            cell.backgroundColor = .cellGray
+            
             cell.pokemon = pokemon
             cell.updatePokemonCell()
+            configuredCellBackgroundColor(forCell: cell, withIndexPath: indexPath)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            configuredCellBackgroundColor(forCell: cell, withIndexPath: indexPath)
             return cell
         }
     }
@@ -184,5 +187,33 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             pokemonSearchVC.pokemonTeam = pokemonTeam
             //PokemonController.shared.allPokemon = []
         }
+        
+        if segue.identifier == Keys.segueIdentifierToTeamWeaknessVC {
+            guard let teamWeaknessVC = segue.destination as? TeamWeaknessViewController,
+                let pokemonTeam = pokemonTeam else {return}
+            teamWeaknessVC.pokemonTeam = pokemonTeam
+        }
+        setBackBarButtonItem(ViewController: self)
+    }
+    
+    // MARK: - Alert Controller
+    func presentEditNameAlert() {
+        let alertController = UIAlertController(title: "Edit Pokemon Tame Name", message: "What would you like your new name to be?", preferredStyle: .alert)
+        var nameTextField = UITextField()
+        alertController.addTextField { (textfield) in
+            textfield.placeholder = "Enter New Team Name"
+            nameTextField = textfield
+        }
+        
+        let change = UIAlertAction(title: "Change", style: .default) { (_) in
+            guard let text = nameTextField.text, text != "",
+            let pokemonTeam = self.pokemonTeam else {return}
+            self.teamName = text
+            PokemonTeamController.shared.updateTeam(pokemonTeam: pokemonTeam, newName: text)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(change)
+        alertController.addAction(cancel)
+        self.present(alertController, animated: true, completion: nil)
     }
 }

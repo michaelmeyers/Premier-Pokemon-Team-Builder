@@ -9,46 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ModelControllers/PokemonTeamController.swift"
-            timestampString = "534899279.911328"
+            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
+            timestampString = "534966427.59697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "fetchNewPokemon(pokemonTeam:)"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "fetchPokemonRecordFor(pokemonTeam:withRecordType:andPredicate:completion:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PremierTeamBuilder.PokemonTeamController.fetchNewPokemon(pokemonTeam: PremierTeamBuilder.PokemonTeam) -&gt; ()"
-                  moduleName = "PremierTeamBuilder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonTeamController.swift"
-                  timestampString = "534892465.454257"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
-                  offsetFromSymbolStart = "762">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Optional&lt;Swift.Array&lt;__ObjC.CKRecord&gt;&gt;, __ObjC.CKReference, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in PremierTeamBuilder.PokemonTeamController.fetchNewPokemon(pokemonTeam: PremierTeamBuilder.PokemonTeam) -&gt; ()"
-                  moduleName = "PremierTeamBuilder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonTeamController.swift"
-                  timestampString = "534892465.458127"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "319"
-                  endingLineNumber = "319"
-                  offsetFromSymbolStart = "90">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -57,13 +25,93 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PremierTeamBuilder/ModelControllers/PokemonController.swift"
-            timestampString = "534899279.911986"
+            filePath = "PremierTeamBuilder/ViewController/TeamWeaknessViewController.swift"
+            timestampString = "534966427.597964"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "310"
-            endingLineNumber = "310"
-            landmarkName = "deletePokemonFromContext(pokemon:)"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/TeamWeaknessViewController.swift"
+            timestampString = "534966427.59839"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/Views/TeamWeaknessTypeTableViewCell.swift"
+            timestampString = "534966427.59854"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "updateCell(withTypeKey:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/TeamWeaknessViewController.swift"
+            timestampString = "534966427.598904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/PokemonTeamDetailTableViewController.swift"
+            timestampString = "534966427.599027"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PremierTeamBuilder/ViewController/PokemonTeamListTableViewController.swift"
+            timestampString = "534966427.599384"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

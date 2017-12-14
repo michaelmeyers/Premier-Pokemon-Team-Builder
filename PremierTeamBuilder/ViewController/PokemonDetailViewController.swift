@@ -59,12 +59,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let pokemon = pokemonObject {
-            setUpView(pokemon: pokemon)
-        }
-        if let pokemon = pokemon {
-            setUpView(pokemon: pokemon)
-        }
+       setUpUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,6 +108,17 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     // MARK: -View Setup
+    
+    func setUpUI() {
+        if let pokemon = pokemonObject {
+            setUpView(pokemon: pokemon)
+        }
+        if let pokemon = pokemon {
+            setUpView(pokemon: pokemon)
+        }
+        guard let pokemon = pokemon else {return}
+        setNavigationBarTitle(onViewController: self, withTitle: pokemon.name)
+    }
     
     func setUpView(pokemon: Pokemon) {
         setUpSaveButton()
@@ -300,6 +306,6 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
             movesTVC.pokemon = pokemon
             movesTVC.buttonPressed = buttonPressed
         }
-        
+        setBackBarButtonItem(ViewController: self)
     }
 }

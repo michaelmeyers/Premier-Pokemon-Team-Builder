@@ -9,6 +9,27 @@
 import Foundation
 import UIKit
 
+func configureNavigationBar(onViewController vc: UIViewController) {
+    
+    let font = UIFont(name: "MarkerFelt-Thin", size: 24)
+    vc.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 76.0/255.0, blue: 76.0/255.0, alpha: 1.0)
+    let attributes = [ NSAttributedStringKey.font: font,
+                       NSAttributedStringKey.foregroundColor : UIColor.white,
+                       ]
+    vc.navigationController?.navigationBar.titleTextAttributes = attributes
+    vc.navigationController?.navigationBar.backItem?.title = ""
+}
+
+func setNavigationBarTitle(onViewController vc: UIViewController, withTitle title: String) {
+    vc.navigationItem.title = title
+}
+
+func setBackBarButtonItem(ViewController vc: UIViewController) {
+    let backBarItem = UIBarButtonItem()
+    backBarItem.title = ""
+    vc.navigationItem.backBarButtonItem = backBarItem
+}
+
 func changeLabelToTypeLabel(label: UILabel, type: Type) {
     
     // Designed for label framed width: 85 height: 28
