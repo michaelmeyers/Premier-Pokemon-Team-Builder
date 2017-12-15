@@ -5,7 +5,7 @@
 //  Created by Michael Meyers on 10/18/17.
 //  Copyright © 2017 Michael Meyers. All rights reserved.
 //
-
+import UIKit
 import Foundation
 
 struct Keys {
@@ -165,8 +165,11 @@ struct Keys {
     static let segueIdentifierBackToPokemonDetailVC = "backToPokemonDetailVC"
     static let unwindSegueIdentifierToPokemonTeamVC = "unwindToPokemonTeamDetailVC"
     static let segueIdentifierToTeamWeaknessVC = "toTeamWeaknessVC"
+    static let segueIdentifierToItemsTVC = "toItemTVC"
+    
+    // Notification Names
+    static let notificationToReloadTableView = Notification.Name("reloadTableView")
 }
-
 
 
 

@@ -154,12 +154,14 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         guard segue.identifier == Keys.segueIdentiferToPokemonDetailVCFromSearch,
             let tabBarController = segue.destination as? UITabBarController,
             let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
+            let pokemonStatsVC = tabBarController.childViewControllers.last as? PokemonStatsViewController,
             let indexPath = resultsTableView.indexPathForSelectedRow else {
                 return
         }
         let pokemon = PokemonController.shared.allPokemon[indexPath.row]
         pokemonDetailVC.pokemonTeam = pokemonTeam
-        pokemonDetailVC.pokemonObject = pokemon
+        pokemonDetailVC.pokemon = pokemon
+        pokemonStatsVC.pokemon = pokemon
         setBackBarButtonItem(ViewController: self)
     }
 }

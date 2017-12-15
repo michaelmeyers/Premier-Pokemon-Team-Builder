@@ -127,6 +127,18 @@ class PokemonController {
         PokemonTeamController.shared.performFullSync()
     }
     
+    func loadPokemonFromJSONFile() {
+        guard let pokemonDataURL = Bundle.main.url(forResource: "1-286", withExtension: "json"),
+            
+            let data = try? Data(contentsOf: pokemonDataURL),
+            
+            let jsonDictionary =  (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else {return}
+        for dictionary in jsonDictionary {
+            guard let _ = Pokemon.init(dictionary: dictionary) else {return}
+        }
+        saveToPersistentStore()
+    }
+    
     func loadPokemon(fromRecords records: [CKRecord]?, pokemonTeamRef: CKReference, completion: ([Pokemon]?) -> Void) {
         var pokemonArray: [Pokemon] = []
         guard let records = records else {
@@ -292,6 +304,7 @@ class PokemonController {
     func deletePokemonFromContext(pokemon: Pokemon) {
         let moc = CoreDataStack.context
         moc.delete(pokemon)
+        saveToPersistentStore()
     }
     
     

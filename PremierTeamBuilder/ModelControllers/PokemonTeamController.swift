@@ -23,10 +23,10 @@ class PokemonTeamController {
     }
     
     
-//    var allSearchableItems: [String] {
-//        let items: [String] = pokemonTypes + pokemonList.keys
-//        return items
-//    }
+    //    var allSearchableItems: [String] {
+    //        let items: [String] = pokemonTypes + pokemonList.keys
+    //        return items
+    //    }
     
     
     // MARK: - Crud
@@ -47,8 +47,8 @@ class PokemonTeamController {
     }
     
     func deleteTeam(pokemonTeam: PokemonTeam, indexPath: IndexPath) {
+        guard let recordID = pokemonTeam.recordID else { return }
         deleteTeamFromContext(pokemonTeam: pokemonTeam)
-        guard let recordID = pokemonTeam.recordID else {return}
         deletePokemonTeamRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("There was an error deleting Pokemon Team: \(error.localizedDescription)")
@@ -202,12 +202,15 @@ class PokemonTeamController {
     func deleteTeamFromContext(pokemonTeam: PokemonTeam) {
         let moc = CoreDataStack.context
         moc.delete(pokemonTeam)
+        saveToPersistentStore()
     }
     
     // MARK: - Syncing CoreData and CloudKit
     func performFullSync(completion: @escaping (() -> Void) = {  }) {
         
         guard !isSyncing else {
+            
+            // Add Timer to then call the function again
             completion()
             return
         }
@@ -224,10 +227,19 @@ class PokemonTeamController {
                     completion()
                     return
                 }
+                let group = DispatchGroup()
+                
                 for pokemonTeam in pokemonTeams {
-                    self.fetchNewPokemon(pokemonTeam: pokemonTeam)
+                    group.enter()
+                    self.fetchNewPokemon(pokemonTeam: pokemonTeam, completion: {
+                        group.leave()
+                    })
                 }
-                completion()
+                
+                group.notify(queue: .main, execute: {
+                    self.isSyncing = false
+                    completion()
+                })
             })
         }
     }
@@ -259,13 +271,14 @@ class PokemonTeamController {
             }
         }
         group.notify(queue: DispatchQueue.main) {
+            self.saveToPersistentStore()
+            
             if successes.contains(false) {
                 completion(false)
             } else {
                 completion(true)
             }
         }
-        
     }
     
     
@@ -304,7 +317,7 @@ class PokemonTeamController {
         }
     }
     
-    func fetchNewPokemon(pokemonTeam: PokemonTeam) {
+    func fetchNewPokemon(pokemonTeam: PokemonTeam, completion: @escaping () -> Void) {
         let type = Keys.ckPokemonRecordType
         var referencesToExclude = [CKReference]()
         var predicate: NSPredicate
@@ -318,22 +331,26 @@ class PokemonTeamController {
         PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: type, andPredicate: predicate) { (records, _, error) in
             if let error = error {
                 print("Error Fetching Pokemon Team Records : \(error.localizedDescription)")
+                completion()
                 return
             }
             guard let records = records else {
                 print ("no records")
+                completion()
                 return
             }
             
             for record in records {
                 guard let recordID = pokemonTeam.recordID else {
                     print ("Pokemon Team Reference")
-                    return
+                    continue
                 }
                 let pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
                 _ = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef)
-                self.saveToPersistentStore()
             }
+            
+            self.saveToPersistentStore()
+            completion()
         }
     }
     
@@ -384,7 +401,6 @@ class PokemonTeamController {
                 return
             }
             pokemonTeam.recordIDString = record.recordID.recordName
-            self.saveToPersistentStore()
             print("No Error")
             completion(success)
         }

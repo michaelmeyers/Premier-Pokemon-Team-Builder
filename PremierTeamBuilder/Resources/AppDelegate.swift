@@ -18,8 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         PokemonTeamController.shared.performFullSync {
             print("Full Sync Completed")
+            let nc = NotificationCenter()
+            nc.post(name: Keys.notificationToReloadTableView, object: nil)
         }
-        MoveController.shared.loadMovesFromJSONFile()
+        //MoveController.shared.loadMovesFromJSONFile()
+        //PokemonController.shared.loadPokemonFromJSONFile()
         return true
     }
 

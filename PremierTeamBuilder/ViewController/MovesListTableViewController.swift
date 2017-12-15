@@ -33,6 +33,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
                 return
             }
         }
+        setNavigationBarTitle(onViewController: self, withTitle: "Choose Your Move")
     }
     
     override func didReceiveMemoryWarning() {

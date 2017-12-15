@@ -17,6 +17,8 @@ class PokemonTeamListTableViewController: UITableViewController {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        let nc = NotificationCenter()
+        nc.addObserver(self, selector: #selector(reloadTableView), name: Keys.notificationToReloadTableView, object: nil)
         fetchItemsList()
         setUpUI()
     
@@ -43,16 +45,10 @@ class PokemonTeamListTableViewController: UITableViewController {
                 }
             }
         }
-        
-        //        if PokemonTeamController.shared.pokemonList.count == 0 {
-        //            PokemonTeamController.shared.fetchListOfAllPokemon(completion: { (success) in
-        //                if success == true {
-        //                    print ("Pokemon List Fully Loaded")
-        //                } else {
-        //                    print ("There was an error with the pokemon List fetch")
-        //                }
-        //            })
-        //        }
+    }
+    
+    @objc func reloadTableView() {
+        tableView.reloadData()
     }
     
     // MARK: - Actions

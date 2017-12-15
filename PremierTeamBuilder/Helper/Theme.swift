@@ -22,6 +22,7 @@ func configureNavigationBar(onViewController vc: UIViewController) {
 
 func setNavigationBarTitle(onViewController vc: UIViewController, withTitle title: String) {
     vc.navigationItem.title = title
+    print(vc.navigationItem.title)
 }
 
 func setBackBarButtonItem(ViewController vc: UIViewController) {

@@ -20,9 +20,7 @@ extension PokemonTeam: CloudKitSyncable {
         let recordID = self.recordID ?? CKRecordID(recordName: UUID().uuidString)
         let teamRecord = CKRecord(recordType: Keys.ckTeamRecordType, recordID: recordID)
         teamRecord[Keys.ckPokemonTeamNameKey] = name as CKRecordValue
-        if let recordIDString = recordIDString {
-            teamRecord[Keys.ckPokemonTeamRecordIDString] = recordIDString as CKRecordValue
-        }
+
         return teamRecord
     }
     
@@ -30,7 +28,7 @@ extension PokemonTeam: CloudKitSyncable {
         guard let name = ckRecord[Keys.ckPokemonTeamNameKey] as? String else {return nil}
         
         self.init(name: name, sixPokemon: [], context: CoreDataStack.context)
-        let recordIDString = ckRecord[Keys.ckPokemonTeamRecordIDString] as? String
+        let recordIDString = ckRecord.recordID.recordName
         self.recordIDString = recordIDString
     }
     

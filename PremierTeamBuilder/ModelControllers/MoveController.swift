@@ -44,8 +44,6 @@ class MoveController {
             moves.append(move)
         }
         saveToPersistentStore()
-//        moves = moves.sorted { $0.id < $1.id }
-//        self.moves = moves
     }
     
     func createMoveJSON(fromSearchTerm searchTerm:String, completion: @escaping([String: Any]) -> Void) {

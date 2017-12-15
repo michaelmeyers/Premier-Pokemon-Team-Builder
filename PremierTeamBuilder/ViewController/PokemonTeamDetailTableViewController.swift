@@ -198,7 +198,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     // MARK: - Alert Controller
     func presentEditNameAlert() {
-        let alertController = UIAlertController(title: "Edit Pokemon Tame Name", message: "What would you like your new name to be?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Edit Pokemon Team Name", message: "What would you like your new name to be?", preferredStyle: .alert)
         var nameTextField = UITextField()
         alertController.addTextField { (textfield) in
             textfield.placeholder = "Enter New Team Name"
