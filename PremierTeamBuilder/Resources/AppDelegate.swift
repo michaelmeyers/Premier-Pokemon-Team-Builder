@@ -21,8 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let nc = NotificationCenter()
             nc.post(name: Keys.notificationToReloadTableView, object: nil)
         }
-        //MoveController.shared.loadMovesFromJSONFile()
-        //PokemonController.shared.loadPokemonFromJSONFile()
         return true
     }
 

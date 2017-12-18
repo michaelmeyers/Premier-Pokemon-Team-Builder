@@ -22,7 +22,13 @@ func configureNavigationBar(onViewController vc: UIViewController) {
 
 func setNavigationBarTitle(onViewController vc: UIViewController, withTitle title: String) {
     vc.navigationItem.title = title
-    print(vc.navigationItem.title)
+}
+
+func setSaveButtonItem(ViewController vc: UIViewController) {
+    let saveBarItem = UIBarButtonItem()
+    saveBarItem.tintColor = .white
+    saveBarItem.title = "Save"
+    vc.navigationItem.rightBarButtonItem = saveBarItem
 }
 
 func setBackBarButtonItem(ViewController vc: UIViewController) {

@@ -148,6 +148,7 @@ struct Keys {
     // View and View Controller Keys
     static let pokemonTeamCellIdentifier = "pokemonTeamCell"
     static let pokemonCellIdentifier = "pokemonCell"
+    static let itemCellIdentifier = "itemCell"
     static let defaultPokemonCellIdentifier = "defaultCell"
     static let searchResultsCellIdentifier = "searchResultsCell"
     static let searchTermCellIdentifier = "searchTermCell"

@@ -22,13 +22,6 @@ class PokemonTeamController {
         return loadPokemonTeams()
     }
     
-    
-    //    var allSearchableItems: [String] {
-    //        let items: [String] = pokemonTypes + pokemonList.keys
-    //        return items
-    //    }
-    
-    
     // MARK: - Crud
     func createTeam(pokemonTeam: PokemonTeam){
         saveToPersistentStore()
@@ -59,47 +52,6 @@ class PokemonTeamController {
     
     // MARK: - API Methods
     
-    func fetchListOfAllPokemon(completion: @escaping (Bool?) -> Void) {
-        guard let url = URL(string: Keys.allPokemonBaseURL) else {return}
-        let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
-            if let error = error {
-                print("There was an error fetching the pokemonList information : \(error.localizedDescription)")
-                completion(false)
-                return
-            }
-            guard let data = data else {
-                completion(false)
-                return
-            }
-            guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
-                let dictionary = jsonDictionary,
-                let resultsArray = dictionary[Keys.allPokemonArrayKey] as? [[String: Any]] else {
-                    completion(false)
-                    return
-            }
-            for dictionary in resultsArray {
-                guard let name = dictionary[Keys.allPokemonNameKey] as? String else {
-                    completion(false)
-                    return
-                }
-                guard let urlString = dictionary[Keys.allPokemonURLKey] as? String else {
-                    completion(false)
-                    return
-                }
-                guard let url = URL(string: urlString) else {
-                    completion(false)
-                    return
-                }
-                self.pokemonList[name] = url
-            }
-            completion(true)
-        }
-        dataTask.resume()
-    }
-    
-    
-    //https://pokeapi.co/api/v2/generation/6/
-    
     func fetchItems(completion: @escaping (Bool?) -> Void) {
         guard let url = URL(string: Keys.itemBaseURLString) else {return}
         let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
@@ -124,58 +76,6 @@ class PokemonTeamController {
         }
         dataTask.resume()
     }
-    //https://pokeapi.co/api/v2/item-attribute/holdable-active/
-    
-    //    func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){
-    //
-    //        fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
-    //
-    //
-    //            if let error = error {
-    //                print(" : \(error.localizedDescription)")
-    //                completion()
-    //                return
-    //            }
-    //            guard let records = records else {
-    //                completion()
-    //                return}
-    //            var pokemonTeams: [PokemonTeam] = []
-    //            for record in records{
-    //                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
-    //                    completion()
-    //                    return}
-    //                pokemonTeams.append(pokemonTeam)
-    //            }
-    //
-    //            let group = DispatchGroup()
-    //            for pokemonTeam in pokemonTeams {
-    //                group.enter()
-    //                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error)  in
-    //                    if let error = error {
-    //                        print("There was an error fetching the pokemonRecords: \(error.localizedDescription)")
-    //                        group.leave()
-    //                        return
-    //                    }
-    //                    var sixPokemon: [Pokemon] = []
-    //                    guard let records = records else {
-    //                        group.leave()
-    //                        return}
-    //                    for record in records {
-    //                        guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
-    //                            group.leave()
-    //                            return}
-    //                        sixPokemon.append(pokemon)
-    //                    }
-    //                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
-    //                    group.leave()
-    //                })
-    //            }
-    //            group.notify(queue: DispatchQueue.main, execute: {
-    //                completion()
-    //            })
-    //        }
-    //
-    //    }
     
     // MARK: - Core Data
     func saveToPersistentStore() {
@@ -379,7 +279,6 @@ class PokemonTeamController {
         }
     }
     
-    
     // MARK: - CloudKit Func
     let privateDatabase = CKContainer.default().privateCloudDatabase
     
@@ -426,3 +325,97 @@ class PokemonTeamController {
     }
     
 }
+
+// MARK: - Out Data Code
+
+//https://pokeapi.co/api/v2/item-attribute/holdable-active/
+
+//    func fetchPokemonTeamsAndPokemonRecords(completion: @escaping () -> Void){
+//
+//        fetchPokemonTeamRecord(withRecordType: Keys.ckTeamRecordType) { (records, error) in
+//
+//
+//            if let error = error {
+//                print(" : \(error.localizedDescription)")
+//                completion()
+//                return
+//            }
+//            guard let records = records else {
+//                completion()
+//                return}
+//            var pokemonTeams: [PokemonTeam] = []
+//            for record in records{
+//                guard let pokemonTeam = PokemonTeam(ckRecord: record) else {
+//                    completion()
+//                    return}
+//                pokemonTeams.append(pokemonTeam)
+//            }
+//
+//            let group = DispatchGroup()
+//            for pokemonTeam in pokemonTeams {
+//                group.enter()
+//                PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error)  in
+//                    if let error = error {
+//                        print("There was an error fetching the pokemonRecords: \(error.localizedDescription)")
+//                        group.leave()
+//                        return
+//                    }
+//                    var sixPokemon: [Pokemon] = []
+//                    guard let records = records else {
+//                        group.leave()
+//                        return}
+//                    for record in records {
+//                        guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: reference) else {
+//                            group.leave()
+//                            return}
+//                        sixPokemon.append(pokemon)
+//                    }
+//                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
+//                    group.leave()
+//                })
+//            }
+//            group.notify(queue: DispatchQueue.main, execute: {
+//                completion()
+//            })
+//        }
+//
+//    }
+
+//    func fetchListOfAllPokemon(completion: @escaping (Bool?) -> Void) {
+//        guard let url = URL(string: Keys.allPokemonBaseURL) else {return}
+//        let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
+//            if let error = error {
+//                print("There was an error fetching the pokemonList information : \(error.localizedDescription)")
+//                completion(false)
+//                return
+//            }
+//            guard let data = data else {
+//                completion(false)
+//                return
+//            }
+//            guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+//                let dictionary = jsonDictionary,
+//                let resultsArray = dictionary[Keys.allPokemonArrayKey] as? [[String: Any]] else {
+//                    completion(false)
+//                    return
+//            }
+//            for dictionary in resultsArray {
+//                guard let name = dictionary[Keys.allPokemonNameKey] as? String else {
+//                    completion(false)
+//                    return
+//                }
+//                guard let urlString = dictionary[Keys.allPokemonURLKey] as? String else {
+//                    completion(false)
+//                    return
+//                }
+//                guard let url = URL(string: urlString) else {
+//                    completion(false)
+//                    return
+//                }
+//                self.pokemonList[name] = url
+//            }
+//            completion(true)
+//        }
+//        dataTask.resume()
+//    }
+

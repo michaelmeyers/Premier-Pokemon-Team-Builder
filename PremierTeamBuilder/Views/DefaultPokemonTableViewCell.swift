@@ -24,6 +24,14 @@ class DefaultPokemonTableViewCell: UITableViewCell {
         defaultImageView.image = #imageLiteral(resourceName: "substitute")
         defaultNameLabel.text = "Click to add Pokemon"
         defaultTypeLabel.text = "???"
+        defaultTypeLabel.layer.borderColor = UIColor.noTypeBorder.cgColor
+        defaultTypeLabel.layer.backgroundColor = UIColor.noType.cgColor
+        defaultTypeLabel.font = UIFont(name: "ArialRoundedMTBold", size: 15)
+        defaultTypeLabel.layer.borderWidth = 3.0
+        defaultTypeLabel.textColor = UIColor.white
+        defaultTypeLabel.textAlignment = .center
+        defaultTypeLabel.layer.cornerRadius = defaultTypeLabel.frame.height/2.5
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

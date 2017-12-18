@@ -29,21 +29,6 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-//        if let pokemonTeam = pokemonTeam {
-//            PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error) in
-//                if let error = error {
-//                    print("There was an error fethcing Pokemon Data for CloudKit: \(error.localizedDescription)")
-//                    return
-//                }
-//                PokemonController.shared.loadPokemon(fromRecords: records, pokemonTeamRef: reference, completion: { (pokemons) in
-//                    guard let sixPokemon = pokemons else {return}
-//                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
-//                    DispatchQueue.main.async {
-//                        self.tableView.reloadData()
-//                    }
-//                })
-//            })
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,15 +107,6 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     }
     
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -149,22 +125,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
 
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -217,3 +178,21 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         self.present(alertController, animated: true, completion: nil)
     }
 }
+
+// Outdated Code
+
+//        if let pokemonTeam = pokemonTeam {
+//            PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: Keys.ckPokemonRecordType, completion: { (records, reference, error) in
+//                if let error = error {
+//                    print("There was an error fethcing Pokemon Data for CloudKit: \(error.localizedDescription)")
+//                    return
+//                }
+//                PokemonController.shared.loadPokemon(fromRecords: records, pokemonTeamRef: reference, completion: { (pokemons) in
+//                    guard let sixPokemon = pokemons else {return}
+//                    pokemonTeam.sixPokemon = NSOrderedSet(array: sixPokemon)
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                    }
+//                })
+//            })
+//        }

@@ -41,11 +41,6 @@ public class Pokemon: NSManagedObject {
         return CKRecordID(recordName: recordIDString)
     }
     
-    var pokemonTeamRef: CKReference? {
-        guard let recordID = recordID else {return nil}
-        return CKReference(recordID: recordID , action: .deleteSelf)
-    }
-    
     var moveIDs: [Int64] {
         return (try? JSONSerialization.jsonObject(with: moveIDsData as Data, options: .allowFragments)) as? [Int64] ?? []
     }

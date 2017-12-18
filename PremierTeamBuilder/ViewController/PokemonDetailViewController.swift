@@ -11,8 +11,6 @@ import CloudKit
 
 class PokemonDetailViewController: UIViewController {
     
-    //TODO: Review Code and fix to make sure it follows proper MVC
-    
     // MARK: - Properties
     var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
@@ -62,13 +60,15 @@ class PokemonDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateMoveButtons()
+        updateItemButton()
+        updateNatureLabel()
     }
     
     // MARK: - Actions
     
     @objc func saveButtonTapped() {
         guard let pokemonTeam = pokemonTeam else {return}
-        if pokemon?.pokemonTeamRef == nil {
+        if pokemon?.pokemonTeamRefString == nil {
             guard let pokemon = self.pokemon else {return}
             PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
             PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
@@ -78,8 +78,6 @@ class PokemonDetailViewController: UIViewController {
                     print("Team Was NOT Saved")
                 }
             }
-            performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
-            return
         } else {
             guard let pokemon = pokemon else {return}
             PokemonController.shared.updatePokemon(pokemon: pokemon)
@@ -91,8 +89,7 @@ class PokemonDetailViewController: UIViewController {
                 }
             }
         }
-        navigationController?.popViewController(animated: true)
-        navigationController?.popViewController(animated: true)
+        performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
     }
     
     @IBAction func abilityButtonTapped(_ sender: UIButton) {
@@ -100,7 +97,7 @@ class PokemonDetailViewController: UIViewController {
     }
     
     @IBAction func itemActionTapped(_ sender: UIButton) {
-        // Segue
+        // No actions is Need Button is Just a Segue
     }
     
     // MARK: -View Setup
@@ -158,13 +155,14 @@ class PokemonDetailViewController: UIViewController {
     func setUpSaveButton() {
         let button = UIButton(type: .custom)
         button.setTitle("Save", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         let item = UIBarButtonItem(customView: button)
         self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
     }
     
+    // Func to call and set up all of the Pokemon Bar Graphs
     func barGraphSetup(pokemon: Pokemon){
         configureProgressView(progressView: hpProgressView, stat: pokemon.hpStat, maxValue: maxHPValue)
         configureProgressView(progressView: attackProgressView, stat: pokemon.attackStat, maxValue: maxValue)
@@ -174,6 +172,7 @@ class PokemonDetailViewController: UIViewController {
         configureProgressView(progressView: speedProgressView, stat: pokemon.speedStat, maxValue: maxValue)
     }
     
+    // Progress Bars are used to make the bar graph for the Pokemon Stats
     func configureProgressView (progressView: UIProgressView, stat: Int64, maxValue: Float) {
         let statFloat = Float(stat)
         let progress = statFloat/maxValue
@@ -183,6 +182,7 @@ class PokemonDetailViewController: UIViewController {
         progressView.progressTintColor = color
     }
     
+    // Configured the color based of the amount of the stat.
     func configureColor(stat: Float) -> UIColor {
         switch stat {
         case ..<40.0: return UIColor.maroon
@@ -198,6 +198,7 @@ class PokemonDetailViewController: UIViewController {
         }
     }
     
+    // Set all of the Stats to show the Pokemons Stats
     func setStatLabels(pokemon: Pokemon) {
         hpStatLabel.text = "\(pokemon.hpStat)"
         attackStatLabel.text = "\(pokemon.attackStat)"
@@ -206,7 +207,20 @@ class PokemonDetailViewController: UIViewController {
         spDefStatLabel.text = "\(pokemon.spDefenseStat)"
         speedStatLabel.text = "\(pokemon.speedStat)"
     }
+    // Set the Item Button to match the Pokemon's Item
+    func updateItemButton() {
+        guard let pokemon = pokemon else {return}
+        itemButton.setTitle(pokemon.item, for: .normal)
+    }
     
+    // Sets the Nature Label to match the Pokemon's Nature
+    func updateNatureLabel() {
+        guard let pokemon = pokemon,
+            let nature = pokemon.nature else {return}
+        natureLabel.text = nature.rawValue
+    }
+    
+    // Changed to Move Button Labels to match their corresponding strings on the Pokemon
     func updateMoveButtons() {
         if let pokemon = pokemon {
             if let move = pokemon.move1 {
@@ -224,53 +238,6 @@ class PokemonDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - PickerView Datasource and Delegate
-    //    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    //        return 1
-    //    }
-    //
-    //    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    //        if pickerView == abilityPickerView {
-    //            guard let pokemon = pokemon else {return 0}
-    //            return pokemon.abilities.count
-    //        }
-    //        if pickerView == itemPickerView {
-    //            return PokemonTeamController.shared.items.count
-    //        }
-    //        return 0
-    //    }
-    //
-    //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    //        if pickerView == abilityPickerView {
-    //            return pokemon?.abilities[row]
-    //        }
-    //        if pickerView == itemPickerView {
-    //            return PokemonTeamController.shared.items[row]
-    //        }
-    //        return ""
-    //    }
-    //
-    //    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    //        if pickerView == abilityPickerView {
-    //            guard let abilities = pokemon?.abilities else {return}
-    //            abilityButton.setTitle(abilities[row], for: .normal)
-    //            pokemon?.chosenAbility = pokemon?.abilities[row]
-    //            abilityPickerView.isHidden = true
-    //            abilityButton.isHidden = false
-    //        }
-    //        if pickerView == itemPickerView {
-    //            let item = PokemonTeamController.shared.items[row]
-    //            itemButton.setTitle(item, for: .normal)
-    //            pokemon?.item = item
-    //            itemPickerView.isHidden = true
-    //            itemButton.isHidden = false
-    //        }
-    //    }
-    
-    // MARK: - Methods
-    
-    
-    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -283,23 +250,27 @@ class PokemonDetailViewController: UIViewController {
             var buttonPressed: String = ""
             if segue.identifier == Keys.segueIdentifierMove1ToMovesTVC {
                 buttonPressed = "move1"
+                setBackBarButtonItem(ViewController: self)
             }
             if segue.identifier == Keys.segueIdentifierMove2ToMovesTVC {
                 buttonPressed = "move2"
+                setBackBarButtonItem(ViewController: self)
             }
             if segue.identifier == Keys.segueIdentifierMove3ToMovesTVC {
                 buttonPressed = "move3"
+                setBackBarButtonItem(ViewController: self)
             }
             if segue.identifier == Keys.segueIdentifierMove4ToMovesTVC {
                 buttonPressed = "move4"
+                setBackBarButtonItem(ViewController: self)
             }
             guard let movesTVC = segue.destination as? MovesListTableViewController else {return}
             if let pokemon = pokemon {
                 movesTVC.pokemon = pokemon
                 movesTVC.buttonPressed = buttonPressed
+                setBackBarButtonItem(ViewController: self)
             }
         }
-        setBackBarButtonItem(ViewController: self)
     }
     
     // MARK: - Alert Controller

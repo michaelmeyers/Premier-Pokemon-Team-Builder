@@ -19,7 +19,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if pokemon?.moves == nil {
+        if pokemon?.moves?.count == 0 {
             guard let pokemon = pokemon else {return}
             if pokemon.moveIDs.count != 0 {
                 let moveIDs = pokemon.moveIDs

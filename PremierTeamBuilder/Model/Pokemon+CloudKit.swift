@@ -42,6 +42,7 @@ extension Pokemon: CloudKitSyncable {
             let imageData = ckRecord[Keys.ckPokemonImageData] as? Data? else {
                 return nil
         }
+        let pokemonTeamRefString = ckRecord[Keys.ckReferenceKey] as? String
         let imageEndpoint = ckRecord[Keys.ckPokemonImageEndpoint] as? String
         let type2String = ckRecord[Keys.ckPokemonType2Key] as? String
         let chosenAbility = ckRecord[Keys.pokemonAbilityKey] as? String
@@ -86,12 +87,12 @@ extension Pokemon: CloudKitSyncable {
         self.move2 = move2
         self.move3 = move3
         self.move4 = move4
+        self.pokemonTeamRefString = pokemonTeamRefString
     }
     
     var ckRecord: CKRecord? {
         let recordID = self.recordID ?? CKRecordID(recordName: UUID().uuidString)
         let pokemonRecord = CKRecord(recordType: Keys.ckPokemonRecordType, recordID: recordID)
-        pokemonRecord[Keys.ckReferenceKey] = pokemonTeamRef
         pokemonRecord[Keys.ckPokemonNameKey] = name as CKRecordValue
         pokemonRecord[Keys.ckPokemonIDKey] = id as CKRecordValue
         pokemonRecord[Keys.ckPokemonItemKey] = item as CKRecordValue
@@ -146,6 +147,9 @@ extension Pokemon: CloudKitSyncable {
         }
         if let move4 = move4 {
             pokemonRecord[Keys.ckPokemonMove4Key] = move4 as CKRecordValue
+        }
+        if let pokemonTeamRefString = pokemonTeamRefString {
+            pokemonRecord[Keys.ckReferenceKey] = pokemonTeamRefString as CKRecordValue
         }
         return pokemonRecord
     }
