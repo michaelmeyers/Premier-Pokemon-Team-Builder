@@ -128,7 +128,7 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
      if editingStyle == .delete {
         let pokemon = sortedPokemon[indexPath.row]
-        PokemonController.shared.deletePokemonFromContext(pokemon: pokemon)
+        PokemonController.shared.deletePokemonFromUserContext(pokemon: pokemon)
         tableView.reloadData()
      } else if editingStyle == .insert {
      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -152,17 +152,12 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == Keys.segueIdentiferToPokemonDetailVCFromSearch,
-            let tabBarController = segue.destination as? UITabBarController,
-            let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
-            let pokemonStatsVC = tabBarController.childViewControllers.last as? PokemonStatsViewController,
-            let indexPath = resultsTableView.indexPathForSelectedRow else {
-                return
-        }
+            let pokemonDetailVC = segue.destination as? PokemonDetailViewController,
+            let indexPath = resultsTableView.indexPathForSelectedRow,
+        let pokemonTeam = pokemonTeam else { return }
         let pokemon = sortedPokemon[indexPath.row]
-        pokemonDetailVC.pokemonTeam = pokemonTeam
-        pokemonDetailVC.pokemon = pokemon
-        pokemonStatsVC.pokemon = pokemon
+        let userPokemon = PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
+        pokemonDetailVC.pokemon = userPokemon
         setBackBarButtonItem(ViewController: self)
-        
     }
 }

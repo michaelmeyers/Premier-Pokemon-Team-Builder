@@ -118,8 +118,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             guard let pokemonTeam = pokemonTeam,
                 let sixPokemon = pokemonTeam.sixPokemon,
                 let pokemon = sixPokemon.object(at: indexPath.row) as? Pokemon else {return}
-            //let newIndexPath = IndexPath(row: 5, section: 0)
-            PokemonController.shared.deletePokemon(pokemon: pokemon, fromTeam: pokemonTeam)
+            PokemonController.shared.deletePokemon(pokemon: pokemon)
             tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -131,16 +130,12 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Keys.pokemonTeamDetailSegueIdentifier {
-            guard let tabBarController = segue.destination as? UITabBarController,
-                let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
-                let pokemonStatsVC = tabBarController.childViewControllers[1] as? PokemonStatsViewController,
+            guard let pokemonDetailVC = segue.destination as? PokemonDetailViewController,
                 let pokemonTeam = pokemonTeam,
                 let indexPath = tableView.indexPathForSelectedRow,
                 let sixPokemon = pokemonTeam.sixPokemon,
                 let pokemon = sixPokemon.object(at: indexPath.row) as? Pokemon else {return}
             pokemonDetailVC.pokemon = pokemon
-            pokemonDetailVC.pokemonTeam = pokemonTeam
-            pokemonStatsVC.pokemon = pokemon
         }
         if segue.identifier == Keys.segueIdentifierToPokemonSearchVC {
             guard let pokemonSearchVC = segue.destination as? PokemonSearchViewController,

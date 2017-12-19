@@ -342,10 +342,14 @@
                     <connections>
                         <outlet property="UnbalancedWeaknessView" destination="KaG-UX-90t" id="C0C-Lg-NT2"/>
                         <outlet property="definitelyBalancedView" destination="eSG-sP-iWh" id="dk8-NX-mNd"/>
+                        <outlet property="definitelyLabel" destination="r2k-IN-gwl" id="F21-fk-O1Q"/>
                         <outlet property="probablyBalancedView" destination="0AP-st-ej2" id="odr-Rg-SdN"/>
+                        <outlet property="probablyLabel" destination="Zfb-1y-Uaz" id="OGs-2s-mxc"/>
                         <outlet property="tableView" destination="RlZ-x6-t9W" id="s8N-Vx-Bzr"/>
                         <outlet property="teamNameLabel" destination="Hpu-DT-4vH" id="km7-IS-QF4"/>
+                        <outlet property="teamWeaknessLabel" destination="mEi-L4-Rkr" id="jmL-df-yzi"/>
                         <outlet property="teamWeaknessView" destination="EmK-Ab-zYV" id="gdz-ac-muG"/>
+                        <outlet property="unbalancedLabel" destination="o9E-SY-gXT" id="Tmf-qO-mln"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ujR-OM-PBk" userLabel="First Responder" sceneMemberID="firstResponder"/>

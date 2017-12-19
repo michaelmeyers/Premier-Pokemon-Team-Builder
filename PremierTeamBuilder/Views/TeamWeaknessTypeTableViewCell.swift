@@ -90,79 +90,37 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         // TODO: GET MORE DISTINCT COLORS
         if (zeroTotal * 4) + (fourthTotal * 4) + (halfTotal * 2) < (superEffectiveTotal * 2) + (extremelyEffectiveTotal * 4) {
             if zeroTotal > 0 {
-                immunityLabel.backgroundColor = .greenYellow
+                immunityLabel.backgroundColor = .probably
             }
             if fourthTotal > 0 {
-                fourthLabel.backgroundColor = .greenYellow
+                fourthLabel.backgroundColor = .probably
             }
             if halfTotal > 0 {
-                halfLabel.backgroundColor = .greenYellow
+                halfLabel.backgroundColor = .probably
             }
             if superEffectiveTotal > 0 {
-                superEffectiveLabel.backgroundColor = .maroon
+                superEffectiveLabel.backgroundColor = .unbalanced
             }
             if extremelyEffectiveTotal > 0 {
-                extremelyEffectiveLabel.backgroundColor = .maroon
+                extremelyEffectiveLabel.backgroundColor = .unbalanced
             }
         }
         if (zeroTotal * 4) + (fourthTotal * 4) + (halfTotal * 2) > (superEffectiveTotal * 2) + (extremelyEffectiveTotal * 4) {
             if zeroTotal > 0 {
-                immunityLabel.backgroundColor = .green
+                immunityLabel.backgroundColor = .definitely
             }
             if fourthTotal > 0 {
-                fourthLabel.backgroundColor = .green
+                fourthLabel.backgroundColor = .definitely
             }
             if halfTotal > 0 {
-                halfLabel.backgroundColor = .green
+                halfLabel.backgroundColor = .definitely
             }
             if superEffectiveTotal > 0 {
-                superEffectiveLabel.backgroundColor = .red
+                superEffectiveLabel.backgroundColor = .weak
             }
             if extremelyEffectiveTotal > 0 {
-                extremelyEffectiveLabel.backgroundColor = .red
+                extremelyEffectiveLabel.backgroundColor = .weak
             }
-        }
-    }
-    
-    func configureBackgroundColor(type: String) -> UIColor {
-        switch type {
-        case Type.bug.rawValue:
-            return UIColor.bug
-        case Type.dark.rawValue:
-            return UIColor.dark
-        case Type.dragon.rawValue:
-            return UIColor.dragon
-        case Type.electric.rawValue:
-            return UIColor.electric
-        case Type.fairy.rawValue:
-            return UIColor.fairy
-        case Type.fighting.rawValue:
-            return UIColor.fighting
-        case Type.fire.rawValue:
-            return UIColor.fire
-        case Type.flying.rawValue:
-            return UIColor.flying
-        case Type.ghost.rawValue:
-            return UIColor.ghost
-        case Type.grass.rawValue:
-            return UIColor.grass
-        case Type.ground.rawValue:
-            return UIColor.ground
-        case Type.ice.rawValue:
-            return UIColor.ice
-        case Type.normal.rawValue:
-            return UIColor.normal
-        case Type.poison.rawValue:
-            return UIColor.poison
-        case Type.psychic.rawValue:
-            return UIColor.psychic
-        case Type.rock.rawValue:
-            return UIColor.rock
-        case Type.steel.rawValue:
-            return UIColor.steel
-        case Type.water.rawValue:
-            return UIColor.water
-        default: fatalError()
         }
     }
 }

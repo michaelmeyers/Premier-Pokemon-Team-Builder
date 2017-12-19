@@ -15,6 +15,8 @@
 		920943181FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */; };
 		9209431A1FA0F9ED0090ACB2 /* PokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943191FA0F9ED0090ACB2 /* PokemonTableViewCell.swift */; };
 		9209431C1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209431B1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift */; };
+		9210F3D91FE8610100019E66 /* UserCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9210F3D81FE8610100019E66 /* UserCoreDataStack.swift */; };
+		9210F3DB1FE8747000019E66 /* PremierTeamBuilder2.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 9210F3DA1FE8747000019E66 /* PremierTeamBuilder2.xcdatamodel */; };
 		9215EE7A1FDAF0C900842330 /* Move+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9215EE781FDAF0C900842330 /* Move+CoreDataClass.swift */; };
 		9215EE7B1FDAF0C900842330 /* Move+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9215EE791FDAF0C900842330 /* Move+CoreDataProperties.swift */; };
 		9215EE7E1FDAF78F00842330 /* PokemonTeam+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9215EE7C1FDAF78F00842330 /* PokemonTeam+CoreDataClass.swift */; };
@@ -64,6 +66,8 @@
 		920943171FA0EECC0090ACB2 /* PokemonTeamTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamTableViewCell.swift; sourceTree = "<group>"; };
 		920943191FA0F9ED0090ACB2 /* PokemonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTableViewCell.swift; sourceTree = "<group>"; };
 		9209431B1FA0FA020090ACB2 /* DefaultPokemonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPokemonTableViewCell.swift; sourceTree = "<group>"; };
+		9210F3D81FE8610100019E66 /* UserCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoreDataStack.swift; sourceTree = "<group>"; };
+		9210F3DA1FE8747000019E66 /* PremierTeamBuilder2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; name = PremierTeamBuilder2.xcdatamodel; path = PremierTeamBuilder.xcdatamodeld/PremierTeamBuilder2.xcdatamodel; sourceTree = "<group>"; };
 		9215EE781FDAF0C900842330 /* Move+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9215EE791FDAF0C900842330 /* Move+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Move+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9215EE7C1FDAF78F00842330 /* PokemonTeam+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PokemonTeam+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 				9215EE7D1FDAF78F00842330 /* PokemonTeam+CoreDataProperties.swift */,
 				926A08461F9FA1560075C1E5 /* PokemonTeam+CloudKit.swift */,
 				926A23D51FD9E6CA0075AEB1 /* PremierTeamBuilder.xcdatamodeld */,
+				9210F3DA1FE8747000019E66 /* PremierTeamBuilder2.xcdatamodel */,
 				9286971C1FE46E360051D392 /* Starting Core Data */,
 			);
 			path = Model;
@@ -257,6 +262,7 @@
 				923B11E71F980A62005E8A44 /* TypeInfo.swift */,
 				92BD35201FA3AC220047E3CB /* Theme.swift */,
 				926A23D81FD9FE6B0075AEB1 /* CoreDataStack.swift */,
+				9210F3D81FE8610100019E66 /* UserCoreDataStack.swift */,
 				92F03C521FDEE41700CC660C /* CloudKitSyncable.swift */,
 			);
 			path = Helper;
@@ -376,7 +382,9 @@
 				923B11E61F9807F1005E8A44 /* Keys.swift in Sources */,
 				92F03C531FDEE41700CC660C /* CloudKitSyncable.swift in Sources */,
 				92B2D07D1FA046F4005C0044 /* PokemonTeamListTableViewController.swift in Sources */,
+				9210F3D91FE8610100019E66 /* UserCoreDataStack.swift in Sources */,
 				920943141FA0EA6C0090ACB2 /* PokemonStatsViewController.swift in Sources */,
+				9210F3DB1FE8747000019E66 /* PremierTeamBuilder2.xcdatamodel in Sources */,
 				923B11E81F980A62005E8A44 /* TypeInfo.swift in Sources */,
 				926571C91F9EA998006DDF4C /* PokemonTeamController.swift in Sources */,
 				9215EE7F1FDAF78F00842330 /* PokemonTeam+CoreDataProperties.swift in Sources */,

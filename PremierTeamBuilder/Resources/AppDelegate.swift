@@ -13,14 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        PokemonTeamController.shared.fetchItemsList()
         PokemonTeamController.shared.performFullSync {
             print("Full Sync Completed")
-            let nc = NotificationCenter()
+            let nc = NotificationCenter.default
             nc.post(name: Keys.notificationToReloadTableView, object: nil)
         }
+        MoveController.shared.copyPokemonMovesToUserContext()
+        
         return true
     }
 

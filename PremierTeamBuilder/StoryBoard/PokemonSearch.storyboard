@@ -114,7 +114,7 @@
                 <viewControllerPlaceholder storyboardName="PokemonDetails" id="KVj-4p-dJ3" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OaC-hC-AZL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2849" y="1554"/>
+            <point key="canvasLocation" x="2747" y="1554"/>
         </scene>
     </scenes>
 </document>

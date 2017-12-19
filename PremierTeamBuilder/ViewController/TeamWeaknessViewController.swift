@@ -21,6 +21,10 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var UnbalancedWeaknessView: UIView!
     @IBOutlet weak var teamNameLabel: UILabel!
     
+    @IBOutlet weak var definitelyLabel: UILabel!
+    @IBOutlet weak var probablyLabel: UILabel!
+    @IBOutlet weak var unbalancedLabel: UILabel!
+    @IBOutlet weak var teamWeaknessLabel: UILabel!
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -43,10 +47,18 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func configureLegend() {
-        definitelyBalancedView.backgroundColor = UIColor.green
-        probablyBalancedView.backgroundColor = UIColor.greenYellow
-        teamWeaknessView.backgroundColor = UIColor.red
-        UnbalancedWeaknessView.backgroundColor = UIColor.maroon
+        definitelyBalancedView.backgroundColor = UIColor.definitely
+        definitelyLabel.adjustsFontSizeToFitWidth = true
+        definitelyLabel.minimumScaleFactor = 0.2
+        probablyBalancedView.backgroundColor = UIColor.probably
+        probablyLabel.adjustsFontSizeToFitWidth = true
+        probablyLabel.minimumScaleFactor = 0.2
+        teamWeaknessView.backgroundColor = UIColor.weak
+        teamWeaknessLabel.adjustsFontSizeToFitWidth = true
+        teamWeaknessLabel.minimumScaleFactor = 0.2
+        UnbalancedWeaknessView.backgroundColor = UIColor.unbalanced
+        unbalancedLabel.adjustsFontSizeToFitWidth = true
+        unbalancedLabel.minimumScaleFactor = 0.2
         guard let pokemonTeam = pokemonTeam else {return}
         teamNameLabel.text = pokemonTeam.name
     }

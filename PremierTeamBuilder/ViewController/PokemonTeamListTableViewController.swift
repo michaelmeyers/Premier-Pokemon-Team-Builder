@@ -17,11 +17,9 @@ class PokemonTeamListTableViewController: UITableViewController {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nc = NotificationCenter()
+        let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(reloadTableView), name: Keys.notificationToReloadTableView, object: nil)
-        fetchItemsList()
         setUpUI()
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,20 +33,10 @@ class PokemonTeamListTableViewController: UITableViewController {
         setNavigationBarTitle(onViewController: self, withTitle: "My Pokemon Teams")
     }
     
-    func fetchItemsList() {
-        if PokemonTeamController.shared.items.count == 1 {
-            PokemonTeamController.shared.fetchItems { (success) in
-                if success == true {
-                    print ("Item List Fully Loaded")
-                } else {
-                    print ("There was an error with the Item List fetch")
-                }
-            }
-        }
-    }
-    
     @objc func reloadTableView() {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - Actions

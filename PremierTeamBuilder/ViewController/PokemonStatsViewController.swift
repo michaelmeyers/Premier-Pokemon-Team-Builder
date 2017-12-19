@@ -11,6 +11,8 @@ import UIKit
 class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Properties
+    var textFieldBeingEdited: UITextField?
+    var currentYShiftForKeyboard: CGFloat = 0
     let natures = changeNatureEnumToArray()
     var pokemon: Pokemon?
     
@@ -123,41 +125,42 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-        guard let pokemon = pokemon else {return}
+        guard let pokemon = pokemon,
+        let text = textField.text else {return}
+        
+        guard let int = Int(text) else {return}
+        guard int <= 31 else {
+            presentSimpleAlert(controllerToPresentAlert: self, title: "IVs Cannot Exceed 31", message: "")
+            return
+        }
         
         if textField == ivHPTextField {
-            guard let text = textField.text,
-                let value = Int64(text) else {return}
+            guard let value = Int64(text) else {return}
             pokemon.ivHP = value
             updateUpUI()
         }
         if textField == ivAttackTextField {
-            guard let text = textField.text,
-                let value = Int64(text) else {return}
+            guard let value = Int64(text) else {return}
             pokemon.ivAttack = value
             updateUpUI()
         }
         if textField == ivDefenseTextField {
-            guard let text = textField.text,
-                let value = Int64(text) else {return}
+            guard let value = Int64(text) else {return}
             pokemon.ivDefense = value
             updateUpUI()
         }
         if textField == ivSpAttTextField {
-            guard let text = textField.text,
-                let value = Int64(text) else {return}
+            guard let value = Int64(text) else {return}
             pokemon.ivSpecialAttack = value
             updateUpUI()
         }
         if textField == ivSpDefTextField {
-            guard let text = textField.text,
-                let value = Int64(text) else {return}
+           guard let value = Int64(text) else {return}
             pokemon.ivSpecialDefense = value
             updateUpUI()
         }
         if textField == ivSpeedTextField {
-            guard let text = textField.text,
-                let value = Int64(text) else {return}
+            guard let value = Int64(text) else {return}
             pokemon.ivSpeed = value
             updateUpUI()
         }
@@ -176,6 +179,8 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         setDelegates()
         setUpSliders()
         setSaveButton()
+        guard let pokemon = pokemon else {return}
+        setNavigationBarTitle(onViewController: self, withTitle: pokemon.name.uppercased())
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -220,6 +225,45 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         evSpAttTextField.clearsOnBeginEditing = true
         evSpDefTextField.clearsOnBeginEditing = true
         evSpeedTextField.clearsOnBeginEditing = true
+    }
+    
+    // MARK: - TextFields
+    func yShiftWhenKeyboardAppearsFor(textField: UITextField, keyboardHeight: CGFloat, nextY: CGFloat) -> CGFloat {
+        
+        let textFieldOrigin = self.view.convert(textField.frame, from: textField.superview!).origin.y
+        let textFieldBottomY = textFieldOrigin + textField.frame.size.height
+        
+        // This is the y point that the textField's bottom can be at before it gets covered by the keyboard
+        let maximumY = self.view.frame.height - keyboardHeight
+        
+        if textFieldBottomY > maximumY {
+            // This makes the view shift the right amount to have the text field being edited 60 points above they keyboard if it would have been covered by the keyboard.
+            return textFieldBottomY - maximumY + 60
+        } else {
+            // It would go off the screen if moved, and it won't be obscured by the keyboard.
+            return 0
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        
+        var keyboardSize: CGRect = .zero
+        
+        if let keyboardRect = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? CGRect,
+            keyboardRect.height != 0 {
+            keyboardSize = keyboardRect
+        } else if let keyboardRect = notification.userInfo?["UIKeyboardBoundsUserInfoKey"] as? CGRect {
+            keyboardSize = keyboardRect
+        }
+        
+        if let textField = textFieldBeingEdited {
+            if self.view.frame.origin.y == 0 {
+                
+                let yShift = yShiftWhenKeyboardAppearsFor(textField: textField, keyboardHeight: keyboardSize.height, nextY: keyboardSize.height)
+                self.currentYShiftForKeyboard = yShift
+                self.view.frame.origin.y -= yShift
+            }
+        }
     }
     
     //Calls this function when the tap is recognized.

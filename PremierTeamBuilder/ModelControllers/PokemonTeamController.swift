@@ -19,16 +19,17 @@ class PokemonTeamController {
     var items: [String] = ["None"]
     var pokemonTypes: [String] = typesKeyArray
     var pokemonTeams: [PokemonTeam] {
-        return loadPokemonTeams()
+        return loadUserPokemonTeams()
     }
     
     // MARK: - Crud
     func createTeam(pokemonTeam: PokemonTeam){
-        saveToPersistentStore()
+        saveToUserPersistentStore()
         performFullSync()
     }
     
     func updateTeam(pokemonTeam: PokemonTeam, newName: String) {
+        saveToUserPersistentStore()
         pokemonTeam.name = newName
         updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
             if success == true {
@@ -41,7 +42,7 @@ class PokemonTeamController {
     
     func deleteTeam(pokemonTeam: PokemonTeam, indexPath: IndexPath) {
         guard let recordID = pokemonTeam.recordID else { return }
-        deleteTeamFromContext(pokemonTeam: pokemonTeam)
+        deleteTeamFromUserContext(pokemonTeam: pokemonTeam)
         deletePokemonTeamRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("There was an error deleting Pokemon Team: \(error.localizedDescription)")
@@ -51,6 +52,18 @@ class PokemonTeamController {
     }
     
     // MARK: - API Methods
+    
+    func fetchItemsList() {
+        if PokemonTeamController.shared.items.count == 1 {
+            PokemonTeamController.shared.fetchItems { (success) in
+                if success == true {
+                    print ("Item List Fully Loaded")
+                } else {
+                    print ("There was an error with the Item List fetch")
+                }
+            }
+        }
+    }
     
     func fetchItems(completion: @escaping (Bool?) -> Void) {
         guard let url = URL(string: Keys.itemBaseURLString) else {return}
@@ -78,9 +91,9 @@ class PokemonTeamController {
     }
     
     // MARK: - Core Data
-    func saveToPersistentStore() {
+    func saveToUserPersistentStore() {
         
-        let moc = CoreDataStack.context
+        let moc = UserCoreDataStack.context
         do{
             try moc.save()
         } catch let error {
@@ -88,8 +101,8 @@ class PokemonTeamController {
         }
     }
     
-    func loadPokemonTeams() -> [PokemonTeam] {
-        let moc = CoreDataStack.context
+    func loadUserPokemonTeams() -> [PokemonTeam] {
+        let moc = UserCoreDataStack.context
         let fetchRequest: NSFetchRequest<PokemonTeam> = PokemonTeam.fetchRequest()
         do {
             let fetchedPokemonTeams = try moc.fetch(fetchRequest)
@@ -99,10 +112,10 @@ class PokemonTeamController {
         }
     }
     
-    func deleteTeamFromContext(pokemonTeam: PokemonTeam) {
-        let moc = CoreDataStack.context
+    func deleteTeamFromUserContext(pokemonTeam: PokemonTeam) {
+        let moc = UserCoreDataStack.context
         moc.delete(pokemonTeam)
-        saveToPersistentStore()
+        saveToUserPersistentStore()
     }
     
     // MARK: - Syncing CoreData and CloudKit
@@ -171,7 +184,7 @@ class PokemonTeamController {
             }
         }
         group.notify(queue: DispatchQueue.main) {
-            self.saveToPersistentStore()
+            self.saveToUserPersistentStore()
             
             if successes.contains(false) {
                 completion(false)
@@ -211,24 +224,28 @@ class PokemonTeamController {
                     return
                 }
                 pokemonTeams.append(pokemonTeam)
-                self.saveToPersistentStore()
+                self.saveToUserPersistentStore()
             }
             completion(pokemonTeams)
         }
     }
     
     func fetchNewPokemon(pokemonTeam: PokemonTeam, completion: @escaping () -> Void) {
+        
+        guard let reference = pokemonTeam.cloudKitReference else { completion(); return }
         let type = Keys.ckPokemonRecordType
         var referencesToExclude = [CKReference]()
         var predicate: NSPredicate
         referencesToExclude = syncedRecordsOf(type: type).flatMap { $0.cloudKitReference }
         predicate = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [referencesToExclude])
-        
+        let predicate2 = NSPredicate(format: "reference == %@", reference)
         if referencesToExclude.isEmpty {
             predicate = NSPredicate(value: true)
         }
         
-        PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: type, andPredicate: predicate) { (records, _, error) in
+        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, predicate2])
+        
+        PokemonController.shared.fetchPokemonRecordFor(pokemonTeam: pokemonTeam, withRecordType: type, andPredicate: compoundPredicate) { (records, _, error) in
             if let error = error {
                 print("Error Fetching Pokemon Team Records : \(error.localizedDescription)")
                 completion()
@@ -241,15 +258,10 @@ class PokemonTeamController {
             }
             
             for record in records {
-                guard let recordID = pokemonTeam.recordID else {
-                    print ("Pokemon Team Reference")
-                    continue
-                }
-                let pokemonTeamRef = CKReference(recordID: recordID, action: .deleteSelf)
-                _ = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef)
+                _ = Pokemon(ckRecord: record, pokemonTeam: pokemonTeam)
             }
             
-            self.saveToPersistentStore()
+            self.saveToUserPersistentStore()
             completion()
         }
     }

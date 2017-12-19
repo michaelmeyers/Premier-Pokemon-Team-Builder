@@ -10,7 +10,7 @@ import Foundation
 
 import CoreData
 
-class CoreDataStack {
+class SystemCoreDataStack {
     
     static let container: NSPersistentContainer = {
         

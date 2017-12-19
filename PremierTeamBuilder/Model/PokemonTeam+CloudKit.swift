@@ -27,7 +27,7 @@ extension PokemonTeam: CloudKitSyncable {
     convenience init?(ckRecord: CKRecord) {
         guard let name = ckRecord[Keys.ckPokemonTeamNameKey] as? String else {return nil}
         
-        self.init(name: name, sixPokemon: [], context: CoreDataStack.context)
+        self.init(name: name, sixPokemon: [], context: UserCoreDataStack.context)
         let recordIDString = ckRecord.recordID.recordName
         self.recordIDString = recordIDString
     }

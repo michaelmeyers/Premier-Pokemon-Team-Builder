@@ -11,9 +11,9 @@ import UIKit
 
 func configureNavigationBar(onViewController vc: UIViewController) {
     
-    let font = UIFont(name: "MarkerFelt-Thin", size: 24)
+    guard let font = UIFont(name: "MarkerFelt-Thin", size: 24) else {return}
     vc.navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 76.0/255.0, blue: 76.0/255.0, alpha: 1.0)
-    let attributes = [ NSAttributedStringKey.font: font,
+    let attributes: [NSAttributedStringKey: Any]? = [ NSAttributedStringKey.font: font,
                        NSAttributedStringKey.foregroundColor : UIColor.white,
                        ]
     vc.navigationController?.navigationBar.titleTextAttributes = attributes
@@ -35,6 +35,48 @@ func setBackBarButtonItem(ViewController vc: UIViewController) {
     let backBarItem = UIBarButtonItem()
     backBarItem.title = ""
     vc.navigationItem.backBarButtonItem = backBarItem
+}
+
+func configureBackgroundColor(type: String) -> UIColor {
+    switch type {
+    case Type.bug.rawValue:
+        return UIColor.bug
+    case Type.dark.rawValue:
+        return UIColor.dark
+    case Type.dragon.rawValue:
+        return UIColor.dragon
+    case Type.electric.rawValue:
+        return UIColor.electric
+    case Type.fairy.rawValue:
+        return UIColor.fairy
+    case Type.fighting.rawValue:
+        return UIColor.fighting
+    case Type.fire.rawValue:
+        return UIColor.fire
+    case Type.flying.rawValue:
+        return UIColor.flying
+    case Type.ghost.rawValue:
+        return UIColor.ghost
+    case Type.grass.rawValue:
+        return UIColor.grass
+    case Type.ground.rawValue:
+        return UIColor.ground
+    case Type.ice.rawValue:
+        return UIColor.ice
+    case Type.normal.rawValue:
+        return UIColor.normal
+    case Type.poison.rawValue:
+        return UIColor.poison
+    case Type.psychic.rawValue:
+        return UIColor.psychic
+    case Type.rock.rawValue:
+        return UIColor.rock
+    case Type.steel.rawValue:
+        return UIColor.steel
+    case Type.water.rawValue:
+        return UIColor.water
+    default: fatalError()
+    }
 }
 
 func changeLabelToTypeLabel(label: UILabel, type: Type) {
@@ -267,5 +309,19 @@ extension UIColor {
     // MARK: - Cell Colors
     static var cellGray: UIColor {
         return UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+    }
+    
+    // MARK: - Weakness Chart
+    static var unbalanced: UIColor{
+        return UIColor(red: 150.0/255.0, green: 2.0/255.0, blue: 2.0/255.0, alpha: 1.0)
+    }
+    static var weak: UIColor {
+        return UIColor(red: 255.0/255.0, green: 44.0/255.0, blue:0.0/255.0, alpha: 1.0)
+    }
+    static var probably: UIColor {
+        return UIColor(red: 56.0/255.0, green: 255.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+    }
+    static var definitely: UIColor {
+        return UIColor(red: 27.0/255.0, green: 114.0/255.0, blue: 2.0/255.0, alpha: 1.0)
     }
 }

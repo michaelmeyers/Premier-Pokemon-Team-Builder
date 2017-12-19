@@ -17,13 +17,7 @@ import Foundation
 //
 
 import Foundation
-
-
-//: Playground - noun: a place where people can play
-
 import UIKit
-
-// Method of Learning Enum
 
 enum Role{
     case none

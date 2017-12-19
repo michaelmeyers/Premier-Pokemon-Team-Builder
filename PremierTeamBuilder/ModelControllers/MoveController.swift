@@ -14,22 +14,22 @@ class MoveController {
     static let shared = MoveController()
     
     var moves: [Move] {
-        return loadPokemonMoves()
+        return loadUserMoves()
     }
     
     // MARK: - Core Data
-    func saveToPersistentStore() {
-        
-        let moc = CoreDataStack.context
+    
+    func saveToUserPersistentStore() {
+        let moc = UserCoreDataStack.context
         do{
             try moc.save()
         } catch let error {
-            print("Problem Saving to Persistent Store: \(error)")
+            print("Problem Saving Move to Persistent Store: \(error)")
         }
     }
     
-    func loadPokemonMoves() -> [Move] {
-        let moc = CoreDataStack.context
+    func loadSystemMoves() -> [Move] {
+        let moc = SystemCoreDataStack.context
         let fetchRequest: NSFetchRequest<Move> = Move.fetchRequest()
         do {
             var fetchedMoves = try moc.fetch(fetchRequest)
@@ -39,7 +39,46 @@ class MoveController {
             fatalError("Failed to fetch employees: \(error)")
         }
     }
+    
+    func loadUserMoves() -> [Move] {
+        let moc = UserCoreDataStack.context
+        let fetchRequest: NSFetchRequest<Move> = Move.fetchRequest()
+        do {
+            var fetchedMoves = try moc.fetch(fetchRequest)
+            fetchedMoves = fetchedMoves.sorted(by: {$0.id < $1.id} )
+            return fetchedMoves
+        } catch {
+            fatalError("Failed to fetch employees: \(error)")
+        }
+    }
+    
+    func copyPokemonMovesToUserContext() {
+        
+        let isCopied = UserDefaults.standard.bool(forKey: Keys.isCopiedKey)
+        
+        if isCopied != true {
+            UserDefaults.standard.set(true, forKey: Keys.isCopiedKey)
+            
+            let moves = loadSystemMoves()
+            for move in moves {
+                guard let typeString = move.typeString,
+                    let catagory = move.catagory,
+                    let moveDescription = move.moveDescription else {return}
+                let id = move.id
+                let name = move.name
+                let power = move.power
+                let accuracy = move.accuracy
+                let pp = move.pp
+                
+                let effectChance = move.effectChance
+                let _ = Move(id: id, name: name, typeString: typeString, catagory: catagory, power: power, accuracy: accuracy, pp: pp, moveDescription: moveDescription, effectChance: effectChance, context: UserCoreDataStack.context)
+            }
+            saveToUserPersistentStore()
+        }
+    }
 }
+
+
 
 
 // MARK: - Out Dated Code

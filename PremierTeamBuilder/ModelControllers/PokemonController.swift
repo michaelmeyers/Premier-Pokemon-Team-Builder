@@ -16,60 +16,17 @@ class PokemonController {
     static let shared = PokemonController()
     
     var allPokemon: [Pokemon] {
-        return loadPokemon()
+        return loadPokemonFromSystem()
     }
     
     // MARK: - Crud
     
-    func createPokemon(onTeam pokemonTeam: PokemonTeam, fromPokemonObject pokemonObject: Pokemon) {
-        let name = pokemonObject.name
-        let id = pokemonObject.id
-        let moveIDs = pokemonObject.moveIDs
-        guard let moveIDsData = (try? JSONSerialization.data(withJSONObject: moveIDs, options: .prettyPrinted)) else {return}
-        let type1 = pokemonObject.type1
-        guard let type1String = type1?.rawValue else {return}
-        let type2 = pokemonObject.type2
-        let abilities = pokemonObject.abilities
-        guard let abilitiesData = (try? JSONSerialization.data(withJSONObject: abilities, options: .prettyPrinted)) else {return}
-        let hpStat = pokemonObject.hpStat
-        let attackStat = pokemonObject.attackStat
-        let defenseStat = pokemonObject.defenseStat
-        let spAttackStat = pokemonObject.spAttackStat
-        let spDefenseStat = pokemonObject.spDefenseStat
-        let speedStat = pokemonObject.speedStat
-        let imageEndpoint = pokemonObject.imageEndpoint
-        let imageData = pokemonObject.imageData
-        
-        let pokemon = Pokemon (name: name, id: id, moveIDsData: moveIDsData, type1String: type1String, type2String: type2?.rawValue, abilitiesData: abilitiesData, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
-        
-        pokemon.imageData = imageData
-        
-        // Need to add pokemon here i think....
-        let sixPokemon = pokemonTeam.sixPokemon?.mutableCopy() as! NSMutableOrderedSet
-        sixPokemon.add(pokemon)
-        pokemonTeam.sixPokemon = sixPokemon
-        
-        saveToPersistentStore()
-        PokemonTeamController.shared.performFullSync()
-    }
-    
-    func loadPokemon(fromRecords records: [CKRecord]?, pokemonTeamRef: CKReference, completion: ([Pokemon]?) -> Void) {
-        var pokemonArray: [Pokemon] = []
-        guard let records = records else {
-            print("No records from pokemon fetch")
-            completion(nil)
-            return}
-        for record in records {
-            guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef) else {
-                completion(nil)
-                return}
-            pokemonArray.append(pokemon)
-        }
-        completion(pokemonArray)
+    func createPokemon(onTeam pokemonTeam: PokemonTeam, fromPokemonObject pokemonObject: Pokemon) -> Pokemon {
+        return Pokemon(pokemon: pokemonObject, onPokemonTeam: pokemonTeam)
     }
     
     func updatePokemon(pokemon: Pokemon) {
-        saveToPersistentStore()
+        saveToUserPersistentStore()
         updatePokemonRecord(newPokemon: pokemon) { (success) in
             if success == true {
                 print("Updating your Pokemon was a big Success!")
@@ -79,13 +36,10 @@ class PokemonController {
         }
     }
     
-    func deletePokemon(pokemon: Pokemon, fromTeam team: PokemonTeam) {
-        guard let recordID = pokemon.recordID,
-            let pokemonArray = team.sixPokemon.flatMap({$0}) else {return}
-        
-        let index = pokemonArray.index(of: pokemon)
-        guard let pokemon = team.sixPokemon?.object(at: index) as? Pokemon else {return}
-        deletePokemonFromContext(pokemon: pokemon)
+    func deletePokemon(pokemon: Pokemon) {
+        guard let recordID = pokemon.recordID else {return}
+
+        deletePokemonFromUserContext(pokemon: pokemon)
         deletePokemonRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("Error deleting Pokemon: \(error.localizedDescription)")
@@ -95,9 +49,9 @@ class PokemonController {
     }
     
     // MARK: - Core Data
-    func saveToPersistentStore() {
-        
-        let moc = CoreDataStack.context
+    
+    func saveToUserPersistentStore() {
+        let moc = UserCoreDataStack.context
         do{
             try moc.save()
         } catch let error {
@@ -105,8 +59,8 @@ class PokemonController {
         }
     }
     
-    func loadPokemon() -> [Pokemon] {
-        let moc = CoreDataStack.context
+    func loadPokemonFromSystem() -> [Pokemon] {
+        let moc = SystemCoreDataStack.context
         let fetchRequest: NSFetchRequest<Pokemon> = Pokemon.fetchRequest()
         do {
             var fetchedPokemon = try moc.fetch(fetchRequest)
@@ -118,10 +72,23 @@ class PokemonController {
         }
     }
     
-    func deletePokemonFromContext(pokemon: Pokemon) {
-        let moc = CoreDataStack.context
+    func loadUserPokemon() -> [Pokemon] {
+        let moc = UserCoreDataStack.context
+        let fetchRequest: NSFetchRequest<Pokemon> = Pokemon.fetchRequest()
+        do {
+            var fetchedPokemon = try moc.fetch(fetchRequest)
+            fetchedPokemon = fetchedPokemon.sorted(by: {$0.id < $1.id} )
+            fetchedPokemon = fetchedPokemon.filter { $0.pokemonTeamRefString == nil }
+            return fetchedPokemon
+        } catch {
+            fatalError("Failed to fetch employees: \(error)")
+        }
+    }
+    
+    func deletePokemonFromUserContext(pokemon: Pokemon) {
+        let moc = UserCoreDataStack.context
         moc.delete(pokemon)
-        saveToPersistentStore()
+        saveToUserPersistentStore()
     }
     
     
@@ -159,7 +126,7 @@ class PokemonController {
                 return
             }
             pokemon.recordIDString = pokemonRecord.recordID.recordName
-            self.saveToPersistentStore()
+            self.saveToUserPersistentStore()
             print("No Error")
             completion(success)
         }
@@ -372,7 +339,20 @@ class PokemonController {
 //        dataTask.resume()
 //    }
 
-
+//func loadPokemon(fromRecords records: [CKRecord]?, pokemonTeamRef: CKReference, completion: ([Pokemon]?) -> Void) {
+//    var pokemonArray: [Pokemon] = []
+//    guard let records = records else {
+//        print("No records from pokemon fetch")
+//        completion(nil)
+//        return}
+//    for record in records {
+//        guard let pokemon = Pokemon(ckRecord: record, pokemonTeamRef: pokemonTeamRef) else {
+//            completion(nil)
+//            return}
+//        pokemonArray.append(pokemon)
+//    }
+//    completion(pokemonArray)
+//}
 
 
 

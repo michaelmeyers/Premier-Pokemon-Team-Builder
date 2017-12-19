@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,61 +27,50 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfz-fq-1XR">
-                                            <rect key="frame" x="8" y="8" width="359" height="32"/>
+                                            <rect key="frame" x="8" y="8" width="359" height="28"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B7l-Bn-wRa">
-                                            <rect key="frame" x="8" y="48" width="48.5" height="48.5"/>
+                                            <rect key="frame" x="8" y="44" width="52.5" height="52.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="B7l-Bn-wRa" secondAttribute="height" multiplier="1:1" id="F7D-P1-4NA"/>
-                                                <constraint firstAttribute="width" constant="48.5" id="MvH-bB-nNb"/>
                                             </constraints>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="teU-01-GZu">
-                                            <rect key="frame" x="64.5" y="48" width="50" height="48.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="MBO-fZ-2aT"/>
-                                            </constraints>
+                                            <rect key="frame" x="68.5" y="44" width="52.5" height="52.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xCK-Ta-Dyw">
-                                            <rect key="frame" x="122.5" y="48" width="50" height="48.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="fLb-0O-rRt"/>
-                                            </constraints>
+                                            <rect key="frame" x="129" y="44" width="52.5" height="52.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yAk-9c-rFn">
-                                            <rect key="frame" x="180.5" y="48" width="50" height="48.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="g9J-Ef-0uT"/>
-                                            </constraints>
+                                            <rect key="frame" x="189.5" y="44" width="52.5" height="52.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0IY-cN-qOT">
-                                            <rect key="frame" x="238.5" y="48" width="50" height="48.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="zFO-om-1uc"/>
-                                            </constraints>
+                                            <rect key="frame" x="250" y="44" width="52.5" height="52.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dmO-d3-PPR">
-                                            <rect key="frame" x="296.5" y="48" width="50" height="48.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="zQc-oS-fNQ"/>
-                                            </constraints>
+                                            <rect key="frame" x="310.5" y="44" width="52.5" height="52.5"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Rfz-fq-1XR" firstAttribute="top" secondItem="b1S-In-aMQ" secondAttribute="top" constant="8" id="4Hb-Ye-xza"/>
+                                        <constraint firstItem="B7l-Bn-wRa" firstAttribute="width" secondItem="b1S-In-aMQ" secondAttribute="width" multiplier="9/64" id="6Fv-HZ-yCp"/>
                                         <constraint firstItem="0IY-cN-qOT" firstAttribute="leading" secondItem="yAk-9c-rFn" secondAttribute="trailing" constant="8" id="8SI-tG-gcV"/>
                                         <constraint firstAttribute="trailing" secondItem="Rfz-fq-1XR" secondAttribute="trailing" constant="8" id="Azy-WT-zmr"/>
                                         <constraint firstAttribute="bottom" secondItem="dmO-d3-PPR" secondAttribute="bottom" id="D1j-ke-5Tg"/>
+                                        <constraint firstItem="dmO-d3-PPR" firstAttribute="width" secondItem="b1S-In-aMQ" secondAttribute="width" multiplier="9/64" id="DYK-y8-a2K"/>
                                         <constraint firstAttribute="bottom" secondItem="0IY-cN-qOT" secondAttribute="bottom" id="EoW-eJ-cpL"/>
                                         <constraint firstItem="0IY-cN-qOT" firstAttribute="top" secondItem="Rfz-fq-1XR" secondAttribute="bottom" constant="8" id="F1i-vR-zvS"/>
                                         <constraint firstAttribute="bottom" secondItem="teU-01-GZu" secondAttribute="bottom" id="Gal-cm-lzE"/>
                                         <constraint firstAttribute="bottom" secondItem="xCK-Ta-Dyw" secondAttribute="bottom" id="LE5-ea-mXt"/>
                                         <constraint firstItem="teU-01-GZu" firstAttribute="top" secondItem="Rfz-fq-1XR" secondAttribute="bottom" constant="8" id="R0M-xt-eEg"/>
                                         <constraint firstItem="dmO-d3-PPR" firstAttribute="top" secondItem="Rfz-fq-1XR" secondAttribute="bottom" constant="8" id="RMY-lV-Sr5"/>
+                                        <constraint firstItem="yAk-9c-rFn" firstAttribute="width" secondItem="b1S-In-aMQ" secondAttribute="width" multiplier="9/64" id="S9b-P5-vur"/>
                                         <constraint firstItem="B7l-Bn-wRa" firstAttribute="leading" secondItem="b1S-In-aMQ" secondAttribute="leading" constant="8" id="WR0-eO-jvK"/>
+                                        <constraint firstItem="xCK-Ta-Dyw" firstAttribute="width" secondItem="b1S-In-aMQ" secondAttribute="width" multiplier="9/64" id="Ymh-c7-nlY"/>
+                                        <constraint firstItem="teU-01-GZu" firstAttribute="width" secondItem="b1S-In-aMQ" secondAttribute="width" multiplier="9/64" id="ZWA-14-ynH"/>
                                         <constraint firstItem="teU-01-GZu" firstAttribute="leading" secondItem="B7l-Bn-wRa" secondAttribute="trailing" constant="8" id="cfs-ZH-qKL"/>
                                         <constraint firstAttribute="bottom" secondItem="yAk-9c-rFn" secondAttribute="bottom" id="h9r-54-81k"/>
                                         <constraint firstItem="Rfz-fq-1XR" firstAttribute="leading" secondItem="b1S-In-aMQ" secondAttribute="leading" constant="8" id="lU5-18-Xbe"/>
@@ -90,6 +80,7 @@
                                         <constraint firstAttribute="bottom" secondItem="B7l-Bn-wRa" secondAttribute="bottom" id="sf0-1R-puN"/>
                                         <constraint firstItem="B7l-Bn-wRa" firstAttribute="top" secondItem="Rfz-fq-1XR" secondAttribute="bottom" constant="8" id="t0F-b2-txB"/>
                                         <constraint firstItem="yAk-9c-rFn" firstAttribute="leading" secondItem="xCK-Ta-Dyw" secondAttribute="trailing" constant="8" id="t4V-cW-gg1"/>
+                                        <constraint firstItem="0IY-cN-qOT" firstAttribute="width" secondItem="b1S-In-aMQ" secondAttribute="width" multiplier="9/64" id="tX1-rN-gEM"/>
                                         <constraint firstItem="yAk-9c-rFn" firstAttribute="top" secondItem="Rfz-fq-1XR" secondAttribute="bottom" constant="8" id="uYp-o1-O0l"/>
                                     </constraints>
                                 </tableViewCellContentView>

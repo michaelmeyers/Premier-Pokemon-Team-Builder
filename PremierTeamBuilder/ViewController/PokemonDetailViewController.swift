@@ -12,7 +12,6 @@ import CloudKit
 class PokemonDetailViewController: UIViewController {
     
     // MARK: - Properties
-    var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
     var pokemonMoves: [Move]?
     
@@ -55,6 +54,7 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        navigationItem.title = pokemon?.name.uppercased()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,25 +67,16 @@ class PokemonDetailViewController: UIViewController {
     // MARK: - Actions
     
     @objc func saveButtonTapped() {
-        guard let pokemonTeam = pokemonTeam else {return}
-        if pokemon?.pokemonTeamRefString == nil {
-            guard let pokemon = self.pokemon else {return}
-            PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
-            PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
-                if success == true {
-                    print ("Team Saved")
-                } else {
-                    print("Team Was NOT Saved")
-                }
-            }
+        guard let pokemon = pokemon else {return}
+        PokemonController.shared.saveToUserPersistentStore()
+        if pokemon.recordID == nil {
+            PokemonTeamController.shared.performFullSync()
         } else {
-            guard let pokemon = pokemon else {return}
-            PokemonController.shared.updatePokemon(pokemon: pokemon)
-            PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
+            PokemonController.shared.updatePokemonRecord(newPokemon: pokemon) { (success) in
                 if success == true {
-                    print ("Team Saved")
+                    print("Updating your Pokemon was a big Success!")
                 } else {
-                    print("Team Was NOT Saved")
+                    print("Updating Pokemon Failed")
                 }
             }
         }
@@ -104,10 +95,11 @@ class PokemonDetailViewController: UIViewController {
     
     func setUpUI() {
         guard let pokemon = pokemon else {return}
-        setUpView(pokemon: pokemon)
         setNavigationBarTitle(onViewController: self, withTitle: "pokemon.name.uppercased()")
+        setUpView(pokemon: pokemon)
         setAbilityButtonTitle()
         setItemButtonTitle()
+        setUpMoveButtons()
     }
     
     func setUpView(pokemon: Pokemon) {
@@ -152,6 +144,21 @@ class PokemonDetailViewController: UIViewController {
         }
     }
     
+    func setUpMoveButtons() {
+        setUpMoveButtton(button: move1Button)
+        setUpMoveButtton(button: move2Button)
+        setUpMoveButtton(button: move3Button)
+        setUpMoveButtton(button: move4Button)
+    }
+    
+    func setUpMoveButtton(button: UIButton) {
+        button.tintColor = .black
+        button.setTitle("Choose Move", for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 2
+        button.layer.cornerRadius = button.frame.height/8
+    }
+    
     func setUpSaveButton() {
         let button = UIButton(type: .custom)
         button.setTitle("Save", for: .normal)
@@ -159,7 +166,7 @@ class PokemonDetailViewController: UIViewController {
         button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         let item = UIBarButtonItem(customView: button)
-        self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
+        self.navigationItem.setRightBarButton(item, animated: false)
     }
     
     // Func to call and set up all of the Pokemon Bar Graphs
@@ -210,30 +217,51 @@ class PokemonDetailViewController: UIViewController {
     // Set the Item Button to match the Pokemon's Item
     func updateItemButton() {
         guard let pokemon = pokemon else {return}
-        itemButton.setTitle(pokemon.item, for: .normal)
+        if pokemon.item.lowercased() == "none" {
+            itemButton.setTitle("Choose Item", for: .normal)
+        } else {
+            itemButton.setTitle(pokemon.item, for: .normal)
+        }
     }
     
     // Sets the Nature Label to match the Pokemon's Nature
     func updateNatureLabel() {
         guard let pokemon = pokemon,
-            let nature = pokemon.nature else {return}
-        natureLabel.text = nature.rawValue
+            var natureString = pokemon.nature?.rawValue else {return}
+        let first = natureString.prefix(1).uppercased()
+        let other = natureString.dropFirst()
+        natureString = first + other
+        natureLabel.text = natureString
     }
     
     // Changed to Move Button Labels to match their corresponding strings on the Pokemon
     func updateMoveButtons() {
         if let pokemon = pokemon {
-            if let move = pokemon.move1 {
-                move1Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move1 {
+                move1Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move1Button, moveName: pokemonMove)
             }
-            if let move = pokemon.move2 {
-                move2Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move2 {
+                move2Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move2Button, moveName: pokemonMove)
             }
-            if let move = pokemon.move3 {
-                move3Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move3 {
+                move3Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move3Button, moveName: pokemonMove)
             }
-            if let move = pokemon.move4 {
-                move4Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move4 {
+                move4Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move4Button, moveName: pokemonMove)
+            }
+        }
+    }
+    
+    func configureMoveButtonColor(button: UIButton, moveName: String) {
+        for move in MoveController.shared.moves {
+            if move.name.lowercased() == moveName.lowercased() {
+                guard let type = move.type else {return}
+                button.backgroundColor = configureBackgroundColor(type: type.rawValue)
+                button.tintColor = .white
             }
         }
     }
@@ -245,24 +273,25 @@ class PokemonDetailViewController: UIViewController {
             guard let itemsTVC = segue.destination as? ItemsTableViewController,
                 let pokemon = pokemon else {return}
             itemsTVC.pokemon = pokemon
+        } else if segue.identifier == Keys.segueIdentifierToStatsVC {
+            guard let pokemonStatsVC = segue.destination as? PokemonStatsViewController else {return}
+            
+            pokemonStatsVC.pokemon = pokemon
+            setBackBarButtonItem(ViewController: self)
         }
         else {
             var buttonPressed: String = ""
             if segue.identifier == Keys.segueIdentifierMove1ToMovesTVC {
                 buttonPressed = "move1"
-                setBackBarButtonItem(ViewController: self)
             }
             if segue.identifier == Keys.segueIdentifierMove2ToMovesTVC {
                 buttonPressed = "move2"
-                setBackBarButtonItem(ViewController: self)
             }
             if segue.identifier == Keys.segueIdentifierMove3ToMovesTVC {
                 buttonPressed = "move3"
-                setBackBarButtonItem(ViewController: self)
             }
             if segue.identifier == Keys.segueIdentifierMove4ToMovesTVC {
                 buttonPressed = "move4"
-                setBackBarButtonItem(ViewController: self)
             }
             guard let movesTVC = segue.destination as? MovesListTableViewController else {return}
             if let pokemon = pokemon {
