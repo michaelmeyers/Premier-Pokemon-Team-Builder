@@ -17,38 +17,6 @@
             endingLineNumber = "318"
             landmarkName = "fetchNewPokemon(pokemonTeam:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PremierTeamBuilder.PokemonTeamController.fetchNewPokemon(pokemonTeam: PremierTeamBuilder.PokemonTeam) -&gt; ()"
-                  moduleName = "PremierTeamBuilder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonTeamController.swift"
-                  timestampString = "534892465.454257"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
-                  offsetFromSymbolStart = "762">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Optional&lt;Swift.Array&lt;__ObjC.CKRecord&gt;&gt;, __ObjC.CKReference, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in PremierTeamBuilder.PokemonTeamController.fetchNewPokemon(pokemonTeam: PremierTeamBuilder.PokemonTeam) -&gt; ()"
-                  moduleName = "PremierTeamBuilder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/michaelmeyers/Documents/DevMountain/MyProjects/PremierTeamBuilder/PremierTeamBuilder/ModelControllers/PokemonTeamController.swift"
-                  timestampString = "534892465.458127"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "319"
-                  endingLineNumber = "319"
-                  offsetFromSymbolStart = "90">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
