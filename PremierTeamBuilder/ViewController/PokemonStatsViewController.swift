@@ -13,6 +13,7 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     // MARK: - Properties
     var textFieldBeingEdited: UITextField?
     var currentYShiftForKeyboard: CGFloat = 0
+    
     let natures = changeNatureEnumToArray()
     var pokemon: Pokemon?
     
@@ -65,6 +66,103 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUpUI()
+    }
+    
+    // MARK: - UI Setup
+    func setUpUI() {
+        setDelegates()
+        setUpSliders()
+        setSaveButton()
+        guard let pokemon = pokemon else {return}
+        setNavigationBarTitle(onViewController: self, withTitle: pokemon.name.uppercased())
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        // Added Tap Gesture to dismiss the Keyboard when user clicks off keyboard view.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    func setSaveButton() {
+        navigationItem.rightBarButtonItem?.tintColor = .white
+    }
+    
+    
+    func setUpSliders() {
+        setUpSlider(slider: hpSlider, evTextField: evHPTextField)
+        setUpSlider(slider: attackSlider, evTextField: evAttackTextField)
+        setUpSlider(slider: defenseSlider, evTextField: evDefenseTextField)
+        setUpSlider(slider: spAttSlider, evTextField: evSpAttTextField)
+        setUpSlider(slider: spDefSlider, evTextField: evSpDefTextField)
+        setUpSlider(slider: speedSlider, evTextField: evSpeedTextField)
+    }
+    
+    func setDelegates() {
+        naturePickerView.delegate = self
+        naturePickerView.dataSource = self
+        ivHPTextField.delegate = self
+        ivHPTextField.clearsOnBeginEditing = true
+        ivAttackTextField.delegate = self
+        ivAttackTextField.clearsOnBeginEditing = true
+        ivDefenseTextField.delegate = self
+        ivDefenseTextField.clearsOnBeginEditing = true
+        ivSpAttTextField.delegate = self
+        ivSpAttTextField.clearsOnBeginEditing = true
+        ivSpDefTextField.delegate = self
+        ivSpDefTextField.clearsOnBeginEditing = true
+        ivSpeedTextField.delegate = self
+        ivSpeedTextField.clearsOnBeginEditing = true
+        evHPTextField.delegate = self
+        evHPTextField.clearsOnBeginEditing = true
+        evAttackTextField.clearsOnBeginEditing = true
+        evAttackTextField.delegate = self
+        evDefenseTextField.clearsOnBeginEditing = true
+        evDefenseTextField.delegate = self
+        evSpAttTextField.clearsOnBeginEditing = true
+        evSpAttTextField.delegate = self
+        evSpDefTextField.clearsOnBeginEditing = true
+        evSpDefTextField.delegate = self
+        evSpeedTextField.clearsOnBeginEditing = true
+        evSpeedTextField.delegate = self
+    }
+    
+    func updateUpUI() {
+        guard let pokemon = pokemon else {return}
+        
+        hpSlider.value = Float(pokemon.evHP)
+        attackSlider.value = Float(pokemon.evAttack)
+        defenseSlider.value = Float(pokemon.evDefense)
+        spAttSlider.value = Float(pokemon.evSpecialAttack)
+        spDefSlider.value = Float(pokemon.evSpecialDefense)
+        speedSlider.value = Float(pokemon.evSpeed)
+        
+        hpStatTotal = hpTotalCalculation()
+        attackStatTotal = attTotalCalculation()
+        defenseStatTotal = defTotalCalculation()
+        spAttStatTotal = spAttTotalCalculation()
+        spDefStatTotal = spDefTotalCalculation()
+        speedStatTotal = speedTotalCalculation()
+        hpTotal.text = "\(hpStatTotal)"
+        attackTotal.text = "\(attackStatTotal)"
+        defenseTotal.text = "\(defenseStatTotal)"
+        spAttTotal.text = "\(spAttStatTotal)"
+        spDefTotal.text = "\(spDefStatTotal)"
+        speedTotal.text = "\(speedStatTotal)"
+        
+        ivHPTextField.text = "\(pokemon.ivHP)"
+        ivAttackTextField.text = "\(pokemon.ivAttack)"
+        ivDefenseTextField.text = "\(pokemon.ivDefense)"
+        ivSpAttTextField.text = "\(pokemon.ivSpecialAttack)"
+        ivSpDefTextField.text = "\(pokemon.ivSpecialDefense)"
+        ivSpeedTextField.text = "\(pokemon.ivSpeed)"
+        
+        evHPTextField.text = "\(pokemon.evHP)"
+        evAttackTextField.text = "\(pokemon.evAttack)"
+        evDefenseTextField.text = "\(pokemon.evDefense)"
+        evSpAttTextField.text = "\(pokemon.evSpecialAttack)"
+        evSpDefTextField.text = "\(pokemon.evSpecialDefense)"
+        evSpeedTextField.text = "\(pokemon.evSpeed)"
     }
     
     // MARK: - Pickerview Delegate and DataSoucre
@@ -120,9 +218,6 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     }
     
     // MARK: - TextFields Datasoucre and Delegates
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.clearsOnBeginEditing = true
-    }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         guard let pokemon = pokemon,
@@ -131,6 +226,7 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         guard let int = Int(text) else {return}
         guard int <= 31 else {
             presentSimpleAlert(controllerToPresentAlert: self, title: "IVs Cannot Exceed 31", message: "")
+            textField.text = "0"
             return
         }
         
@@ -166,68 +262,6 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
     }
     
-    // MARK: - Actions
-    //TODO: Add actions for each slider. or one action that identifies the sender.
-    
-    @IBAction func updateSlider(_ sender: UISlider) {
-        updateInfo(sender: sender)
-    }
-    
-    
-    // MARK: - UI Setup
-    func setUpUI() {
-        setDelegates()
-        setUpSliders()
-        setSaveButton()
-        guard let pokemon = pokemon else {return}
-        setNavigationBarTitle(onViewController: self, withTitle: pokemon.name.uppercased())
-        
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    func setSaveButton() {
-        navigationItem.rightBarButtonItem?.tintColor = .white
-    }
-    
-    
-    func setUpSliders() {
-        setUpSlider(slider: hpSlider, evTextField: evHPTextField)
-        setUpSlider(slider: attackSlider, evTextField: evAttackTextField)
-        setUpSlider(slider: defenseSlider, evTextField: evDefenseTextField)
-        setUpSlider(slider: spAttSlider, evTextField: evSpAttTextField)
-        setUpSlider(slider: spDefSlider, evTextField: evSpDefTextField)
-        setUpSlider(slider: speedSlider, evTextField: evSpeedTextField)
-    }
-    
-    func setDelegates() {
-        naturePickerView.delegate = self
-        naturePickerView.dataSource = self
-        ivHPTextField.delegate = self
-        ivHPTextField.clearsOnBeginEditing = true
-        ivAttackTextField.delegate = self
-        ivAttackTextField.clearsOnBeginEditing = true
-        ivDefenseTextField.delegate = self
-        ivDefenseTextField.clearsOnBeginEditing = true
-        ivSpAttTextField.delegate = self
-        ivSpAttTextField.clearsOnBeginEditing = true
-        ivSpDefTextField.delegate = self
-        ivSpDefTextField.clearsOnBeginEditing = true
-        ivSpeedTextField.delegate = self
-        ivSpeedTextField.clearsOnBeginEditing = true
-        evHPTextField.clearsOnBeginEditing = true
-        evAttackTextField.clearsOnBeginEditing = true
-        evDefenseTextField.clearsOnBeginEditing = true
-        evSpAttTextField.clearsOnBeginEditing = true
-        evSpDefTextField.clearsOnBeginEditing = true
-        evSpeedTextField.clearsOnBeginEditing = true
-    }
-    
-    // MARK: - TextFields
     func yShiftWhenKeyboardAppearsFor(textField: UITextField, keyboardHeight: CGFloat, nextY: CGFloat) -> CGFloat {
         
         let textFieldOrigin = self.view.convert(textField.frame, from: textField.superview!).origin.y
@@ -266,50 +300,42 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
     }
     
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
+        if self.view.frame.origin.y != 0 {
+            
+            self.view.frame.origin.y += currentYShiftForKeyboard
+        }
+        stopEditingTextField()
+    }
+    
+    func stopEditingTextField() {
+        view.endEditing(true)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textFieldBeingEdited = textField
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+    
     //Calls this function when the tap is recognized.
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
     
-    func updateUpUI() {
-        guard let pokemon = pokemon else {return}
-        
-        hpSlider.value = Float(pokemon.evHP)
-        attackSlider.value = Float(pokemon.evAttack)
-        defenseSlider.value = Float(pokemon.evDefense)
-        spAttSlider.value = Float(pokemon.evSpecialAttack)
-        spDefSlider.value = Float(pokemon.evSpecialDefense)
-        speedSlider.value = Float(pokemon.evSpeed)
-        
-        hpStatTotal = hpTotalCalculation()
-        attackStatTotal = attTotalCalculation()
-        defenseStatTotal = defTotalCalculation() 
-        spAttStatTotal = spAttTotalCalculation()
-        spDefStatTotal = spDefTotalCalculation()
-        speedStatTotal = speedTotalCalculation()
-        hpTotal.text = "\(hpStatTotal)"
-        attackTotal.text = "\(attackStatTotal)"
-        defenseTotal.text = "\(defenseStatTotal)"
-        spAttTotal.text = "\(spAttStatTotal)"
-        spDefTotal.text = "\(spDefStatTotal)"
-        speedTotal.text = "\(speedStatTotal)"
-        
-        ivHPTextField.text = "\(pokemon.ivHP)"
-        ivAttackTextField.text = "\(pokemon.ivAttack)"
-        ivDefenseTextField.text = "\(pokemon.ivDefense)"
-        ivSpAttTextField.text = "\(pokemon.ivSpecialAttack)"
-        ivSpDefTextField.text = "\(pokemon.ivSpecialDefense)"
-        ivSpeedTextField.text = "\(pokemon.ivSpeed)"
-        
-        evHPTextField.text = "\(pokemon.evHP)"
-        evAttackTextField.text = "\(pokemon.evAttack)"
-        evDefenseTextField.text = "\(pokemon.evDefense)"
-        evSpAttTextField.text = "\(pokemon.evSpecialAttack)"
-        evSpDefTextField.text = "\(pokemon.evSpecialDefense)"
-        evSpeedTextField.text = "\(pokemon.evSpeed)"
+    // MARK: - Actions
+    //TODO: Add actions for each slider. or one action that identifies the sender.
+    
+    @IBAction func updateSlider(_ sender: UISlider) {
+        updateInfo(sender: sender)
     }
     
+    // MARK: - Slider Setup
     func setUpSlider(slider: UISlider, evTextField: UITextField) {
         slider.maximumValue = 252
         slider.minimumValue = 0
@@ -371,6 +397,7 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
         }
     }
     
+    // MARK: - Stat Total Calculations
     func hpTotalCalculation() -> Int64 {
         guard let pokemon = pokemon else {return 0}
         let hp = pokemon.hpStat
@@ -490,15 +517,4 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
             sender.value = difference
         }
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }
