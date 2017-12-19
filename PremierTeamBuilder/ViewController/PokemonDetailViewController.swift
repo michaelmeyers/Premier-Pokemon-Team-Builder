@@ -64,23 +64,38 @@ class PokemonDetailViewController: UIViewController {
         updateNatureLabel()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        guard let pokemon = pokemon else {return}
+        if pokemon.recordID == nil {
+            PokemonController.shared.deletePokemonFromUserContext(pokemon: pokemon)
+        }
+    }
+    
     // MARK: - Actions
     
     @objc func saveButtonTapped() {
+        let group = DispatchGroup()
         guard let pokemon = pokemon else {return}
+        group.enter()
         PokemonController.shared.saveToUserPersistentStore()
         if pokemon.recordID == nil {
-            PokemonTeamController.shared.performFullSync()
+            PokemonTeamController.shared.performFullSync(completion: {
+                group.leave()
+            })
         } else {
             PokemonController.shared.updatePokemonRecord(newPokemon: pokemon) { (success) in
                 if success == true {
                     print("Updating your Pokemon was a big Success!")
+                    group.leave()
                 } else {
                     print("Updating Pokemon Failed")
+                    group.leave()
                 }
             }
         }
-        performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
+        group.notify(queue: .main) {
+            self.performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
+        }
     }
     
     @IBAction func abilityButtonTapped(_ sender: UIButton) {

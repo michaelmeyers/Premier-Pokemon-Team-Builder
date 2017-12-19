@@ -56,7 +56,7 @@
     <entity name="PokemonTeam" representedClassName="PokemonTeam" syncable="YES">
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="recordIDString" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="sixPokemon" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Pokemon" inverseName="pokemonTeam" inverseEntity="Pokemon" syncable="YES"/>
+        <relationship name="sixPokemon" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Pokemon" inverseName="pokemonTeam" inverseEntity="Pokemon" syncable="YES"/>
     </entity>
     <elements>
         <element name="Move" positionX="-36" positionY="9" width="128" height="210"/>

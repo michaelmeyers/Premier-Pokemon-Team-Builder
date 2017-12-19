@@ -77,7 +77,7 @@ class PokemonController {
         let fetchRequest: NSFetchRequest<Pokemon> = Pokemon.fetchRequest()
         do {
             var fetchedPokemon = try moc.fetch(fetchRequest)
-            fetchedPokemon = fetchedPokemon.sorted(by: {$0.id < $1.id} )
+            print(fetchedPokemon)
             fetchedPokemon = fetchedPokemon.filter { $0.pokemonTeamRefString == nil }
             return fetchedPokemon
         } catch {

@@ -59,6 +59,7 @@ extension Pokemon: CloudKitSyncable {
         self.move2 = move2
         self.move3 = move3
         self.move4 = move4
+        self.recordIDString = ckRecord.recordID.recordName
         self.pokemonTeamRefString = pokemonTeamRefString
     }
     
