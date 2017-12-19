@@ -48,7 +48,7 @@ class TeamWeaknessHeaderTableViewCell: UITableViewCell {
         
         fourthLabel.text = "1/4"
         fourthLabel.textAlignment = .center
-        fourLabel.backgroundColor = .greenBlue
+        fourthLabel.backgroundColor = .greenBlue
         
         oneLabel.text = "1"
         oneLabel.textAlignment = .center
@@ -59,8 +59,8 @@ class TeamWeaknessHeaderTableViewCell: UITableViewCell {
         twoLabel.backgroundColor = .orangeYellow
         
         fourLabel.text = "4"
-        fourthLabel.textAlignment = .center
-        twoLabel.backgroundColor = .red
+        fourLabel.textAlignment = .center
+        fourLabel.backgroundColor = .red
     }
     
 }

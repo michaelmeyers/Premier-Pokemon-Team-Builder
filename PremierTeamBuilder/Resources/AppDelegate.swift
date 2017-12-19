@@ -13,13 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        PokemonTeamController.shared.fetchItemsList()
         PokemonTeamController.shared.performFullSync {
             print("Full Sync Completed")
+            let nc = NotificationCenter.default
+            nc.post(name: Keys.notificationToReloadTableView, object: nil)
         }
-        MoveController.shared.loadMovesFromJSONFile()
+        MoveController.shared.copyPokemonMovesToUserContext()
+        
         return true
     }
 
@@ -44,7 +47,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

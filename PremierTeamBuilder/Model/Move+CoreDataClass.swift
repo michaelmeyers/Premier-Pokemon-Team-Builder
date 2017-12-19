@@ -18,7 +18,7 @@ public class Move: NSManagedObject {
         return Type(rawValue: typeString)
     }
     
-    convenience init(id: Int64, name: String, typeString: String, catagory: String, power: Int64, accuracy: Int64, pp: Int64, moveDescription: String, effectChance: Int64, context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init(id: Int64, name: String, typeString: String, catagory: String, power: Int64, accuracy: Int64, pp: Int64, moveDescription: String, effectChance: Int64, context: NSManagedObjectContext = SystemCoreDataStack.context) {
         self.init(context: context)
         self.name = name
         self.typeString = typeString
@@ -32,7 +32,7 @@ public class Move: NSManagedObject {
         self.id = id
     }
     
-    convenience init?(dictionary: [String: Any], context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init?(dictionary: [String: Any], context: NSManagedObjectContext = SystemCoreDataStack.context) {
         self.init(context: context)
         guard let namesArray = dictionary[Keys.namesArrayKey] as? [[String: Any]],
             let id = dictionary[Keys.moveIDKey] as? Int64,

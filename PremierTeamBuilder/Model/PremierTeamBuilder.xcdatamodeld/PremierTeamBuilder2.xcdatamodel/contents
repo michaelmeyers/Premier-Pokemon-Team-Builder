@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="16G1036" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Move" representedClassName="Move" syncable="YES">
+        <attribute name="accuracy" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="catagory" attributeType="String" syncable="YES"/>
+        <attribute name="effectChance" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="methodOfLearning" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="moveDescription" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="power" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="pp" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="typeString" attributeType="String" syncable="YES"/>
+        <relationship name="pokemon" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Pokemon" inverseName="moves" inverseEntity="Pokemon" syncable="YES"/>
+    </entity>
+    <entity name="Pokemon" representedClassName="Pokemon" syncable="YES">
+        <attribute name="abilitiesData" attributeType="Binary" syncable="YES"/>
+        <attribute name="attackStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="chosenAbility" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defenseStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="evAttack" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="evDefense" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="evHP" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="evSpecialAttack" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="evSpecialDefense" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="evSpeed" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hpStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="imageEndpoint" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item" attributeType="String" syncable="YES"/>
+        <attribute name="ivAttack" attributeType="Integer 64" defaultValueString="31" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ivDefense" attributeType="Integer 64" defaultValueString="31" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ivHP" attributeType="Integer 64" defaultValueString="31" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ivSpecialAttack" attributeType="Integer 64" defaultValueString="31" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ivSpecialDefense" attributeType="Integer 64" defaultValueString="31" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ivSpeed" attributeType="Integer 64" defaultValueString="31" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="move1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="move2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="move3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="move4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="moveIDsData" attributeType="Binary" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="natureString" attributeType="String" syncable="YES"/>
+        <attribute name="pokemonTeamRefString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordIDString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="role" attributeType="String" syncable="YES"/>
+        <attribute name="spAttackStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="spDefenseStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="speedStat" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="type1String" attributeType="String" syncable="YES"/>
+        <attribute name="type2String" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="moves" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Move" inverseName="pokemon" inverseEntity="Move" syncable="YES"/>
+        <relationship name="pokemonTeam" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PokemonTeam" inverseName="sixPokemon" inverseEntity="PokemonTeam" syncable="YES"/>
+    </entity>
+    <entity name="PokemonTeam" representedClassName="PokemonTeam" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="recordIDString" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sixPokemon" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Pokemon" inverseName="pokemonTeam" inverseEntity="Pokemon" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Move" positionX="-36" positionY="9" width="128" height="210"/>
+        <element name="Pokemon" positionX="-54" positionY="-9" width="128" height="615"/>
+        <element name="PokemonTeam" positionX="18" positionY="189" width="128" height="90"/>
+    </elements>
+</model>

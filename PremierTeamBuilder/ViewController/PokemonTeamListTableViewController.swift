@@ -17,7 +17,8 @@ class PokemonTeamListTableViewController: UITableViewController {
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchItemsList()
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(reloadTableView), name: Keys.notificationToReloadTableView, object: nil)
         setUpUI()
     }
     
@@ -28,29 +29,14 @@ class PokemonTeamListTableViewController: UITableViewController {
     
     // MARK: - SetUpUI
     func setUpUI() {
-        navigationController?.navigationBar.barTintColor = UIColor(red: 255.0/255.0, green: 76.0/255.0, blue: 76.0/255.0, alpha: 1.0)
+        configureNavigationBar(onViewController: self)
+        setNavigationBarTitle(onViewController: self, withTitle: "My Pokemon Teams")
     }
     
-    func fetchItemsList() {
-        if PokemonTeamController.shared.items.count == 1 {
-            PokemonTeamController.shared.fetchItems { (success) in
-                if success == true {
-                    print ("Item List Fully Loaded")
-                } else {
-                    print ("There was an error with the Item List fetch")
-                }
-            }
+    @objc func reloadTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
-        
-        //        if PokemonTeamController.shared.pokemonList.count == 0 {
-        //            PokemonTeamController.shared.fetchListOfAllPokemon(completion: { (success) in
-        //                if success == true {
-        //                    print ("Pokemon List Fully Loaded")
-        //                } else {
-        //                    print ("There was an error with the pokemon List fetch")
-        //                }
-        //            })
-        //        }
     }
     
     // MARK: - Actions
@@ -70,26 +56,11 @@ class PokemonTeamListTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell else {return PokemonTeamTableViewCell()}
         let pokemonTeams = PokemonTeamController.shared.pokemonTeams
         let pokemonTeam = pokemonTeams[indexPath.row]
-        var color: UIColor
-        if indexPath.row % 2 == 0 {
-            color = .cellGray
-        } else {
-            color = .white
-        }
         cell.pokemonTeam = pokemonTeam
-        cell.updatePokemonTeamCell(withColor: color)
+        cell.updatePokemonTeamCell()
         
         return cell
     }
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
     
     
     // Override to support editing the table view.
@@ -103,35 +74,16 @@ class PokemonTeamListTableViewController: UITableViewController {
         }    
     }
     
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == Keys.pokemonTeamListTableViewSegueIdentifier,
-            let tabBarController = segue.destination as? UITabBarController,
-            let pokemonTeamDetailVC = tabBarController.childViewControllers.first as? PokemonTeamDetailTableViewController,
-            let teamWeaknessVC = tabBarController.childViewControllers[1] as? TeamWeaknessViewController,
+            let pokemonTeamDetailVC = segue.destination as? PokemonTeamDetailTableViewController,
             let indexPath = tableView.indexPathForSelectedRow else {return}
         let pokemonTeam = PokemonTeamController.shared.pokemonTeams[indexPath.row]
         pokemonTeamDetailVC.pokemonTeam = pokemonTeam
-        teamWeaknessVC.pokemonTeam = pokemonTeam
+        setBackBarButtonItem(ViewController: self)
     }
     
     // MARK: - Alert Controller

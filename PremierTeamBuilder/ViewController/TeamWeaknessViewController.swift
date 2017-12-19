@@ -19,12 +19,17 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var probablyBalancedView: UIView!
     @IBOutlet weak var teamWeaknessView: UIView!
     @IBOutlet weak var UnbalancedWeaknessView: UIView!
+    @IBOutlet weak var teamNameLabel: UILabel!
     
+    @IBOutlet weak var definitelyLabel: UILabel!
+    @IBOutlet weak var probablyLabel: UILabel!
+    @IBOutlet weak var unbalancedLabel: UILabel!
+    @IBOutlet weak var teamWeaknessLabel: UILabel!
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setUpUI()
         
         // Do any additional setup after loading the view.
     }
@@ -37,13 +42,25 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: - SetUpUI
     func setUpUI() {
         setDelegates()
+        configureLegend()
+        setNavigationBarTitle(onViewController: self, withTitle: "Team Weakness Chart")
     }
     
     func configureLegend() {
-        definitelyBalancedView.backgroundColor = UIColor.green
-        probablyBalancedView.backgroundColor = UIColor.greenYellow
-        teamWeaknessView.backgroundColor = UIColor.red
-        UnbalancedWeaknessView.backgroundColor = UIColor.maroon
+        definitelyBalancedView.backgroundColor = UIColor.definitely
+        definitelyLabel.adjustsFontSizeToFitWidth = true
+        definitelyLabel.minimumScaleFactor = 0.2
+        probablyBalancedView.backgroundColor = UIColor.probably
+        probablyLabel.adjustsFontSizeToFitWidth = true
+        probablyLabel.minimumScaleFactor = 0.2
+        teamWeaknessView.backgroundColor = UIColor.weak
+        teamWeaknessLabel.adjustsFontSizeToFitWidth = true
+        teamWeaknessLabel.minimumScaleFactor = 0.2
+        UnbalancedWeaknessView.backgroundColor = UIColor.unbalanced
+        unbalancedLabel.adjustsFontSizeToFitWidth = true
+        unbalancedLabel.minimumScaleFactor = 0.2
+        guard let pokemonTeam = pokemonTeam else {return}
+        teamNameLabel.text = pokemonTeam.name
     }
     
     func setDelegates() {
@@ -55,6 +72,13 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: - TableView Setup
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return typesKeyArray.count + 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height = tableView.frame.height
+        let cellCount = CGFloat(tableView.numberOfRows(inSection: 0))
+        let cellheight = height/cellCount
+        return cellheight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

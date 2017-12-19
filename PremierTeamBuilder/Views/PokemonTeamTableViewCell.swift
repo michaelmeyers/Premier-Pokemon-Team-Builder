@@ -35,9 +35,7 @@ class PokemonTeamTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func updatePokemonTeamCell(withColor color: UIColor) {
-        self.backgroundColor = color
-        imageView?.backgroundColor = .clear
+    func updatePokemonTeamCell() {
         for imageView in pokemonImages {
             imageView.image = UIImage()
             imageView.isHidden = false

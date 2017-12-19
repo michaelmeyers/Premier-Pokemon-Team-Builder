@@ -5,17 +5,17 @@
 //  Created by Michael Meyers on 10/18/17.
 //  Copyright © 2017 Michael Meyers. All rights reserved.
 //
-
+import UIKit
 import Foundation
 
 struct Keys {
     
-    // Move Keys
+    // MARK: - Move Keys
     static let specialKey = "special"
     static let statusKey = "status"
     static let physicalKey = "physical"
     
-    // Search Keys
+    // MARK: - Search Keys
     static let baseURLString = "https://pokeapi.co/api/v2"
     static let itemBaseURLString = "https://pokeapi.co/api/v2/item-attribute/holdable-active"
     static let allPokemonBaseURL = "https://pokeapi.co/api/v2/pokemon/?limit=1000"
@@ -30,7 +30,7 @@ struct Keys {
     static let holdableItemKey = "holdable-active"
     static let itemNameKey = "name"
     
-    // Type Keys
+    // MARK: - Type Keys
     static let typeNormalKey = "normal"
     static let typeFireKey = "fire"
     static let typeWaterKey = "water"
@@ -50,7 +50,7 @@ struct Keys {
     static let typeSteelKey = "steel"
     static let typeFairyKey = "fairy"
     
-    //Moves Parsing JSON Keys
+    // MARK: - Moves Parsing JSON Keys
     static let moveIDKey = "id"
     static let moveKey = "move"
     static let namesArrayKey = "names"
@@ -68,7 +68,7 @@ struct Keys {
     static let descriptionKey = "short_effect"
     static let moveEffectChancesKey = "effect_chance"
     
-    //Pokemon Parsing JSON Keys
+    // MARK: - Pokemon Parsing JSON Keys
     static let pokemonURLKey = "url"
     static let pokemonDictionaryKey = "pokemon"
     static let pokemonArrayKey = "pokemon"
@@ -101,7 +101,7 @@ struct Keys {
     static let spriteDictionaryKey = "sprites"
     static let spriteKey = "front_default"
     
-    //CloudKit Keys
+    // MARK: - CloudKit Keys
     static let ckTeamRecordType = "PokemonTeam"
     static let ckPokemonRecordType = "Pokemon"
     static let ckPokemonTeamNameKey = "name"
@@ -113,9 +113,9 @@ struct Keys {
     static let ckPokemonNatureKey = "nature"
     static let ckPokemonType1Key = "type1"
     static let ckPokemonType2Key = "type2"
-    static let ckPokemonAbilitiesKey = "abilites"
+    static let ckPokemonAbilitiesKey = "abilitiesData"
     static let ckPokemonAbilityKey = "chosenAbility"
-    static let ckPokemonMovesKey = "moves"
+    static let ckPokemonMovesKey = "movesData"
     static let ckPokemonMove1Key = "move1"
     static let ckPokemonMove2Key = "move2"
     static let ckPokemonMove3Key = "move3"
@@ -145,9 +145,10 @@ struct Keys {
     static let ckReferenceKey = "reference"
     static let ckPokemonPokemonTeamKey = "pokemonTeam"
     
-    // View and View Controller Keys
+    // MARK: - View and View Controller Keys
     static let pokemonTeamCellIdentifier = "pokemonTeamCell"
     static let pokemonCellIdentifier = "pokemonCell"
+    static let itemCellIdentifier = "itemCell"
     static let defaultPokemonCellIdentifier = "defaultCell"
     static let searchResultsCellIdentifier = "searchResultsCell"
     static let searchTermCellIdentifier = "searchTermCell"
@@ -162,10 +163,18 @@ struct Keys {
     static let segueIdentifierMove2ToMovesTVC = "move2ToMovesTVC"
     static let segueIdentifierMove3ToMovesTVC = "move3ToMovesTVC"
     static let segueIdentifierMove4ToMovesTVC = "move4ToMovesTVC"
+    static let segueIdentifierToStatsVC = "toPokemonStatsVC"
     static let segueIdentifierBackToPokemonDetailVC = "backToPokemonDetailVC"
     static let unwindSegueIdentifierToPokemonTeamVC = "unwindToPokemonTeamDetailVC"
+    static let segueIdentifierToTeamWeaknessVC = "toTeamWeaknessVC"
+    static let segueIdentifierToItemsTVC = "toItemTVC"
+    
+    // MARK: - UserDefault Keys
+    static let isCopiedKey = "isCopied"
+    
+    // MARK: - Notification Names
+    static let notificationToReloadTableView = Notification.Name("reloadTableView")
 }
-
 
 
 

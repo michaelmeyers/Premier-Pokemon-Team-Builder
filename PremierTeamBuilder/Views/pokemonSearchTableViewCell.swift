@@ -42,6 +42,8 @@ class pokemonSearchTableViewCell: UITableViewCell {
         }
         pokemonImageView.image = image
         pokemonNameLabel.text = pokemon.name
+        pokemonNameLabel.adjustsFontSizeToFitWidth = true
+        pokemonNameLabel.minimumScaleFactor = 0.2
         guard let type1 = pokemon.type1 else {return}
         changeLabelToTypeLabel(label: pokemonType1Label, type: type1)
         if let type2 = pokemon.type2 {

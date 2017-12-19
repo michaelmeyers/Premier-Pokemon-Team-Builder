@@ -9,14 +9,10 @@
 import UIKit
 import CloudKit
 
-class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    //TODO: Review Code and fix to make sure it follows proper MVC
+class PokemonDetailViewController: UIViewController {
     
     // MARK: - Properties
-    var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
-    var pokemonObject: Pokemon?
     var pokemonMoves: [Move]?
     
     let maxHPValue: Float = 200
@@ -24,7 +20,6 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var natureLabel: UILabel!
     @IBOutlet weak var type1Label: UILabel!
     @IBOutlet weak var type2Label: UILabel!
@@ -42,13 +37,12 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var speedStatLabel: UILabel!
     
     @IBOutlet weak var abilityButton: UIButton!
-    @IBOutlet weak var abilityPickerView: UIPickerView!
     @IBOutlet weak var itemButton: UIButton!
-    @IBOutlet weak var itemPickerView: UIPickerView!
     @IBOutlet weak var move1Button: UIButton!
     @IBOutlet weak var move2Button: UIButton!
     @IBOutlet weak var move3Button: UIButton!
     @IBOutlet weak var move4Button: UIButton!
+    
     @IBOutlet weak var hpProgressView: UIProgressView!
     @IBOutlet weak var attackProgressView: UIProgressView!
     @IBOutlet weak var defenseProgressView: UIProgressView!
@@ -59,71 +53,74 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let pokemon = pokemonObject {
-            setUpView(pokemon: pokemon)
-        }
-        if let pokemon = pokemon {
-            setUpView(pokemon: pokemon)
-        }
+        setUpUI()
+        navigationItem.title = pokemon?.name.uppercased()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateMoveButtons()
+        updateItemButton()
+        updateNatureLabel()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        guard let pokemon = pokemon else {return}
+        if pokemon.recordID == nil {
+            PokemonController.shared.deletePokemonFromUserContext(pokemon: pokemon)
+        }
     }
     
     // MARK: - Actions
     
     @objc func saveButtonTapped() {
-        guard let pokemonTeam = pokemonTeam else {return}
-        guard let pokemon = pokemon else {
-            guard let pokemon = pokemonObject else {return}
-            PokemonController.shared.createPokemon(onTeam: pokemonTeam, fromPokemonObject: pokemon)
-            PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
+        let group = DispatchGroup()
+        guard let pokemon = pokemon else {return}
+        group.enter()
+        PokemonController.shared.saveToUserPersistentStore()
+        if pokemon.recordID == nil {
+            PokemonTeamController.shared.performFullSync(completion: {
+                group.leave()
+            })
+        } else {
+            PokemonController.shared.updatePokemonRecord(newPokemon: pokemon) { (success) in
                 if success == true {
-                    print ("Team Saved")
+                    print("Updating your Pokemon was a big Success!")
+                    group.leave()
                 } else {
-                    print("Team Was NOT Saved")
+                    print("Updating Pokemon Failed")
+                    group.leave()
                 }
             }
-            performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
-            return
         }
-        
-        PokemonController.shared.updatePokemon(pokemon: pokemon)
-        PokemonTeamController.shared.updatePokemonTeamRecord(newPokemonTeam: pokemonTeam) { (success) in
-            if success == true {
-                print ("Team Saved")
-            } else {
-                print("Team Was NOT Saved")
-            }
+        group.notify(queue: .main) {
+            self.performSegue(withIdentifier: Keys.unwindSegueIdentifierToPokemonTeamVC, sender: self)
         }
-        navigationController?.popViewController(animated: true)
-        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func abilityButtonTapped(_ sender: UIButton) {
-        abilityButton.isHidden = true
-        abilityPickerView.isHidden = false
+        presentPickAbilityAlert()
     }
     
     @IBAction func itemActionTapped(_ sender: UIButton) {
-        itemButton.isHidden = true
-        itemPickerView.isHidden = false
+        // No actions is Need Button is Just a Segue
     }
     
     // MARK: -View Setup
+    
+    func setUpUI() {
+        guard let pokemon = pokemon else {return}
+        setNavigationBarTitle(onViewController: self, withTitle: "pokemon.name.uppercased()")
+        setUpView(pokemon: pokemon)
+        setAbilityButtonTitle()
+        setItemButtonTitle()
+        setUpMoveButtons()
+    }
     
     func setUpView(pokemon: Pokemon) {
         setUpSaveButton()
         setStatLabels(pokemon: pokemon)
         barGraphSetup(pokemon: pokemon)
-        abilityPickerView.delegate = self
-        abilityPickerView.dataSource = self
-        itemPickerView.delegate = self
-        itemPickerView.dataSource = self
-        abilityPickerView.isHidden = true
-        itemPickerView.isHidden = true
         
         var pokeImage = #imageLiteral(resourceName: "defaultPokemonImage")
         if let data = pokemon.imageData {
@@ -132,7 +129,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
         pokemonImageView.image = pokeImage
         let name = pokemon.name.uppercased()
-        nameLabel.text = name
+        setNavigationBarTitle(onViewController: self, withTitle: name)
         guard let natureString = pokemon.nature?.rawValue else {return}
         natureLabel.text = natureString
         guard let type1 = pokemon.type1 else {return}
@@ -144,16 +141,50 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
+    func setAbilityButtonTitle() {
+        guard let pokemon = pokemon else {return}
+        if let ability = pokemon.chosenAbility {
+            abilityButton.setTitle(ability, for: .normal)
+        } else {
+            abilityButton.setTitle("Choose Ability", for: .normal)
+        }
+    }
+    
+    func setItemButtonTitle() {
+        guard let pokemon = pokemon else {return}
+        if pokemon.item.lowercased() == "none" {
+            itemButton.setTitle("Choose Item", for: .normal)
+        } else {
+            itemButton.setTitle(pokemon.item, for: .normal)
+        }
+    }
+    
+    func setUpMoveButtons() {
+        setUpMoveButtton(button: move1Button)
+        setUpMoveButtton(button: move2Button)
+        setUpMoveButtton(button: move3Button)
+        setUpMoveButtton(button: move4Button)
+    }
+    
+    func setUpMoveButtton(button: UIButton) {
+        button.tintColor = .black
+        button.setTitle("Choose Move", for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 2
+        button.layer.cornerRadius = button.frame.height/8
+    }
+    
     func setUpSaveButton() {
         let button = UIButton(type: .custom)
         button.setTitle("Save", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         let item = UIBarButtonItem(customView: button)
-        self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
+        self.navigationItem.setRightBarButton(item, animated: false)
     }
     
+    // Func to call and set up all of the Pokemon Bar Graphs
     func barGraphSetup(pokemon: Pokemon){
         configureProgressView(progressView: hpProgressView, stat: pokemon.hpStat, maxValue: maxHPValue)
         configureProgressView(progressView: attackProgressView, stat: pokemon.attackStat, maxValue: maxValue)
@@ -163,6 +194,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         configureProgressView(progressView: speedProgressView, stat: pokemon.speedStat, maxValue: maxValue)
     }
     
+    // Progress Bars are used to make the bar graph for the Pokemon Stats
     func configureProgressView (progressView: UIProgressView, stat: Int64, maxValue: Float) {
         let statFloat = Float(stat)
         let progress = statFloat/maxValue
@@ -172,6 +204,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         progressView.progressTintColor = color
     }
     
+    // Configured the color based of the amount of the stat.
     func configureColor(stat: Float) -> UIColor {
         switch stat {
         case ..<40.0: return UIColor.maroon
@@ -187,6 +220,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
+    // Set all of the Stats to show the Pokemons Stats
     func setStatLabels(pokemon: Pokemon) {
         hpStatLabel.text = "\(pokemon.hpStat)"
         attackStatLabel.text = "\(pokemon.attackStat)"
@@ -195,111 +229,107 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         spDefStatLabel.text = "\(pokemon.spDefenseStat)"
         speedStatLabel.text = "\(pokemon.speedStat)"
     }
+    // Set the Item Button to match the Pokemon's Item
+    func updateItemButton() {
+        guard let pokemon = pokemon else {return}
+        if pokemon.item.lowercased() == "none" {
+            itemButton.setTitle("Choose Item", for: .normal)
+        } else {
+            itemButton.setTitle(pokemon.item, for: .normal)
+        }
+    }
     
+    // Sets the Nature Label to match the Pokemon's Nature
+    func updateNatureLabel() {
+        guard let pokemon = pokemon,
+            var natureString = pokemon.nature?.rawValue else {return}
+        let first = natureString.prefix(1).uppercased()
+        let other = natureString.dropFirst()
+        natureString = first + other
+        natureLabel.text = natureString
+    }
+    
+    // Changed to Move Button Labels to match their corresponding strings on the Pokemon
     func updateMoveButtons() {
         if let pokemon = pokemon {
-            if let move = pokemon.move1 {
-                move1Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move1 {
+                move1Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move1Button, moveName: pokemonMove)
             }
-            if let move = pokemon.move2 {
-                move2Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move2 {
+                move2Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move2Button, moveName: pokemonMove)
             }
-            if let move = pokemon.move3 {
-                move3Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move3 {
+                move3Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move3Button, moveName: pokemonMove)
             }
-            if let move = pokemon.move4 {
-                move4Button.setTitle(move, for: .normal)
+            if let pokemonMove = pokemon.move4 {
+                move4Button.setTitle(pokemonMove, for: .normal)
+                configureMoveButtonColor(button: move4Button, moveName: pokemonMove)
             }
-        } else {
-            guard let pokemon = pokemonObject else {return}
-            if let move = pokemon.move1 {
-                move1Button.setTitle(move, for: .normal)
-            }
-            if let move = pokemon.move2 {
-                move2Button.setTitle(move, for: .normal)
-            }
-            if let move = pokemon.move3 {
-                move3Button.setTitle(move, for: .normal)
-            }
-            if let move = pokemon.move4 {
-                move4Button.setTitle(move, for: .normal)
-            }
-        }
-        
-    }
-    
-    // MARK: - PickerView Datasource and Delegate
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == abilityPickerView {
-            guard let pokemon = pokemon else {return 0}
-            return pokemon.abilities.count
-        }
-        if pickerView == itemPickerView {
-            return PokemonTeamController.shared.items.count
-        }
-        return 0
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == abilityPickerView {
-            return pokemon?.abilities[row]
-        }
-        if pickerView == itemPickerView {
-            return PokemonTeamController.shared.items[row]
-        }
-        return ""
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == abilityPickerView {
-            guard let abilities = pokemon?.abilities else {return}
-            abilityButton.setTitle(abilities[row], for: .normal)
-            pokemon?.chosenAbility = pokemon?.abilities[row]
-            abilityPickerView.isHidden = true
-            abilityButton.isHidden = false
-        }
-        if pickerView == itemPickerView {
-            let item = PokemonTeamController.shared.items[row]
-            itemButton.setTitle(item, for: .normal)
-            pokemon?.item = item
-            itemPickerView.isHidden = true
-            itemButton.isHidden = false
         }
     }
     
-    // MARK: - Methods
-    
-    
+    func configureMoveButtonColor(button: UIButton, moveName: String) {
+        for move in MoveController.shared.moves {
+            if move.name.lowercased() == moveName.lowercased() {
+                guard let type = move.type else {return}
+                button.backgroundColor = configureBackgroundColor(type: type.rawValue)
+                button.tintColor = .white
+            }
+        }
+    }
     
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        var buttonPressed: String = ""
-        if segue.identifier == Keys.segueIdentifierMove1ToMovesTVC {
-            buttonPressed = "move1"
+        if segue.identifier == Keys.segueIdentifierToItemsTVC {
+            guard let itemsTVC = segue.destination as? ItemsTableViewController,
+                let pokemon = pokemon else {return}
+            itemsTVC.pokemon = pokemon
+        } else if segue.identifier == Keys.segueIdentifierToStatsVC {
+            guard let pokemonStatsVC = segue.destination as? PokemonStatsViewController else {return}
+            
+            pokemonStatsVC.pokemon = pokemon
+            setBackBarButtonItem(ViewController: self)
         }
-        if segue.identifier == Keys.segueIdentifierMove2ToMovesTVC {
-            buttonPressed = "move2"
+        else {
+            var buttonPressed: String = ""
+            if segue.identifier == Keys.segueIdentifierMove1ToMovesTVC {
+                buttonPressed = "move1"
+            }
+            if segue.identifier == Keys.segueIdentifierMove2ToMovesTVC {
+                buttonPressed = "move2"
+            }
+            if segue.identifier == Keys.segueIdentifierMove3ToMovesTVC {
+                buttonPressed = "move3"
+            }
+            if segue.identifier == Keys.segueIdentifierMove4ToMovesTVC {
+                buttonPressed = "move4"
+            }
+            guard let movesTVC = segue.destination as? MovesListTableViewController else {return}
+            if let pokemon = pokemon {
+                movesTVC.pokemon = pokemon
+                movesTVC.buttonPressed = buttonPressed
+                setBackBarButtonItem(ViewController: self)
+            }
         }
-        if segue.identifier == Keys.segueIdentifierMove3ToMovesTVC {
-            buttonPressed = "move3"
+    }
+    
+    // MARK: - Alert Controller
+    func presentPickAbilityAlert() {
+        let alertController = UIAlertController(title: "Choose Your Pokemon's Ability", message: "", preferredStyle: .alert)
+        guard let pokemon  = pokemon else {return}
+        let abilities = pokemon.abilities
+        for ability in abilities {
+            let action = UIAlertAction(title: ability, style: .default, handler: { (_) in
+                pokemon.chosenAbility = ability
+                self.abilityButton.setTitle(ability, for: .normal)
+                self.view.setNeedsDisplay()
+            })
+            alertController.addAction(action)
         }
-        if segue.identifier == Keys.segueIdentifierMove4ToMovesTVC {
-            buttonPressed = "move4"
-        }
-        guard let movesTVC = segue.destination as? MovesListTableViewController else {return}
-        if let pokemon = pokemon {
-            movesTVC.pokemon = pokemon
-            movesTVC.buttonPressed = buttonPressed
-        } else {
-            guard let pokemon = pokemonObject else {return}
-            movesTVC.pokemon = pokemon
-            movesTVC.buttonPressed = buttonPressed
-        }
-        
+        self.present(alertController, animated: true, completion: nil)
     }
 }

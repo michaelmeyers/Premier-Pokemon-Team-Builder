@@ -35,6 +35,9 @@ class PokemonTableViewCell: UITableViewCell {
         
         guard let pokemon = pokemon else {return}
         pokemonImageView.image = #imageLiteral(resourceName: "defaultPokemonImage")
+        pokemonImageView.layer.borderColor = UIColor.black.cgColor
+        pokemonImageView.layer.borderWidth = 2
+        pokemonImageView.backgroundColor = .clear
         if let data = pokemon.imageData {
             let pokemonImage = UIImage(data: data as Data)
             pokemonImageView.image = pokemonImage

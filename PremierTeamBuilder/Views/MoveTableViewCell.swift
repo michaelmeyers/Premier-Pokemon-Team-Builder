@@ -48,11 +48,13 @@ class MoveTableViewCell: UITableViewCell {
         guard let move = move,
             let type = move.type else {return}
         nameLabel.text = move.name
+        nameLabel.adjustsFontSizeToFitWidth = true
+        nameLabel.minimumScaleFactor = 0.2
         changeLabelToTypeLabel(label: typeLabel, type: type)
         typeLabel.font = UIFont(name: "ArialRoundedMTBold", size: 10)
         configuringImageIcon(imageView: catagoryImageView)
         powerTextLabel.text = "Power"
-        accuracyTextLabel.text = "Accuracy"
+        accuracyTextLabel.text = "Acc."
         ppTextLabel.text = "PP"
         if move.power != -999 {
             powerLabel.text = "\(move.power)"

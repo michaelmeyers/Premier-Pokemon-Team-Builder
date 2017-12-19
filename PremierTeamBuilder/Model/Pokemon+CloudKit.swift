@@ -12,7 +12,7 @@ import CoreData
 
 extension Pokemon: CloudKitSyncable {
     
-    convenience init?(ckRecord: CKRecord, pokemonTeamRef: CKReference, context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init?(ckRecord: CKRecord, pokemonTeam: PokemonTeam, context: NSManagedObjectContext = UserCoreDataStack.context) {
         guard let name = ckRecord[Keys.ckPokemonNameKey] as? String,
             let id = ckRecord[Keys.ckPokemonIDKey] as? Int64,
             let item = ckRecord[Keys.ckPokemonItemKey] as? String,
@@ -42,6 +42,7 @@ extension Pokemon: CloudKitSyncable {
             let imageData = ckRecord[Keys.ckPokemonImageData] as? Data? else {
                 return nil
         }
+        let pokemonTeamRefString = ckRecord[Keys.ckReferenceKey] as? String
         let imageEndpoint = ckRecord[Keys.ckPokemonImageEndpoint] as? String
         let type2String = ckRecord[Keys.ckPokemonType2Key] as? String
         let chosenAbility = ckRecord[Keys.pokemonAbilityKey] as? String
@@ -50,48 +51,21 @@ extension Pokemon: CloudKitSyncable {
         let move3 = ckRecord[Keys.ckPokemonMove3Key] as? String
         let move4 = ckRecord[Keys.ckPokemonMove4Key] as? String
         
-        self.init(context: context)
         
-        self.name = name
-        self.id = id
-        self.item = item
-        self.natureString = natureString
-        self.moveIDsData = moveIDsData as NSData
-        self.type1String = type1String
-        self.type2String = type2String
-        self.abilitiesData = abilitiesData as NSData
-        self.role = role
-        self.evHP = evHP
-        self.evAttack = evAttack
-        self.evDefense = evDefense
-        self.evSpecialAttack = evSpecialAttack
-        self.evSpecialDefense = evSpecialDefense
-        self.evSpeed = evSpeed
-        self.ivHP = ivHP
-        self.ivAttack = ivAttack
-        self.ivDefense = ivDefense
-        self.ivSpecialAttack = ivSpecialAttack
-        self.ivSpecialDefense = ivSpecialDefense
-        self.ivSpeed = ivSpeed
-        self.hpStat = hpStat
-        self.attackStat = attackStat
-        self.defenseStat = defenseStat
-        self.spAttackStat = spAttackStat
-        self.spDefenseStat = spDefenseStat
-        self.speedStat = speedStat
-        self.imageData = imageData as NSData?
-        self.imageEndpoint = imageEndpoint
+        self.init(name: name, id: id, item: item, natureString: natureString, moveIDsData: moveIDsData as Data, type1String: type1String, type2String: type2String, abilitiesData: abilitiesData as Data, role: role, evHP: evHP, evAttack: evAttack, evDefense: evDefense, evSpecialDefense: evSpecialDefense, evSpecialAttack: evSpecialAttack, evSpeed: evSpeed, ivHP: ivHP, ivAttack: ivAttack, ivDefense: ivDefense, ivSpecialDefense: ivSpecialDefense, ivSpecialAttack: ivSpecialAttack, ivSpeed: ivSpeed, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint, context: context)
+        self.pokemonTeam = NSSet(array: [pokemonTeam])
         self.chosenAbility = chosenAbility
         self.move1 = move1
         self.move2 = move2
         self.move3 = move3
         self.move4 = move4
+        self.recordIDString = ckRecord.recordID.recordName
+        self.pokemonTeamRefString = pokemonTeamRefString
     }
     
     var ckRecord: CKRecord? {
         let recordID = self.recordID ?? CKRecordID(recordName: UUID().uuidString)
         let pokemonRecord = CKRecord(recordType: Keys.ckPokemonRecordType, recordID: recordID)
-        pokemonRecord[Keys.ckReferenceKey] = pokemonTeamRef
         pokemonRecord[Keys.ckPokemonNameKey] = name as CKRecordValue
         pokemonRecord[Keys.ckPokemonIDKey] = id as CKRecordValue
         pokemonRecord[Keys.ckPokemonItemKey] = item as CKRecordValue
@@ -146,6 +120,10 @@ extension Pokemon: CloudKitSyncable {
         }
         if let move4 = move4 {
             pokemonRecord[Keys.ckPokemonMove4Key] = move4 as CKRecordValue
+        }
+        if let pokemonTeam = pokemonTeam?.allObjects.first as? PokemonTeam,
+            let pokemonTeamReference = pokemonTeam.cloudKitReference {
+            pokemonRecord[Keys.ckReferenceKey] = pokemonTeamReference as CKRecordValue
         }
         return pokemonRecord
     }
