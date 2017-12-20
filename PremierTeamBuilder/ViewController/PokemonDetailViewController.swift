@@ -66,8 +66,10 @@ class PokemonDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         guard let pokemon = pokemon else {return}
-        if pokemon.recordID == nil {
-            PokemonController.shared.deletePokemonFromUserContext(pokemon: pokemon)
+        if self.isMovingFromParentViewController{
+            if pokemon.recordID == nil {
+                PokemonController.shared.deletePokemonFromUserContext(pokemon: pokemon)
+            }
         }
     }
     
