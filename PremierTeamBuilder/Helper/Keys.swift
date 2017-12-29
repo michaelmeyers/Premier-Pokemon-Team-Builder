@@ -174,6 +174,10 @@ struct Keys {
     
     // MARK: - Notification Names
     static let notificationToReloadTableView = Notification.Name("reloadTableView")
+    
+    // MARK: - isSaved
+    static let notSaved = "None"
+    static let saved = "Saved"
 }
 
 

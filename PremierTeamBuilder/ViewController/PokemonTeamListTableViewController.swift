@@ -68,7 +68,7 @@ class PokemonTeamListTableViewController: UITableViewController {
         if editingStyle == .delete {
             let pokemonTeam = PokemonTeamController.shared.pokemonTeams[indexPath.row]
             PokemonTeamController.shared.deleteTeam(pokemonTeam: pokemonTeam, indexPath: indexPath)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    

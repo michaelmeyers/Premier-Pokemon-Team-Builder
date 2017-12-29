@@ -67,7 +67,7 @@ class PokemonDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         guard let pokemon = pokemon else {return}
         if self.isMovingFromParentViewController{
-            if pokemon.recordID == nil {
+            if pokemon.role == Keys.notSaved {
                 PokemonController.shared.deletePokemonFromUserContext(pokemon: pokemon)
             }
         }
@@ -78,10 +78,13 @@ class PokemonDetailViewController: UIViewController {
     @objc func saveButtonTapped() {
         let group = DispatchGroup()
         guard let pokemon = pokemon else {return}
-        group.enter()
         PokemonController.shared.saveToUserPersistentStore()
+        pokemon.role = Keys.saved
+        group.enter()
+        print("Enter")
         if pokemon.recordID == nil {
             PokemonTeamController.shared.performFullSync(completion: {
+                print ("Leave")
                 group.leave()
             })
         } else {

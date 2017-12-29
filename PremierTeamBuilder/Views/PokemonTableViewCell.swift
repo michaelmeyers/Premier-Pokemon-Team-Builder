@@ -32,6 +32,7 @@ class PokemonTableViewCell: UITableViewCell {
     }
     
     func updatePokemonCell() {
+        pokemonType2Label.isHidden = false
         
         guard let pokemon = pokemon else {return}
         pokemonImageView.image = #imageLiteral(resourceName: "defaultPokemonImage")

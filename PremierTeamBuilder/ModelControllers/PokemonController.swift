@@ -37,9 +37,8 @@ class PokemonController {
     }
     
     func deletePokemon(pokemon: Pokemon) {
-        guard let recordID = pokemon.recordID else {return}
-
         deletePokemonFromUserContext(pokemon: pokemon)
+        guard let recordID = pokemon.recordID else {return}
         deletePokemonRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("Error deleting Pokemon: \(error.localizedDescription)")

@@ -130,3 +130,13 @@ func presentSimpleAlert(controllerToPresentAlert vc: UIViewController, title: St
     
     vc.present(alert, animated: true, completion: nil)
 }
+
+// MARK: - Cloud Kit Check
+func isICloudContainerAvailable()->Bool {
+    if FileManager.default.ubiquityIdentityToken != nil {
+        return true
+    }
+    else {
+        return false
+    }
+}

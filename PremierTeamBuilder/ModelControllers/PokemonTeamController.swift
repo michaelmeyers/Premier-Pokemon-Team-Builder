@@ -42,8 +42,8 @@ class PokemonTeamController {
     }
     
     func deleteTeam(pokemonTeam: PokemonTeam, indexPath: IndexPath) {
-        guard let recordID = pokemonTeam.recordID else { return }
         deleteTeamFromUserContext(pokemonTeam: pokemonTeam)
+        guard let recordID = pokemonTeam.recordID else { return }
         deletePokemonTeamRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("There was an error deleting Pokemon Team: \(error.localizedDescription)")
@@ -123,38 +123,49 @@ class PokemonTeamController {
     func performFullSync(completion: @escaping (() -> Void) = {  }) {
         
         guard !isSyncing else {
-            
             // Add Timer to then call the function again
             completion()
             return
         }
-        isSyncing = true
-        pushChangesToCloudKit { (success)  in
-            if success == true {
-                print("Pushed Changes To Cloud Kit")
-            } else {
-                print("Changes were NOT Pushed to Cloud Kit")
-            }
-            self.fetchNewPokemonTeams(completion: { (pokemonTeams) in
-                guard let pokemonTeams = pokemonTeams else {
-                    print ("No pokemon Teams")
-                    completion()
-                    return
+        let isLoggedIn = isICloudContainerAvailable()
+        if isLoggedIn == true {
+            isSyncing = true
+            pushChangesToCloudKit { (success)  in
+                if success == true {
+                    print("Pushed Changes To Cloud Kit")
+                } else {
+                    print("Changes were NOT Pushed to Cloud Kit")
                 }
-                let group = DispatchGroup()
-                
-                for pokemonTeam in pokemonTeams {
-                    group.enter()
-                    self.fetchNewPokemon(pokemonTeam: pokemonTeam, completion: {
-                        group.leave()
+                self.fetchNewPokemonTeams(completion: { (pokemonTeams) in
+                    if pokemonTeams?.count == 0 {
+                        print("No Teams")
+                        completion()
+                        return
+                    }
+                    
+                    guard let pokemonTeams = pokemonTeams else {
+                        print ("pokemonTeams does not exist")
+                        completion()
+                        return
+                    }
+                    let group = DispatchGroup()
+                    
+                    for pokemonTeam in pokemonTeams {
+                        group.enter()
+                        self.fetchNewPokemon(pokemonTeam: pokemonTeam, completion: {
+                            group.leave()
+                        })
+                    }
+                    
+                    group.notify(queue: .main, execute: {
+                        self.isSyncing = false
+                        completion()
                     })
-                }
-                
-                group.notify(queue: .main, execute: {
-                    self.isSyncing = false
-                    completion()
                 })
-            })
+            }
+        } else {
+            print ("Not Logged In")
+            completion()
         }
     }
     
