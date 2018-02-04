@@ -42,6 +42,7 @@ func changeStringToType(string: String) ->Type? {
     case Type.poison.rawValue: return Type.poison
     case Type.ground.rawValue: return Type.ground
     case Type.flying.rawValue: return Type.flying
+    case Type.fighting.rawValue: return Type.fighting
     case Type.psychic.rawValue: return Type.psychic
     case Type.bug.rawValue: return Type.bug
     case Type.rock.rawValue: return Type.rock

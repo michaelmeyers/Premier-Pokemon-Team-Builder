@@ -13,14 +13,14 @@ class Move {
     let name: String
     let type: Type
     let catagory: String
-    let power: Int
-    let accuracy: Int
+    let power: Int?
+    let accuracy: Int?
     let pp : Int
 //    let methodOfLearning: String
     let description: String
 //    let effectChanges: String?
     
-    init(name: String, type: Type, catagory: String, power: Int, accuracy: Int, pp: Int, description: String) {
+    init(name: String, type: Type, catagory: String, power: Int?, accuracy: Int?, pp: Int, description: String) {
         self.name = name
         self.type = type
         self.catagory = catagory
@@ -31,19 +31,19 @@ class Move {
         self.description = description
     }
     
-    convenience init?(dicitionary: [String: Any]) {
-        guard let namesArray = dicitionary[Keys.namesArrayKey] as? [[String: Any]],
-            
-            let typeDictionary = dicitionary[Keys.moveTypeDictionaryKey] as? [String: Any],
+    convenience init?(dictionary: [String: Any]) {
+        guard let namesArray = dictionary[Keys.namesArrayKey] as? [[String: Any]],
+            let typeDictionary = dictionary[Keys.moveTypeDictionaryKey] as? [String: Any],
             let typeString = typeDictionary[Keys.moveTypeKey] as? String,
             let type = changeStringToType(string: typeString),
-            let catagoryDictionary = dicitionary[Keys.catagoryDictionaryKey] as? [String: Any],
+            let catagoryDictionary = dictionary[Keys.catagoryDictionaryKey] as? [String: Any],
             let catagory = catagoryDictionary[Keys.catagoryNameKey] as? String,
-            let power = dicitionary[Keys.movePowerKey] as? Int,
-            let accuracy = dicitionary[Keys.moveAccuracyKey] as? Int,
-            let pp = dicitionary[Keys.movePPKey] as? Int,
-            let effectArray = dicitionary[Keys.effectArrayKey] as? [[String: Any]] else {return nil}
-            
+            let pp = dictionary[Keys.movePPKey] as? Int,
+            let effectArray = dictionary[Keys.effectArrayKey] as? [[String: Any]] else {
+                return nil
+        }
+        let power = dictionary[Keys.movePowerKey] as? Int
+        let accuracy = dictionary[Keys.moveAccuracyKey] as? Int
         
         let englishNameDictionary = namesArray[Keys.englishNameDictionaryKey]
         guard let name = englishNameDictionary[Keys.moveNameKey] as? String else {return nil}

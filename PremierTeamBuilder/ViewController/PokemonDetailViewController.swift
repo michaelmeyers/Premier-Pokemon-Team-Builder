@@ -17,6 +17,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     var pokemonTeam: PokemonTeam?
     var pokemon: Pokemon?
     var pokemonObject: Pokemon?
+    var pokemonMoves: [Move]?
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!
@@ -47,7 +48,6 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         if let pokemon = pokemonObject {
             setUpView(pokemon: pokemon)
@@ -55,6 +55,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let pokemon = pokemon {
             setUpView(pokemon: pokemon)
         }
+        fetchAllPokemonMoves()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -230,6 +231,31 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
+    // MARK: - Methods
+    func fetchAllPokemonMoves() {
+        let group = DispatchGroup()
+        var moves: [Move] = []
+        if let pokemon = pokemon {
+            let movesStrings = pokemon.moves
+            for moveString in movesStrings {
+                group.enter()
+                MoveController.shared.createMove(fromSearchTerm: moveString, completion: { (move) in
+                    guard let move = move else {
+                        group.leave()
+                        return}
+                    moves.append(move)
+                    print(move.name)
+                    group.leave()
+                })
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            moves.sort { $0.name < $1.name }
+            self.pokemonMoves = moves
+        }
+    }
+
+    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -250,10 +276,12 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let pokemon = pokemon {
             movesTVC.pokemon = pokemon
             movesTVC.buttonPressed = buttonPressed
+            movesTVC.pokemonMoves = pokemonMoves
         } else {
             guard let pokemon = pokemonObject else {return}
             movesTVC.pokemon = pokemon
             movesTVC.buttonPressed = buttonPressed
+            movesTVC.pokemonMoves = pokemonMoves
         }
         
     }

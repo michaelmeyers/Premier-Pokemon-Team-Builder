@@ -40,6 +40,13 @@ class PokemonTeamListTableViewController: UITableViewController {
             }
         }
         }
+            MoveController.shared.createMove(fromSearchTerm: "agility", completion: { (move) in
+                guard let move = move else {
+                    print("No Move")
+                    return
+                }
+                print (move.name)
+            })
     }
 
     // MARK: - Actions

@@ -22,7 +22,7 @@ class MoveController {
                 print("Nothing in the JsonDictionary for fetching move data")
                 completion(nil)
                 return}
-            let move = Move(dicitionary: dictionary)
+            let move = Move(dictionary: dictionary)
             completion(move)
         }
     }
