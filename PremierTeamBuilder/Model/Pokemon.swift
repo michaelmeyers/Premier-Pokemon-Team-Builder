@@ -65,7 +65,7 @@ class Pokemon {
     var imageData: Data? 
     var recordID: CKRecordID?
     
-    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, imageEndpoint: String, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int ) {
+    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 0, ivAttack: Int = 0, ivDefense: Int = 0, ivSpecialDefense: Int = 0, ivSpecialAttack: Int = 0, ivSpeed: Int = 0, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int, imageData: Data? = nil, imageEndpoint: String ) {
         self.name = name
         self.item = item
         self.nature = nature
@@ -86,13 +86,14 @@ class Pokemon {
         self.ivSpecialAttack = ivSpecialAttack
         self.ivSpecialDefense = ivSpecialDefense
         self.ivSpeed = ivSpeed
-        self.imageEndpoint = imageEndpoint
         self.hpStat = hpStat
         self.attackStat = attackStat
         self.defenseStat = defenseStat
         self.spAttackStat = spAttackStat
         self.spDefenseStat = spDefenseStat
         self.speedStat = speedStat
+        self.imageData = imageData
+        self.imageEndpoint = imageEndpoint
     }
     
     convenience init?(dictionary: [String: Any]) {
@@ -101,8 +102,7 @@ class Pokemon {
             let typesArray = dictionary[Keys.typesArrayKey] as? [[String: Any]],
             let abilitiesArray = dictionary[Keys.pokemonAbilitiesKey] as? [[String:Any]],
             let statsArray = dictionary[Keys.statsArrayKey] as? [[String:Any]],
-            let spritesDictionary = dictionary[Keys.spriteDictionaryKey] as? [String: Any],
-            let imageEndpoint = spritesDictionary[Keys.spriteKey] as? String else {return nil}
+            let spritesDictionary = dictionary[Keys.spriteDictionaryKey] as? [String: Any] else {return nil}
         var type1: Type
         var type2: Type?
         if typesArray.count == 2 {
@@ -111,7 +111,6 @@ class Pokemon {
         let type1String = type1Dictionary[Keys.typeNameKey] as? String,
             let type = changeStringToType(string: type1String) else {return nil}
             type1 = type
-        
         let secondTypeDictionary = typesArray[Keys.type2DictionaryInt]
         let type2Dictionary = secondTypeDictionary[Keys.typeDictionaryKey] as? [String: Any] ?? nil
         let type2String = type2Dictionary?[Keys.typeNameKey] as? String ?? nil
@@ -141,6 +140,8 @@ class Pokemon {
             abilities.append(ability)
         }
         
+        guard let imageEndpoint = spritesDictionary[Keys.spriteKey] as? String else {return nil}
+        
         let statDictionary = statsArray[Keys.speedStatKeyInt]
         guard let speedStat = statDictionary[Keys.baseStatKey] as? Int else {return nil}
         
@@ -160,7 +161,7 @@ class Pokemon {
         guard let hpStat = hpStatDictionary[Keys.baseStatKey] as? Int else {return nil}
 
         
-        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, imageEndpoint: imageEndpoint, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat)
+        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
     }
 }
 

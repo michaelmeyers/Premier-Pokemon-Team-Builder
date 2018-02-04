@@ -12,7 +12,7 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     
     // MARK: - Properties
     var pokemonTeam: PokemonTeam?
-    var filterArray: [String]?
+    var searchTerms: [String]?
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonSearchBar: UISearchBar!
@@ -29,12 +29,22 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         searchTermTableView.isHidden = true
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
-        filterArray = PokemonTeamController.shared.allSearchableItems
+        searchTerms = PokemonTeamController.shared.allSearchableItems
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchTermTableView.isHidden = true
+        resultsTableView.isHidden = false
     }
     
     
     // MARK: - SearchBarDelegate Methods
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        PokemonController.shared.searchResults = []
+        searchTermTableView.isHidden = true
+        resultsTableView.isHidden = false
+        searchBar.resignFirstResponder()
         guard let searchTerm = searchBar.text?.lowercased(), !searchTerm.isEmpty else {return}
         PokemonController.shared.createPokemonObject(fromSearchTerm: searchTerm) {
             DispatchQueue.main.async {
@@ -50,25 +60,24 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            filterArray = PokemonTeamController.shared.allSearchableItems
+            searchTerms = PokemonTeamController.shared.allSearchableItems
             searchTermTableView.reloadData()
         } else {
-            filterArray = filterArray?.filter {
+            searchTerms = searchTerms?.filter {
                 return $0.lowercased().range(of: searchText.lowercased()) != nil}
-                searchTermTableView.reloadData()
+            searchTermTableView.reloadData()
         }
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchTermTableView.isHidden = true
-        resultsTableView.isHidden = false
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == resultsTableView {
-        return PokemonController.shared.searchResults.count
+            return PokemonController.shared.searchResults.count
         } else {
-            return filterArray?.count ?? 0
+            return searchTerms?.count ?? 0
         }
     }
     
@@ -81,16 +90,18 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: Keys.searchTermCellIdentifier, for: indexPath)
-            cell.textLabel?.text = filterArray?[indexPath.row]
+            cell.textLabel?.text = searchTerms?[indexPath.row]
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard tableView == searchTermTableView else {return}
-        let searchTerm = filterArray?[indexPath.row]
-        pokemonSearchBar.text = searchTerm
-        searchBarSearchButtonClicked(pokemonSearchBar)
+        if tableView == searchTermTableView {
+            guard tableView == searchTermTableView else {return}
+            let searchTerm = searchTerms?[indexPath.row]
+            pokemonSearchBar.text = searchTerm
+            searchBarSearchButtonClicked(pokemonSearchBar)
+        }
     }
     
     
@@ -138,11 +149,13 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         guard segue.identifier == Keys.segueIdentiferToPokemonDetailVCFromSearch,
             let tabBarController = segue.destination as? UITabBarController,
             let pokemonDetailVC = tabBarController.childViewControllers.first as? PokemonDetailViewController,
-            let indexPath = resultsTableView.indexPathForSelectedRow else {return}
+            let indexPath = resultsTableView.indexPathForSelectedRow else {
+                return
+        }
         let pokemon = PokemonController.shared.searchResults[indexPath.row]
         pokemonDetailVC.pokemonTeam = pokemonTeam
         pokemonDetailVC.pokemonObject = pokemon
     }
-
-
+    
+    
 }

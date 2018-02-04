@@ -11,7 +11,7 @@ import UIKit
 import CloudKit
 
 class PokemonController {
-
+    
     static let shared = PokemonController()
     
     var searchResults: [Pokemon] = []
@@ -40,21 +40,23 @@ class PokemonController {
             guard let teamRef = pokemonObject.pokemonTeamRef else {return}
             pokemonTeamRef = teamRef
         }
-            let name = pokemonObject.name
-            let moves = pokemonObject.moves
-            let type1 = pokemonObject.type1
-            let type2 = pokemonObject.type2
-            let abilities = pokemonObject.abilities
-            let imageEndpoint =  pokemonObject.imageEndpoint
-            let hpStat = pokemonObject.hpStat
-            let attackStat = pokemonObject.attackStat
-            let defenseStat = pokemonObject.defenseStat
-            let spAttackStat = pokemonObject.spAttackStat
-            let spDefenseStat = pokemonObject.spDefenseStat
-            let speedStat = pokemonObject.speedStat
-            let pokemon = Pokemon(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, imageEndpoint: imageEndpoint, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat)
-            pokemonTeam.sixPokemon.append(pokemon)
-            pokemon.pokemonTeamRef = pokemonTeamRef
+        let name = pokemonObject.name
+        let moves = pokemonObject.moves
+        let type1 = pokemonObject.type1
+        let type2 = pokemonObject.type2
+        let abilities = pokemonObject.abilities
+        let hpStat = pokemonObject.hpStat
+        let attackStat = pokemonObject.attackStat
+        let defenseStat = pokemonObject.defenseStat
+        let spAttackStat = pokemonObject.spAttackStat
+        let spDefenseStat = pokemonObject.spDefenseStat
+        let speedStat = pokemonObject.speedStat
+        let imageEndpoint = pokemonObject.imageEndpoint
+        
+        guard let imageData = pokemonObject.imageData else {return}
+        let pokemon = Pokemon(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
+        pokemonTeam.sixPokemon.append(pokemon)
+        pokemon.pokemonTeamRef = pokemonTeamRef
         guard let record = pokemon.ckRecord else {return}
         PokemonController.shared.savePokemonRecord(record: record) { (success) in
             if success == true {
@@ -145,7 +147,7 @@ class PokemonController {
             })
         }
     }
-
+    
     func fetchPokemon(withURL url: URL, completion: @escaping (Bool) -> Void) {
         let dataTask = URLSession.shared.dataTask(with: url){ (data, _, error) in
             if let error = error {
@@ -160,7 +162,7 @@ class PokemonController {
                 let imageURL = pokemon.imageURL else {
                     completion(false)
                     return
-                }
+            }
             self.fetchImageData(withURL: imageURL, completion: { (data) in
                 guard let data = data else {
                     completion(false)
@@ -173,8 +175,8 @@ class PokemonController {
         }
         dataTask.resume()
     }
-
-
+    
+    
     func fetchImageData(withURL url:URL, completion: @escaping (Data?)-> Void) {
         let dataTask = URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
@@ -189,7 +191,7 @@ class PokemonController {
     
     // MARK: - Cloud Kit Functions
     let privateDatabase = CKContainer.default().privateCloudDatabase
-        
+    
     func fetchPokemonRecordFor(pokemonTeam: PokemonTeam, withRecordType type: String, completion: @escaping ([CKRecord]?, CKReference, Error?) -> Void) {
         
         let reference = CKReference(recordID: pokemonTeam.recordID!, action: .deleteSelf)

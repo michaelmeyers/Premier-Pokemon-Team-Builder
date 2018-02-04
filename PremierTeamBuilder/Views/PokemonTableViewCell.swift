@@ -19,24 +19,26 @@ class PokemonTableViewCell: UITableViewCell {
     @IBOutlet weak var pokemonType1Label: UILabel!
     @IBOutlet weak var pokemonType2Label: UILabel!
     
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
     func updatePokemonCell() {
         
-        guard let pokemon = pokemon,
-        let data = pokemon.imageData else {return}
-        let pokemonImage = UIImage(data: data)
-        pokemonImageView.image = pokemonImage
+        guard let pokemon = pokemon else {return}
+        
+        if let data = pokemon.imageData {
+            let pokemonImage = UIImage(data: data)
+            pokemonImageView.image = pokemonImage
+        }
         pokemonNameLabel.text = pokemon.name
         changeLabelToTypeLabel(label: pokemonType1Label, type: pokemon.type1)
         if let type2 = pokemon.type2 {
@@ -46,5 +48,5 @@ class PokemonTableViewCell: UITableViewCell {
         }
         
     }
-
+    
 }

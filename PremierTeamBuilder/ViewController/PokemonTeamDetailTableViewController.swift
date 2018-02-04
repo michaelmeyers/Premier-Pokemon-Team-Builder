@@ -12,7 +12,7 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     
     // MARK: - Propreties
     var pokemonTeam: PokemonTeam?
-
+    
     @IBOutlet weak var teamNameTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
@@ -42,15 +42,20 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     // MARK: - Actions
     
     @objc func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let pokemonTeam = pokemonTeam else {return}
         guard let text = teamNameTextField.text, !text.isEmpty else {
-                // PRESENT ALERT
-                return
-            }
+            // TODO: PRESENT ALERT
+            return
+        }
         PokemonTeamController.shared.updateTeam(pokemonTeam: pokemonTeam, newName: text)
+        navigationController?.popViewController(animated: true)
     }
     
     
@@ -73,45 +78,44 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
         let item = UIBarButtonItem(customView: button)
         self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
     }
-
-
+    
+    
     // MARK: - Table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
-
-
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let pokemonTeam = pokemonTeam else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
-            return cell
-        }
-        guard pokemonTeam.sixPokemon.count != 0 else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
-            return cell
-        }
-        guard let pokemon = pokemonTeam.sixPokemon[indexPath.row] else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
-            return cell
-        }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonCellIdentifier, for: indexPath) as? PokemonTableViewCell else {return UITableViewCell()}
         
-        cell.pokemon = pokemon
-        cell.updatePokemonCell()
-
-        return cell
+        guard let pokemonTeam = pokemonTeam,
+            pokemonTeam.sixPokemon.count != 0 else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+                return cell
+        }
+        if indexPath.row <= pokemonTeam.sixPokemon.count - 1 {
+            let pokemon = pokemonTeam.sixPokemon[indexPath.row]
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonCellIdentifier, for: indexPath) as? PokemonTableViewCell else {return UITableViewCell()}
+            
+            cell.pokemon = pokemon
+            cell.updatePokemonCell()
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.defaultPokemonCellIdentifier, for: indexPath) as? DefaultPokemonTableViewCell else {return UITableViewCell()}
+            return cell
+        }
     }
-
-
+    
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
+    
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -122,26 +126,26 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-
-
+    
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Keys.pokemonTeamDetailSegueIdentifier {
@@ -162,6 +166,6 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
             PokemonController.shared.searchResults = []
         }
     }
-
-
+    
+    
 }
