@@ -156,6 +156,12 @@
                                     <outlet property="pokemon5ImageView" destination="0IY-cN-qOT" id="Z2q-Ez-1E9"/>
                                     <outlet property="pokemon6ImageView" destination="dmO-d3-PPR" id="Brv-yH-tVf"/>
                                     <outlet property="teamNameLabel" destination="Rfz-fq-1XR" id="fBk-jt-slg"/>
+                                    <outletCollection property="pokemonImages" destination="B7l-Bn-wRa" collectionClass="NSMutableArray" id="SAz-LB-jXx"/>
+                                    <outletCollection property="pokemonImages" destination="teU-01-GZu" collectionClass="NSMutableArray" id="5dr-wp-Nrc"/>
+                                    <outletCollection property="pokemonImages" destination="xCK-Ta-Dyw" collectionClass="NSMutableArray" id="wnf-eh-aCC"/>
+                                    <outletCollection property="pokemonImages" destination="yAk-9c-rFn" collectionClass="NSMutableArray" id="Ypd-PL-6nx"/>
+                                    <outletCollection property="pokemonImages" destination="0IY-cN-qOT" collectionClass="NSMutableArray" id="KiU-WU-TSA"/>
+                                    <outletCollection property="pokemonImages" destination="dmO-d3-PPR" collectionClass="NSMutableArray" id="Iom-cs-7I0"/>
                                     <segue destination="cfR-Lf-jUe" kind="show" identifier="toPokemonTeamTVC" id="aiW-ob-MOm"/>
                                 </connections>
                             </tableViewCell>

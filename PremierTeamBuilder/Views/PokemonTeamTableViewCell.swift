@@ -21,6 +21,8 @@ class PokemonTeamTableViewCell: UITableViewCell {
     @IBOutlet weak var pokemon4ImageView: UIImageView!
     @IBOutlet weak var pokemon5ImageView: UIImageView!
     @IBOutlet weak var pokemon6ImageView: UIImageView!
+    @IBOutlet var pokemonImages: [UIImageView]!
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,42 +42,14 @@ class PokemonTeamTableViewCell: UITableViewCell {
         teamNameLabel.text = pokemonTeam.name
         
         guard sixPokemon.count != 0 else {return}
+        var count = 0
         
-        if let pokemon1 = sixPokemon[0] {
-            guard let data = pokemon1.imageData else {return}
+        while count < sixPokemon.count {
+            guard let pokemon = sixPokemon[count],
+            let data = pokemon.imageData else {return}
             let image = UIImage(data: data)
-            pokemon1ImageView.image = image
-        } else {return}
-        
-        if let pokemon2 = sixPokemon[1] {
-            guard let data = pokemon2.imageData else {return}
-            let image = UIImage(data: data)
-            pokemon2ImageView.image = image
-        } else {return}
-        
-        if let pokemon3 = sixPokemon[2] {
-            guard let data = pokemon3.imageData else {return}
-            let image = UIImage(data: data)
-            pokemon3ImageView.image = image
-        } else {return}
-        
-        if let pokemon4 = sixPokemon[3] {
-            guard let data = pokemon4.imageData else {return}
-            let image = UIImage(data: data)
-            pokemon4ImageView.image = image
-        } else {return}
-        
-        if let pokemon5 = sixPokemon[4] {
-            guard let data = pokemon5.imageData else {return}
-            let image = UIImage(data: data)
-            pokemon5ImageView.image = image
-        } else {return}
-        
-        if let pokemon6 = sixPokemon[5] {
-            guard let data = pokemon6.imageData else {return}
-            let image = UIImage(data: data)
-            pokemon6ImageView.image = image
-        } else {return}
+            pokemonImages[count].image = image
+            count += 1
+        }
     }
-
 }

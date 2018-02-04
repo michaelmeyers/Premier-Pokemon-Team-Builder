@@ -53,7 +53,7 @@ struct Keys {
     //Moves Parsing JSON Keys
     static let moveKey = "move"
     static let namesArrayKey = "names"
-    static let englishNameDictionaryKey = 0
+    static let englishNameDictionaryKey = 2
     static let moveNameKey = "name"
     static let moveTypeDictionaryKey = "type"
     static let moveTypeKey = "name"
