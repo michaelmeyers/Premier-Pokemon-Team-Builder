@@ -145,7 +145,6 @@ class PokemonTeamController {
                     completion()
                     return}
                 pokemonTeams.append(pokemonTeam)
-                
             }
             
             let group = DispatchGroup()
