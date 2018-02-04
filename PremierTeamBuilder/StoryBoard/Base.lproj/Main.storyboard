@@ -1150,6 +1150,10 @@
                         <outlet property="hpLabel" destination="sCb-CL-zqs" id="viW-cZ-bIo"/>
                         <outlet property="itemButton" destination="7J5-mE-RhZ" id="ulL-1g-oZi"/>
                         <outlet property="itemPickerView" destination="LXh-tV-9fo" id="xuI-9Y-juv"/>
+                        <outlet property="move1Button" destination="yF8-8D-FTB" id="tlw-0r-y6H"/>
+                        <outlet property="move2Button" destination="nOJ-Xb-S7D" id="Fvx-cL-duc"/>
+                        <outlet property="move3Button" destination="Lgu-JT-FHP" id="8Hi-CQ-Jpa"/>
+                        <outlet property="move4Button" destination="8ER-Xj-xxD" id="yhG-yE-1lE"/>
                         <outlet property="nameLabel" destination="3FO-Zi-d5K" id="ChX-x0-T9n"/>
                         <outlet property="natureLabel" destination="j8P-vk-Bok" id="xfO-RE-YW5"/>
                         <outlet property="pokemonImageView" destination="8XA-h1-Wvh" id="w8n-hm-8AI"/>
@@ -1202,7 +1206,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WDq-Hd-eiS">
-                                            <rect key="frame" x="0.0" y="9" width="95" height="28"/>
+                                            <rect key="frame" x="0.0" y="9" width="103" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -1261,14 +1265,14 @@
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8f-we-XJ2">
-                                            <rect key="frame" x="95" y="9" width="58" height="28"/>
+                                            <rect key="frame" x="103" y="9" width="58" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vsp-JI-zCm">
-                                            <rect key="frame" x="153" y="9" width="58" height="28"/>
+                                            <rect key="frame" x="161" y="9" width="50" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mk-S0-KeS">
@@ -1292,6 +1296,7 @@
                                     <outlet property="ppLabel" destination="Nf9-pD-Z8L" id="bCb-Tx-k8U"/>
                                     <outlet property="ppTextLabel" destination="tTu-9e-Qdl" id="31T-r8-0Ex"/>
                                     <outlet property="typeLabel" destination="Y8f-we-XJ2" id="LV5-fN-cfd"/>
+                                    <segue destination="jz2-4F-yJy" kind="show" identifier="backToPokemonDetailVC" id="smN-Nt-ep9"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1303,7 +1308,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IP1-Ri-S16" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5109.6000000000004" y="784.85757121439292"/>
+            <point key="canvasLocation" x="5388" y="785"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eW7-4h-Al9">
@@ -1327,5 +1332,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="4Je-Qi-nla"/>
         <segue reference="Wsw-fu-11C"/>
+        <segue reference="smN-Nt-ep9"/>
     </inferredMetricsTieBreakers>
 </document>

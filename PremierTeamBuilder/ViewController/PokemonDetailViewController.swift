@@ -40,6 +40,10 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var spAttackBarLabel: UILabel!
     @IBOutlet weak var spDefenseBarLabel: UILabel!
     @IBOutlet weak var speedBarLabel: UILabel!
+    @IBOutlet weak var move1Button: UIButton!
+    @IBOutlet weak var move2Button: UIButton!
+    @IBOutlet weak var move3Button: UIButton!
+    @IBOutlet weak var move4Button: UIButton!
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -51,6 +55,11 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let pokemon = pokemon {
             setUpView(pokemon: pokemon)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateMoveButtons()
     }
 
     // MARK: - Actions
@@ -164,6 +173,22 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
+    func updateMoveButtons() {
+        guard let pokemon = pokemon else {return}
+        if let move = pokemon.move1 {
+            move1Button.setTitle(move, for: .normal)
+        }
+        if let move = pokemon.move2 {
+            move2Button.setTitle(move, for: .normal)
+        }
+        if let move = pokemon.move3 {
+            move3Button.setTitle(move, for: .normal)
+        }
+        if let move = pokemon.move4 {
+            move4Button.setTitle(move, for: .normal)
+        }
+    }
+    
     // MARK: - PickerView Datasource and Delegate
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -208,14 +233,27 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == Keys.segueIdentifierMove1ToMovesTVC || segue.identifier == Keys.segueIdentifierMove2ToMovesTVC || segue.identifier == Keys.segueIdentifierMove3ToMovesTVC || segue.identifier == Keys.segueIdentifierMove4ToMovesTVC,
-            let movesTVC = segue.destination as? MovesListTableViewController else {return}
-        
+        var buttonPressed: String = ""
+        if segue.identifier == Keys.segueIdentifierMove1ToMovesTVC {
+            buttonPressed = "move1"
+        }
+        if segue.identifier == Keys.segueIdentifierMove2ToMovesTVC {
+            buttonPressed = "move2"
+        }
+        if segue.identifier == Keys.segueIdentifierMove3ToMovesTVC {
+            buttonPressed = "move3"
+        }
+        if segue.identifier == Keys.segueIdentifierMove4ToMovesTVC {
+            buttonPressed = "move4"
+        }
+        guard let movesTVC = segue.destination as? MovesListTableViewController else {return}
         if let pokemon = pokemon {
             movesTVC.pokemon = pokemon
+            movesTVC.buttonPressed = buttonPressed
         } else {
             guard let pokemon = pokemonObject else {return}
             movesTVC.pokemon = pokemon
+            movesTVC.buttonPressed = buttonPressed
         }
         
     }

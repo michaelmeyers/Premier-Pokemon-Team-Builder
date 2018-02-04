@@ -14,6 +14,7 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     var pokemon: Pokemon?
     var moves: [Move] = []
     var cellMove: Move?
+    var buttonPressed: String?
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -54,6 +55,9 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
         cell.updateCell()
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
 
 
     /*
@@ -91,15 +95,28 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == Keys.segueIdentifierBackToPokemonDetailVC,
+            let pokemonDVC = segue.destination as? PokemonDetailViewController,
+            let buttonPressed = buttonPressed,
+            let indexPath = tableView.indexPathForSelectedRow,
+            let pokemon = pokemon else {return}
+        let move = moves[indexPath.row]
+        switch buttonPressed {
+        case "move1": pokemon.move1 = move.name
+        case "move2": pokemon.move2 = move.name
+        case "move3": pokemon.move3 = move.name
+        case "move4": pokemon.move4 = move.name
+        default:
+            fatalError("ButtonPressed string does not match moves1-4")
+        }
+        pokemonDVC.pokemon = pokemon
     }
-    */
+
     
     // MARK: - MoveTableViewCell Delegate
     func moveTVCInfoButtonTapped(_ cell: MoveTableViewCell) {

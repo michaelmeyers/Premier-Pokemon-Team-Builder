@@ -157,6 +157,7 @@ struct Keys {
     static let segueIdentifierMove2ToMovesTVC = "move2ToMovesTVC"
     static let segueIdentifierMove3ToMovesTVC = "move3ToMovesTVC"
     static let segueIdentifierMove4ToMovesTVC = "move4ToMovesTVC"
+    static let segueIdentifierBackToPokemonDetailVC = "backToPokemonDetailVC"
 }
 
 
