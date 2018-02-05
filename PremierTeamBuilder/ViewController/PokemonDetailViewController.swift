@@ -19,6 +19,8 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     var pokemonObject: Pokemon?
     var pokemonMoves: [Move]?
     
+    let maxValue: Float = 255
+    
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -35,16 +37,16 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var abilityPickerView: UIPickerView!
     @IBOutlet weak var itemButton: UIButton!
     @IBOutlet weak var itemPickerView: UIPickerView!
-    @IBOutlet weak var hpBarLabel: UILabel!
-    @IBOutlet weak var attackBarLabel: UILabel!
-    @IBOutlet weak var defenseBarLabel: UILabel!
-    @IBOutlet weak var spAttackBarLabel: UILabel!
-    @IBOutlet weak var spDefenseBarLabel: UILabel!
-    @IBOutlet weak var speedBarLabel: UILabel!
     @IBOutlet weak var move1Button: UIButton!
     @IBOutlet weak var move2Button: UIButton!
     @IBOutlet weak var move3Button: UIButton!
     @IBOutlet weak var move4Button: UIButton!
+    @IBOutlet weak var hpProgressView: UIProgressView!
+    @IBOutlet weak var attackProgressView: UIProgressView!
+    @IBOutlet weak var defenseProgressView: UIProgressView!
+    @IBOutlet weak var spAttProgressView: UIProgressView!
+    @IBOutlet weak var spDefProgressView: UIProgressView!
+    @IBOutlet weak var speedProgressView: UIProgressView!
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -108,7 +110,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func setUpView(pokemon: Pokemon) {
         setUpSaveButton()
-        barLabelSetup(pokemon: pokemon)
+        barGraphSetup()
         abilityPickerView.delegate = self
         abilityPickerView.dataSource = self
         itemPickerView.delegate = self
@@ -140,37 +142,37 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         self.tabBarController?.navigationItem.setRightBarButton(item, animated: false)
     }
     
-    func barLabelSetup(pokemon: Pokemon){
-        configureBarGraphLabel(label: hpBarLabel, width: pokemon.hpStat)
-        configureBarGraphLabel(label: attackBarLabel, width: pokemon.attackStat)
-        configureBarGraphLabel(label: defenseBarLabel, width: pokemon.defenseStat)
-        configureBarGraphLabel(label: spAttackBarLabel, width: pokemon.spAttackStat)
-        configureBarGraphLabel(label: spDefenseBarLabel, width: pokemon.spDefenseStat)
-        configureBarGraphLabel(label: speedBarLabel, width: pokemon.speedStat)
+    func barGraphSetup(){
+        guard let pokemon = pokemon else {return}
+        configureProgressView(progressView: hpProgressView, stat: pokemon.hpStat, maxValue: maxValue)
+        configureProgressView(progressView: attackProgressView, stat: pokemon.attackStat, maxValue: maxValue)
+        configureProgressView(progressView: defenseProgressView, stat: pokemon.defenseStat, maxValue: maxValue)
+        configureProgressView(progressView: spAttProgressView, stat: pokemon.spAttackStat, maxValue: maxValue)
+        configureProgressView(progressView: spDefProgressView, stat: pokemon.spDefenseStat, maxValue: maxValue)
+        configureProgressView(progressView: speedProgressView, stat: pokemon.speedStat, maxValue: maxValue)
     }
     
-    func configureBarGraphLabel(label: UILabel, width: Int) {
-        let constraints = label.constraints
-        for constraint in constraints {
-            label.removeConstraint(constraint)
-        }
-        label.addConstraint(NSLayoutConstraint(item: label, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CGFloat(width)))
-        label.text = ""
-        configureColor(label: label)
+    func configureProgressView (progressView: UIProgressView, stat: Int, maxValue: Float) {
+        let statFloat = Float(stat)
+        let progress = statFloat/maxValue
+        progressView.progress = progress
+        progressView.progressViewStyle = .bar
+        let color = configureColor(stat: statFloat)
+        progressView.progressTintColor = color
     }
     
-    func configureColor(label: UILabel){
-        switch label.frame.width {
-        case ..<40.0: label.backgroundColor = UIColor.maroon
-        case ..<50.0: label.backgroundColor = UIColor.red
-        case ..<60.0: label.backgroundColor = UIColor.redOrange
-        case ..<70.0: label.backgroundColor = UIColor.orange
-        case ..<80.0: label.backgroundColor = UIColor.orangeYellow
-        case ..<90.0: label.backgroundColor = UIColor.brightYellow
-        case ..<100.0: label.backgroundColor = UIColor.yellowGreen
-        case ..<120.0: label.backgroundColor = UIColor.greenYellow
-        case ..<150.0: label.backgroundColor = UIColor.greenish
-        default: label.backgroundColor = UIColor.greenBlue
+    func configureColor(stat: Float) -> UIColor {
+        switch stat {
+        case ..<40.0: return UIColor.maroon
+        case ..<50.0: return UIColor.red
+        case ..<60.0: return UIColor.redOrange
+        case ..<70.0: return UIColor.orange
+        case ..<80.0: return UIColor.orangeYellow
+        case ..<90.0: return UIColor.brightYellow
+        case ..<100.0: return UIColor.yellowGreen
+        case ..<120.0: return UIColor.greenYellow
+        case ..<150.0: return UIColor.greenish
+        default: return UIColor.greenBlue
         }
     }
     
