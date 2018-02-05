@@ -48,6 +48,11 @@ class PokemonTeamListTableViewController: UITableViewController {
                 print (move.name)
             })
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     // MARK: - Actions
     @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {

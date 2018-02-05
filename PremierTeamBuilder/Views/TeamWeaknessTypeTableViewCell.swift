@@ -65,11 +65,47 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
                 extremelyEffectiveTotal += 1
             }
         }
+        
         immunityLabel.text = "\(zeroTotal)"
         fourthLabel.text = "\(fourthTotal)"
         halfLabel.text = "\(halfTotal)"
         normalEffectiveLabel.text = "\(oneTotal)"
         superEffectiveLabel.text = "\(superEffectiveTotal)"
         extremelyEffectiveLabel.text = "\(extremelyEffectiveTotal)"
+        
+        if (zeroTotal * 4) + (fourthTotal * 4) + (halfTotal * 2) < (superEffectiveTotal * 2) + (extremelyEffectiveTotal * 4) {
+            if zeroTotal > 0 {
+                immunityLabel.backgroundColor = .greenYellow
+            }
+            if fourthTotal > 0 {
+                fourthLabel.backgroundColor = .greenYellow
+            }
+            if halfTotal > 0 {
+                halfLabel.backgroundColor = .greenYellow
+            }
+            if superEffectiveTotal > 0 {
+                superEffectiveLabel.backgroundColor = .maroon
+            }
+            if extremelyEffectiveTotal > 0 {
+                extremelyEffectiveLabel.backgroundColor = .maroon
+            }
+        }
+        if (zeroTotal * 4) + (fourthTotal * 4) + (halfTotal * 2) > (superEffectiveTotal * 2) + (extremelyEffectiveTotal * 4) {
+            if zeroTotal > 0 {
+                immunityLabel.backgroundColor = .green
+            }
+            if fourthTotal > 0 {
+                fourthLabel.backgroundColor = .green
+            }
+            if halfTotal > 0 {
+                halfLabel.backgroundColor = .green
+            }
+            if superEffectiveTotal > 0 {
+                superEffectiveLabel.backgroundColor = .red
+            }
+            if extremelyEffectiveTotal > 0 {
+                extremelyEffectiveLabel.backgroundColor = .red
+            }
+        }
     }
 }

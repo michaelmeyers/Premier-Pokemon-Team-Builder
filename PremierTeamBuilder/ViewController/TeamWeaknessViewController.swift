@@ -38,12 +38,12 @@ class TeamWeaknessViewController: UIViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            guard let cell = UITableViewCell(style: .default, reuseIdentifier: Keys.teamWeaknessHeaderIdentifier) as? TeamWeaknessHeaderTableViewCell else {return UITableViewCell()}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.teamWeaknessHeaderIdentifier, for: indexPath) as? TeamWeaknessHeaderTableViewCell else {return UITableViewCell()}
             cell.updateCell()
             return cell
-            
+            //guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.pokemonTeamCellIdentifier, for: indexPath) as? PokemonTeamTableViewCell
         } else {
-            guard let cell = UITableViewCell(style: .default, reuseIdentifier: Keys.teamWeaknessTypeIdentifier) as? TeamWeaknessTypeTableViewCell,
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.teamWeaknessTypeIdentifier, for: indexPath) as? TeamWeaknessTypeTableViewCell,
             let pokemonTeam = pokemonTeam else {return UITableViewCell()}
             let typeKey = typesKeyArray[indexPath.row - 1]
             cell.pokemonTeam = pokemonTeam
