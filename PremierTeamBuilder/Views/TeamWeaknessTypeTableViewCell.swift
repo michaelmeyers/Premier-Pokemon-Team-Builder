@@ -42,6 +42,8 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         var oneTotal: Int = 0
         var superEffectiveTotal: Int = 0
         var extremelyEffectiveTotal: Int = 0
+        
+        typeLabel.text = typeKey
 
         guard let pokemonTeam = pokemonTeam else {return}
         for pokemon in pokemonTeam.sixPokemon {
@@ -73,6 +75,8 @@ class TeamWeaknessTypeTableViewCell: UITableViewCell {
         superEffectiveLabel.text = "\(superEffectiveTotal)"
         extremelyEffectiveLabel.text = "\(extremelyEffectiveTotal)"
         
+        
+        // TODO: GET MORE DISTINCT COLORS
         if (zeroTotal * 4) + (fourthTotal * 4) + (halfTotal * 2) < (superEffectiveTotal * 2) + (extremelyEffectiveTotal * 4) {
             if zeroTotal > 0 {
                 immunityLabel.backgroundColor = .greenYellow
