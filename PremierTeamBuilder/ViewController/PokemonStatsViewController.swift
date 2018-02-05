@@ -118,9 +118,50 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     }
     
     // MARK: - TextFields Datasoucre and Delegates
-//    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-//        if textField == ivHPTextField
-//    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        guard let pokemon = pokemon else {return}
+        
+        if textField == ivHPTextField {
+            guard let text = textField.text,
+                let value = Int(text) else {return}
+            pokemon.ivHP = value
+            updateUpUI()
+        }
+        if textField == ivAttackTextField {
+            guard let text = textField.text,
+                let value = Int(text) else {return}
+            pokemon.ivAttack = value
+            updateUpUI()
+        }
+        if textField == ivDefenseTextField {
+            guard let text = textField.text,
+                let value = Int(text) else {return}
+            pokemon.ivDefense = value
+            updateUpUI()
+        }
+        if textField == ivSpAttTextField {
+            guard let text = textField.text,
+                let value = Int(text) else {return}
+            pokemon.ivSpecialAttack = value
+            updateUpUI()
+        }
+        if textField == ivSpDefTextField {
+            guard let text = textField.text,
+                let value = Int(text) else {return}
+            pokemon.ivSpecialDefense = value
+            updateUpUI()
+        }
+        if textField == ivSpeedTextField {
+            guard let text = textField.text,
+            let value = Int(text) else {return}
+            pokemon.ivSpeed = value
+            updateUpUI()
+        }
+    }
     
     // MARK: - Actions
     //TODO: Add actions for each slider. or one action that identifies the sender.
@@ -134,10 +175,16 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     func setUpUI() {
         setDelegates()
         
+        setUpSlider(slider: hpSlider, evTextField: evHPTextField)
+        setUpSlider(slider: attackSlider, evTextField: evAttackTextField)
+        setUpSlider(slider: defenseSlider, evTextField: evDefenseTextField)
+        setUpSlider(slider: spAttSlider, evTextField: evSpAttTextField)
+        setUpSlider(slider: spDefSlider, evTextField: evSpDefTextField)
+        setUpSlider(slider: speedSlider, evTextField: evSpeedTextField)
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        
+    
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         //tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -146,7 +193,12 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     func setDelegates() {
         naturePickerView.delegate = self
         naturePickerView.dataSource = self
-
+        ivHPTextField.delegate = self
+        ivAttackTextField.delegate = self
+        ivDefenseTextField.delegate = self
+        ivSpAttTextField.delegate = self
+        ivSpDefTextField.delegate = self
+        ivSpeedTextField.delegate = self
     }
     
     //Calls this function when the tap is recognized.
@@ -157,13 +209,13 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
     
     func updateUpUI() {
         guard let pokemon = pokemon else {return}
-      
-        setUpSlider(slider: hpSlider, evTextField: evHPTextField)
-        setUpSlider(slider: attackSlider, evTextField: evAttackTextField)
-        setUpSlider(slider: defenseSlider, evTextField: evDefenseTextField)
-        setUpSlider(slider: spAttSlider, evTextField: evSpAttTextField)
-        setUpSlider(slider: spDefSlider, evTextField: evSpDefTextField)
-        setUpSlider(slider: speedSlider, evTextField: evSpeedTextField)
+        
+        hpSlider.value = Float(pokemon.evHP)
+        attackSlider.value = Float(pokemon.evAttack)
+        defenseSlider.value = Float(pokemon.evDefense)
+        spAttSlider.value = Float(pokemon.evSpecialAttack)
+        spDefSlider.value = Float(pokemon.evSpecialDefense)
+        speedSlider.value = Float(pokemon.evSpeed)
      
         hpStatTotal = hpTotalCalculation()
         attackStatTotal = attTotalCalculation()
