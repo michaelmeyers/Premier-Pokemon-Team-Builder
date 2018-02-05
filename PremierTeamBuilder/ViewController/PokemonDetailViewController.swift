@@ -19,7 +19,8 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     var pokemonObject: Pokemon?
     var pokemonMoves: [Move]?
     
-    let maxValue: Float = 255
+    let maxHPValue: Float = 255
+    let maxValue: Float = 230
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!
@@ -144,7 +145,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func barGraphSetup(){
         guard let pokemon = pokemon else {return}
-        configureProgressView(progressView: hpProgressView, stat: pokemon.hpStat, maxValue: maxValue)
+        configureProgressView(progressView: hpProgressView, stat: pokemon.hpStat, maxValue: maxHPValue)
         configureProgressView(progressView: attackProgressView, stat: pokemon.attackStat, maxValue: maxValue)
         configureProgressView(progressView: defenseProgressView, stat: pokemon.defenseStat, maxValue: maxValue)
         configureProgressView(progressView: spAttProgressView, stat: pokemon.spAttackStat, maxValue: maxValue)

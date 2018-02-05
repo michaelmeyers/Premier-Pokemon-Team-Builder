@@ -135,9 +135,9 @@
 		92F98FC71F9E546F003CA08C /* ModelControllers */ = {
 			isa = PBXGroup;
 			children = (
-				92F98FC11F9E5416003CA08C /* MoveController.swift */,
 				92F98FBF1F9C5904003CA08C /* PokemonController.swift */,
 				926571C81F9EA998006DDF4C /* PokemonTeamController.swift */,
+				92F98FC11F9E5416003CA08C /* MoveController.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
