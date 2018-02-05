@@ -58,7 +58,6 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let pokemon = pokemon {
             setUpView(pokemon: pokemon)
         }
-        fetchAllPokemonMoves()
     }
     
     override func viewWillAppear(_ animated: Bool) {

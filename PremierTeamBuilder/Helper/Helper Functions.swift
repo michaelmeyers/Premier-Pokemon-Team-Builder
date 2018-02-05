@@ -52,7 +52,7 @@ func changeStringToType(string: String) ->Type? {
     case Type.steel.rawValue: return Type.steel
     case Type.fairy.rawValue: return Type.fairy
     default: print("Error return string for type is not one of the type enum values")
-        return nil
+    return nil
     }
 }
 
@@ -87,3 +87,34 @@ func changeStringToNature(string: String) -> Nature? {
     return nil
     }
 }
+    
+func changeNatureEnumToArray() -> [Nature] {
+    var array: [Nature] = []
+    array.append(.adamant)
+    array.append(.bashful)
+    array.append(.bold)
+    array.append(.brave)
+    array.append(.calm)
+    array.append(.careful)
+    array.append(.docile)
+    array.append(.gentle)
+    array.append(.hardy)
+    array.append(.hasty)
+    array.append(.impish)
+    array.append(.jolly)
+    array.append(.lax)
+    array.append(.lonely)
+    array.append(.mild)
+    array.append(.modest)
+    array.append(.naive)
+    array.append(.naughty)
+    array.append(.quiet)
+    array.append(.quirky)
+    array.append(.rash)
+    array.append(.relaxed)
+    array.append(.sassy)
+    array.append(.serious)
+    array.append(.timid)
+    return array
+}
+
