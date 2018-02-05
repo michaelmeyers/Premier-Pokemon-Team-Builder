@@ -53,8 +53,8 @@ class MoveTableViewCell: UITableViewCell {
         powerTextLabel.text = "Power"
         accuracyTextLabel.text = "Accuracy"
         ppTextLabel.text = "PP"
-        powerLabel.text = "\(move.power)"
-        accuracyLabel.text = "\(move.accuracy)%"
+        powerLabel.text = "\(String(describing: move.power))"
+        accuracyLabel.text = "\(String(describing: move.accuracy))%"
         ppLabel.text = "\(move.pp)"
     }
     

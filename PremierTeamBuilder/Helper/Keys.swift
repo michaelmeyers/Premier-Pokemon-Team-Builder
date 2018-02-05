@@ -65,6 +65,7 @@ struct Keys {
     static let effectArrayKey = "effect_entries"
     static let effectDictionaryKey = 0
     static let descriptionKey = "short_effect"
+    static let moveEffectChancesKey = "effect_chance"
     
     //Pokemon Parsing JSON Keys
     static let pokemonURLKey = "url"
