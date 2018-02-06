@@ -19,8 +19,8 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     var pokemonObject: Pokemon?
     var pokemonMoves: [Move]?
     
-    let maxHPValue: Float = 255
-    let maxValue: Float = 230
+    let maxHPValue: Float = 200
+    let maxValue: Float = 160
     
     // MARK: - Outlets
     @IBOutlet weak var pokemonImageView: UIImageView!

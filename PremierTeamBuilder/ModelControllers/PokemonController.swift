@@ -92,8 +92,17 @@ class PokemonController {
         }
     }
     
-    func deletePokemon(pokemon: Pokemon) {
+    func deletePokemon(pokemon: Pokemon, fromTeam team: PokemonTeam) {
         guard let recordID = pokemon.recordID else {return}
+        
+        let pokemonArray = team.sixPokemon.flatMap({$0})
+        
+        
+        
+        guard let index = pokemonArray.index(of: pokemon) else { return }
+        
+        team.sixPokemon.remove(at: index)
+        
         deletePokemonRecord(withID: recordID) { (_, error) in
             if let error = error {
                 print("Error deleting Pokemon: \(error.localizedDescription)")
@@ -126,7 +135,9 @@ class PokemonController {
                         completion(false)
                         return
                 }
+                let group = DispatchGroup()
                 for dictionary in pokemonArray {
+                    group.enter()
                     guard let pokemonDictionary = dictionary[Keys.pokemonDictionaryKey] as? [String: Any],
                         let pokemonURLString = pokemonDictionary[Keys.pokemonURLKey] as? String,
                         let pokemonURL = URL(string: pokemonURLString) else {
@@ -135,6 +146,10 @@ class PokemonController {
                     }
                     self.fetchPokemon(withURL: pokemonURL, completion: { (success) in
                         completion(success)
+                        group.leave()
+                    })
+                    group.notify(queue: .main, execute: {
+                        PokemonController.shared.searchResults = PokemonController.shared.searchResults.sorted {$0.name < $1.name }
                     })
                 }
             }

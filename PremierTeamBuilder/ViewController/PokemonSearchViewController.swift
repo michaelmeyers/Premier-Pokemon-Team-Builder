@@ -18,17 +18,13 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var pokemonSearchBar: UISearchBar!
     @IBOutlet weak var searchTermTableView: UITableView!
     @IBOutlet weak var resultsTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        pokemonSearchBar.delegate = self
-        searchTermTableView.delegate = self
-        searchTermTableView.dataSource = self
-        searchTermTableView.isHidden = true
-        resultsTableView.dataSource = self
-        resultsTableView.delegate = self
+        setDelegates()
         searchTerms = PokemonTeamController.shared.allSearchableItems
     }
     
@@ -38,6 +34,16 @@ class PokemonSearchViewController: UIViewController, UITableViewDelegate, UITabl
         resultsTableView.isHidden = false
     }
     
+    
+    // MARK: - Setup View
+    func setDelegates() {
+        pokemonSearchBar.delegate = self
+        searchTermTableView.delegate = self
+        searchTermTableView.dataSource = self
+        searchTermTableView.isHidden = true
+        resultsTableView.dataSource = self
+        resultsTableView.delegate = self
+    }
     
     // MARK: - SearchBarDelegate Methods
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

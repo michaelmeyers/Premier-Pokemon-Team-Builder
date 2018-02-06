@@ -119,9 +119,16 @@ class PokemonTeamDetailTableViewController: UIViewController, UITableViewDelegat
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let pokemon = pokemonTeam?.sixPokemon[indexPath.row] else {return}
-            PokemonController.shared.deletePokemon(pokemon: pokemon)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            let cell = tableView.cellForRow(at: indexPath)
+            if cell?.isKind(of: DefaultPokemonTableViewCell.self) == true {
+                presentSimpleAlert(controllerToPresentAlert: self, title: "", message: "Cannot delete default pokemon cell.")
+                return
+            }
+            guard let pokemon = pokemonTeam?.sixPokemon[indexPath.row],
+                let team = pokemonTeam else {return}
+            //let newIndexPath = IndexPath(row: 5, section: 0)
+            PokemonController.shared.deletePokemon(pokemon: pokemon, fromTeam: team)
+            tableView.reloadData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    

@@ -47,7 +47,8 @@ class PokemonTeamController {
         }
     }
     
-    func deleteTeam(pokemonTeam: PokemonTeam) {
+    func deleteTeam(pokemonTeam: PokemonTeam, indexPath: IndexPath) {
+        PokemonTeamController.shared.pokemonTeams?.remove(at: indexPath.row)
         guard let recordID = pokemonTeam.recordID else {return}
         deletePokemonTeamRecord(withID: recordID) { (_, error) in
             if let error = error {

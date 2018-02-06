@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CloudKit
 
-class Pokemon {
+class Pokemon: Equatable {
     
     var pokemonTeamRef: CKReference?
     let name: String
@@ -167,6 +167,9 @@ class Pokemon {
     }
 }
 
+func ==(lhs: Pokemon, rhs: Pokemon) -> Bool {
+    return lhs.name == rhs.name
+}
 
 
 
