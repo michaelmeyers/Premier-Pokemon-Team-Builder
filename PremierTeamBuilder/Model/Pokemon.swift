@@ -16,7 +16,7 @@ class Pokemon {
     let name: String
     var item: String
     var nature: Nature
-    var moves: [String]
+    var moveIDs: [Int]
     let type1: Type
     let type2: Type?
     var chosenAbility: String?
@@ -64,13 +64,13 @@ class Pokemon {
     }
     var imageData: Data? 
     var recordID: CKRecordID?
-    var movesArray: [Move]?
+    var moves: [Move]?
     
-    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 31, ivAttack: Int = 31, ivDefense: Int = 31, ivSpecialDefense: Int = 31, ivSpecialAttack: Int = 31, ivSpeed: Int = 31, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int, imageData: Data? = nil, imageEndpoint: String ) {
+    init(name: String, item: String = "None", nature: Nature = Nature.gentle, moveIDs: [Int], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 31, ivAttack: Int = 31, ivDefense: Int = 31, ivSpecialDefense: Int = 31, ivSpecialAttack: Int = 31, ivSpeed: Int = 31, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int, imageData: Data? = nil, imageEndpoint: String ) {
         self.name = name
         self.item = item
         self.nature = nature
-        self.moves = moves
+        self.moveIDs = moveIDs
         self.type1 = type1
         self.type2 = type2
         self.abilities = abilities
@@ -128,11 +128,12 @@ class Pokemon {
                 let type = changeStringToType(string: type1String) else {return nil}
             type1 = type
         }
-        var moves: [String] = []
+        var moveIDs: [Int] = []
         for dictionary in movesArray {
             guard let moveDictionary = dictionary[Keys.moveKey] as? [String: Any],
-                let moveString = moveDictionary[Keys.pokemonMoveNameKey] as? String else {return nil}
-            moves.append(moveString)
+                let moveString = moveDictionary[Keys.pokemonMoveURL] as? String else {return nil}
+            let id = getNumberIDFromHTTPString(string: moveString)
+            moveIDs.append(id)
         }
         var abilities: [String] = []
         for everyDictionary in abilitiesArray {
@@ -162,7 +163,7 @@ class Pokemon {
         guard let hpStat = hpStatDictionary[Keys.baseStatKey] as? Int else {return nil}
 
         
-        self.init(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
+        self.init(name: name, moveIDs: moveIDs, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attStat, defenseStat: defStat, spAttackStat: spAttStat, spDefenseStat: spDefStat, speedStat: speedStat, imageEndpoint: imageEndpoint)
     }
 }
 

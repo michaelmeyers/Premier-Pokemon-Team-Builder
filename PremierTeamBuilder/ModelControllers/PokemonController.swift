@@ -41,7 +41,7 @@ class PokemonController {
             pokemonTeamRef = teamRef
         }
         let name = pokemonObject.name
-        let moves = pokemonObject.moves
+        let moveIDs = pokemonObject.moveIDs
         let type1 = pokemonObject.type1
         let type2 = pokemonObject.type2
         let abilities = pokemonObject.abilities
@@ -54,7 +54,7 @@ class PokemonController {
         let imageEndpoint = pokemonObject.imageEndpoint
         
         guard let imageData = pokemonObject.imageData else {return}
-        let pokemon = Pokemon(name: name, moves: moves, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
+        let pokemon = Pokemon(name: name, moveIDs: moveIDs, type1: type1, type2: type2, abilities: abilities, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
         pokemonTeam.sixPokemon.append(pokemon)
         pokemon.pokemonTeamRef = pokemonTeamRef
         guard let record = pokemon.ckRecord else {return}

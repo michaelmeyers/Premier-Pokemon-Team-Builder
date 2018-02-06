@@ -19,21 +19,17 @@ class MovesListTableViewController: UITableViewController, MoveTableViewCellDele
     // MARK: - ViewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let movesArray = pokemon?.movesArray {
+        if let movesArray = pokemon?.moves {
             self.moves = movesArray
         } else {
             guard let pokemon = pokemon else {return}
             let moves = MoveController.shared.moves
             var pokemonMoves: [Move] = []
-            for name in pokemon.moves {
-                for move in moves {
-                    if move.name.lowercased() == name.lowercased() {
-                        pokemonMoves.append(move)
-                    }
-                }
+            for id in pokemon.moveIDs {
+                pokemonMoves.append(moves[id - 1])
             }
             let sortedMoves = pokemonMoves.sorted { $0.name < $1.name }
-            pokemon.movesArray = sortedMoves
+            pokemon.moves = sortedMoves
             self.moves = sortedMoves
         }
         

@@ -194,19 +194,35 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     func updateMoveButtons() {
-        guard let pokemon = pokemon else {return}
-        if let move = pokemon.move1 {
-            move1Button.setTitle(move, for: .normal)
+        if let pokemon = pokemon {
+            if let move = pokemon.move1 {
+                move1Button.setTitle(move, for: .normal)
+            }
+            if let move = pokemon.move2 {
+                move2Button.setTitle(move, for: .normal)
+            }
+            if let move = pokemon.move3 {
+                move3Button.setTitle(move, for: .normal)
+            }
+            if let move = pokemon.move4 {
+                move4Button.setTitle(move, for: .normal)
+            }
+        } else {
+            guard let pokemon = pokemonObject else {return}
+            if let move = pokemon.move1 {
+                move1Button.setTitle(move, for: .normal)
+            }
+            if let move = pokemon.move2 {
+                move2Button.setTitle(move, for: .normal)
+            }
+            if let move = pokemon.move3 {
+                move3Button.setTitle(move, for: .normal)
+            }
+            if let move = pokemon.move4 {
+                move4Button.setTitle(move, for: .normal)
+            }
         }
-        if let move = pokemon.move2 {
-            move2Button.setTitle(move, for: .normal)
-        }
-        if let move = pokemon.move3 {
-            move3Button.setTitle(move, for: .normal)
-        }
-        if let move = pokemon.move4 {
-            move4Button.setTitle(move, for: .normal)
-        }
+        
     }
     
     // MARK: - PickerView Datasource and Delegate

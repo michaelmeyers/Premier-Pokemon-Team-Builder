@@ -30,7 +30,7 @@ extension Pokemon {
             let ivSpecialAttack = ckRecord[Keys.ckIVSpAttack] as? Int,
             let ivSpecialDefense = ckRecord[Keys.ckIVSpDefense] as? Int,
             let ivSpeed = ckRecord[Keys.ckIVSpeed] as? Int,
-            let moves = ckRecord[Keys.ckPokemonMovesKey] as? [String],
+            let moveIDs = ckRecord[Keys.ckPokemonMovesKey] as? [Int],
             let abilities = ckRecord[Keys.ckPokemonAbilitiesKey] as? [String],
             let hpStat = ckRecord[Keys.ckHPStat] as? Int,
             let attackStat = ckRecord[Keys.ckAttStat] as? Int,
@@ -60,7 +60,7 @@ extension Pokemon {
         let move3 = ckRecord[Keys.ckPokemonMove3Key] as? String
         let move4 = ckRecord[Keys.ckPokemonMove4Key] as? String
         
-        self.init(name: name, item: item, nature: nature, moves: moves, type1: type1, type2: type2, abilities: abilities, role: role, evHP: evHP, evAttack: evAttack, evDefense: evDefense, evSpecialDefense: evSpecialDefense, evSpecialAttack: evSpecialAttack, evSpeed: evSpeed, ivHP: ivHP, ivAttack: ivAttack, ivDefense: ivDefense, ivSpecialDefense: ivSpecialDefense, ivSpecialAttack: ivSpecialAttack, ivSpeed: ivSpeed, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
+        self.init(name: name, item: item, nature: nature, moveIDs: moveIDs, type1: type1, type2: type2, abilities: abilities, role: role, evHP: evHP, evAttack: evAttack, evDefense: evDefense, evSpecialDefense: evSpecialDefense, evSpecialAttack: evSpecialAttack, evSpeed: evSpeed, ivHP: ivHP, ivAttack: ivAttack, ivDefense: ivDefense, ivSpecialDefense: ivSpecialDefense, ivSpecialAttack: ivSpecialAttack, ivSpeed: ivSpeed, hpStat: hpStat, attackStat: attackStat, defenseStat: defenseStat, spAttackStat: spAttackStat, spDefenseStat: spDefenseStat, speedStat: speedStat, imageData: imageData, imageEndpoint: imageEndpoint)
         
         self.chosenAbility = chosenAbility
         self.move1 = move1
@@ -70,12 +70,6 @@ extension Pokemon {
         self.recordID = recordID
         self.pokemonTeamRef = pokemonTeamRef
     }
-    
-
-//    var baseStatsDictionary: [String: Int]
-
-
-
     
     var ckRecord: CKRecord? {
         let recordID = self.recordID ?? CKRecordID(recordName: UUID().uuidString)
@@ -98,7 +92,7 @@ extension Pokemon {
         pokemonRecord[Keys.ckIVSpAttack] = ivSpecialAttack as CKRecordValue
         pokemonRecord[Keys.ckIVSpDefense] = ivSpecialDefense as CKRecordValue
         pokemonRecord[Keys.ckIVSpeed] = ivSpeed as CKRecordValue
-        pokemonRecord[Keys.ckPokemonMovesKey] = moves as CKRecordValue
+        pokemonRecord[Keys.ckPokemonMovesKey] = moveIDs as CKRecordValue
         pokemonRecord[Keys.ckPokemonAbilitiesKey] = abilities as CKRecordValue
         pokemonRecord[Keys.ckHPStat] = hpStat as CKRecordValue
         pokemonRecord[Keys.ckAttStat] = attackStat as CKRecordValue

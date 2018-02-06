@@ -40,6 +40,7 @@ class MoveController {
             guard let move = Move(dictionary: dictionary) else {return}
             moves.append(move)
         }
+        moves = moves.sorted { $0.id < $1.id }
         self.moves = moves
     }
     

@@ -118,3 +118,11 @@ func changeNatureEnumToArray() -> [Nature] {
     return array
 }
 
+func getNumberIDFromHTTPString(string: String) -> Int {
+    var mutatableString = string
+    mutatableString = mutatableString.substring(to: mutatableString.index(before: mutatableString.endIndex))
+    let stringArray = mutatableString.components(separatedBy: "/")
+    guard let numberString = stringArray.last,
+        let id = Int(numberString) else {return 0}
+    return id
+}
