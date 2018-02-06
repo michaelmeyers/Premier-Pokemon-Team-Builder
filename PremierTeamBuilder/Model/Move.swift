@@ -10,6 +10,7 @@ import Foundation
 import CloudKit
 
 class Move {
+    let id: Int
     let name: String
     let type: Type
     let catagory: String
@@ -20,7 +21,7 @@ class Move {
     let description: String
     let effectChance: Int?
     
-    init(name: String, type: Type, catagory: String, power: Int?, accuracy: Int?, pp: Int, description: String, effectChance: Int?) {
+    init(id: Int, name: String, type: Type, catagory: String, power: Int?, accuracy: Int?, pp: Int, description: String, effectChance: Int?) {
         self.name = name
         self.type = type
         self.catagory = catagory
@@ -30,10 +31,12 @@ class Move {
         self.effectChance = effectChance
 //        self.methodOfLearning = methodOfLearning
         self.description = description
+        self.id = id
     }
     
     convenience init?(dictionary: [String: Any]) {
         guard let namesArray = dictionary[Keys.namesArrayKey] as? [[String: Any]],
+            let id = dictionary[Keys.moveIDKey] as? Int,
             let typeDictionary = dictionary[Keys.moveTypeDictionaryKey] as? [String: Any],
             let typeString = typeDictionary[Keys.moveTypeKey] as? String,
             let type = changeStringToType(string: typeString),
@@ -58,7 +61,7 @@ class Move {
             description = realDescription
         }
         
-        self.init(name: name, type: type, catagory: catagory, power: power, accuracy: accuracy, pp: pp, description: description, effectChance: effectChance)
+        self.init(id: id, name: name, type: type, catagory: catagory, power: power, accuracy: accuracy, pp: pp, description: description, effectChance: effectChance)
     }
 }
 

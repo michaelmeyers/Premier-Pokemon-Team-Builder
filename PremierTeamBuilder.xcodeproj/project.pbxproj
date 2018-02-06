@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92036AC42029182F0095D079 /* moveData.json in Resources */ = {isa = PBXBuildFile; fileRef = 92036AC32029182F0095D079 /* moveData.json */; };
 		9209430C1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209430B1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift */; };
 		9209430E1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9209430D1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift */; };
 		920943121FA0EA490090ACB2 /* PokemonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		92036AC32029182F0095D079 /* moveData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moveData.json; sourceTree = "<group>"; };
 		9209430B1FA0E9D80090ACB2 /* PokemonTeamDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonTeamDetailTableViewController.swift; sourceTree = "<group>"; };
 		9209430D1FA0E9F30090ACB2 /* TeamWeaknessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamWeaknessViewController.swift; sourceTree = "<group>"; };
 		920943111FA0EA490090ACB2 /* PokemonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewController.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		92F98FCD1F9E5490003CA08C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				92036AC32029182F0095D079 /* moveData.json */,
 				923B11E51F9807F1005E8A44 /* Keys.swift */,
 				92F98FCE1F9E54AB003CA08C /* Helper Functions.swift */,
 				923B11E71F980A62005E8A44 /* TypeInfo.swift */,
@@ -281,6 +284,7 @@
 			files = (
 				923B11DC1F980788005E8A44 /* LaunchScreen.storyboard in Resources */,
 				923B11D91F980788005E8A44 /* Assets.xcassets in Resources */,
+				92036AC42029182F0095D079 /* moveData.json in Resources */,
 				923B11D71F980788005E8A44 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

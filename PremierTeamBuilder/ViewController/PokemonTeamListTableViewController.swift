@@ -40,13 +40,7 @@ class PokemonTeamListTableViewController: UITableViewController {
             }
         }
         }
-            MoveController.shared.createMove(fromSearchTerm: "ember", completion: { (move) in
-                guard let move = move else {
-                    print("No Move")
-                    return
-                }
-                print (move.name)
-            })
+        MoveController.shared.loadMovesFromJSONFile()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -64,6 +64,7 @@ class Pokemon {
     }
     var imageData: Data? 
     var recordID: CKRecordID?
+    var movesArray: [Move]?
     
     init(name: String, item: String = "None", nature: Nature = Nature.gentle, moves: [String], type1: Type, type2: Type?, abilities: [String], role: String = "None", evHP: Int = 0, evAttack: Int = 0, evDefense: Int = 0, evSpecialDefense: Int = 0, evSpecialAttack: Int = 0, evSpeed: Int = 0, ivHP: Int = 31, ivAttack: Int = 31, ivDefense: Int = 31, ivSpecialDefense: Int = 31, ivSpecialAttack: Int = 31, ivSpeed: Int = 31, hpStat: Int, attackStat: Int, defenseStat: Int, spAttackStat: Int, spDefenseStat: Int, speedStat: Int, imageData: Data? = nil, imageEndpoint: String ) {
         self.name = name

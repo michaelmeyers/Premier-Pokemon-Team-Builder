@@ -51,6 +51,7 @@ struct Keys {
     static let typeFairyKey = "fairy"
     
     //Moves Parsing JSON Keys
+    static let moveIDKey = "id"
     static let moveKey = "move"
     static let namesArrayKey = "names"
     static let englishNameDictionaryKey = 2

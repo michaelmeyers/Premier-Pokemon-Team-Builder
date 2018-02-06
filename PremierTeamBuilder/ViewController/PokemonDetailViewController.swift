@@ -34,6 +34,13 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var spAtkLabel: UILabel!
     @IBOutlet weak var spDefLabel: UILabel!
     @IBOutlet weak var speedLabel: UILabel!
+    @IBOutlet weak var hpStatLabel: UILabel!
+    @IBOutlet weak var attackStatLabel: UILabel!
+    @IBOutlet weak var defenseStatLabel: UILabel!
+    @IBOutlet weak var spAtkStatLabel: UILabel!
+    @IBOutlet weak var spDefStatLabel: UILabel!
+    @IBOutlet weak var speedStatLabel: UILabel!
+    
     @IBOutlet weak var abilityButton: UIButton!
     @IBOutlet weak var abilityPickerView: UIPickerView!
     @IBOutlet weak var itemButton: UIButton!
@@ -110,6 +117,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func setUpView(pokemon: Pokemon) {
         setUpSaveButton()
+        setStatLabels(pokemon: pokemon)
         barGraphSetup()
         abilityPickerView.delegate = self
         abilityPickerView.dataSource = self
@@ -176,6 +184,15 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
     }
     
+    func setStatLabels(pokemon: Pokemon) {
+        hpStatLabel.text = "\(pokemon.hpStat)"
+        attackStatLabel.text = "\(pokemon.attackStat)"
+        defenseStatLabel.text = "\(pokemon.defenseStat)"
+        spAtkStatLabel.text = "\(pokemon.spAttackStat)"
+        spDefStatLabel.text = "\(pokemon.spDefenseStat)"
+        speedStatLabel.text = "\(pokemon.speedStat)"
+    }
+    
     func updateMoveButtons() {
         guard let pokemon = pokemon else {return}
         if let move = pokemon.move1 {
@@ -234,28 +251,7 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     // MARK: - Methods
-    func fetchAllPokemonMoves() {
-        let group = DispatchGroup()
-        var moves: [Move] = []
-        if let pokemon = pokemon {
-            let movesStrings = pokemon.moves
-            for moveString in movesStrings {
-                group.enter()
-                MoveController.shared.createMove(fromSearchTerm: moveString, completion: { (move) in
-                    guard let move = move else {
-                        group.leave()
-                        return}
-                    moves.append(move)
-                    print(move.name)
-                    group.leave()
-                })
-            }
-        }
-        group.notify(queue: DispatchQueue.main) {
-            moves.sort { $0.name < $1.name }
-            self.pokemonMoves = moves
-        }
-    }
+
 
     
     // MARK: - Navigation
@@ -278,12 +274,10 @@ class PokemonDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let pokemon = pokemon {
             movesTVC.pokemon = pokemon
             movesTVC.buttonPressed = buttonPressed
-            movesTVC.pokemonMoves = pokemonMoves
         } else {
             guard let pokemon = pokemonObject else {return}
             movesTVC.pokemon = pokemon
             movesTVC.buttonPressed = buttonPressed
-            movesTVC.pokemonMoves = pokemonMoves
         }
         
     }

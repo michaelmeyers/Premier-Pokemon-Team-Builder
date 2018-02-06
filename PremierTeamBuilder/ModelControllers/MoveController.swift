@@ -12,6 +12,8 @@ class MoveController {
     
     static let shared = MoveController()
     
+    var moves: [Move] = []
+    
     func createMove(fromSearchTerm searchTerm:String, completion: @escaping(Move?) -> Void) {
         fetchMoveData(fromSearchTerm: searchTerm) { (data) in
             guard let data = data,
@@ -24,6 +26,35 @@ class MoveController {
                 return}
             let move = Move(dictionary: dictionary)
             completion(move)
+        }
+    }
+   
+    func loadMovesFromJSONFile() {
+        guard let moveDataURL = Bundle.main.url(forResource: "moveData", withExtension: "json"),
+        
+        let data = try? Data(contentsOf: moveDataURL),
+        
+        let jsonDictionary =  (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)) as? [[String: Any]] else {return}
+        var moves: [Move] = []
+        for dictionary in jsonDictionary {
+            guard let move = Move(dictionary: dictionary) else {return}
+            moves.append(move)
+        }
+        self.moves = moves
+    }
+    
+    func createMoveJSON(fromSearchTerm searchTerm:String, completion: @escaping([String: Any]) -> Void) {
+        fetchMoveData(fromSearchTerm: searchTerm) { (data) in
+            guard let data = data,
+                let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                    completion([:])
+                    return}
+            guard let dictionary = jsonDictionary else {
+                print("Nothing in the JsonDictionary for fetching move data")
+                completion([:])
+                return}
+            
+            completion(dictionary)
         }
     }
     

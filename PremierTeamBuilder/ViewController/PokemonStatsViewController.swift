@@ -219,7 +219,7 @@ class PokemonStatsViewController: UIViewController, UITextFieldDelegate, UIPicke
      
         hpStatTotal = hpTotalCalculation()
         attackStatTotal = attTotalCalculation()
-        defenseStatTotal = defTotalCalculation()
+        defenseStatTotal = defTotalCalculation() 
         spAttStatTotal = spAttTotalCalculation()
         spDefStatTotal = spDefTotalCalculation()
         speedStatTotal = speedTotalCalculation()
